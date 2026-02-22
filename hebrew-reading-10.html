@@ -1,0 +1,1886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hebrew Reading Adventure 🌟</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #1a3a6b;
+    --gold: #f0c040;
+    --lightblue: #4a7ec7;
+    --sky: #e8f0ff;
+    --green: #2ecc71;
+    --red: #e74c3c;
+    --white: #fff;
+    --shadow: 0 4px 18px rgba(26,58,107,0.13);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(135deg, #1a3a6b 0%, #2563c7 60%, #4a7ec7 100%);
+    min-height: 100vh;
+    color: #1a3a6b;
+  }
+
+  header {
+    text-align: center;
+    padding: 30px 20px 10px;
+    color: white;
+  }
+
+  header h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.6em;
+    letter-spacing: 1px;
+    text-shadow: 0 3px 12px rgba(0,0,0,0.25);
+    margin-bottom: 6px;
+  }
+
+  header .subtitle {
+    font-size: 1.1em;
+    opacity: 0.85;
+    font-weight: 600;
+  }
+
+  .stars {
+    font-size: 1.6em;
+    letter-spacing: 4px;
+    margin: 6px 0;
+  }
+
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 18px 20px 0;
+    flex-wrap: wrap;
+  }
+
+  .tab-btn {
+    background: rgba(255,255,255,0.18);
+    color: white;
+    border: 2px solid rgba(255,255,255,0.4);
+    border-radius: 30px;
+    padding: 9px 22px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .tab-btn:hover, .tab-btn.active {
+    background: var(--gold);
+    color: var(--blue);
+    border-color: var(--gold);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(240,192,64,0.4);
+  }
+
+  .container {
+    max-width: 860px;
+    margin: 22px auto 40px;
+    padding: 0 16px;
+  }
+
+  .card {
+    background: white;
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+  }
+
+  .section-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.5em;
+    color: var(--blue);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* ===== SYLLABLE BREAKDOWN ===== */
+  .word-selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .word-btn {
+    background: var(--sky);
+    border: 2px solid var(--lightblue);
+    border-radius: 16px;
+    padding: 8px 18px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 1em;
+    color: var(--blue);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .word-btn:hover, .word-btn.active {
+    background: var(--blue);
+    color: white;
+    border-color: var(--blue);
+    transform: translateY(-2px);
+  }
+
+  .hebrew-display {
+    text-align: center;
+    padding: 24px 10px;
+    background: linear-gradient(135deg, #f0f6ff, #e8f0ff);
+    border-radius: 20px;
+    margin-bottom: 20px;
+    border: 2px solid #c5d8ff;
+  }
+
+  .hebrew-full {
+    font-size: 4em;
+    direction: rtl;
+    font-weight: 800;
+    color: var(--blue);
+    letter-spacing: 4px;
+    line-height: 1.2;
+    margin-bottom: 6px;
+    text-shadow: 0 2px 8px rgba(26,58,107,0.1);
+  }
+
+  .english-meaning {
+    font-size: 1.1em;
+    color: #666;
+    font-weight: 600;
+    margin-top: 4px;
+  }
+
+  .syllable-row {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+    direction: rtl;
+  }
+
+  .syllable-block {
+    background: white;
+    border: 3px solid var(--lightblue);
+    border-radius: 18px;
+    padding: 16px 22px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s;
+    box-shadow: 0 3px 10px rgba(74,126,199,0.15);
+    min-width: 100px;
+  }
+
+  .syllable-block:hover {
+    transform: translateY(-4px) scale(1.04);
+    border-color: var(--blue);
+    box-shadow: 0 8px 24px rgba(26,58,107,0.18);
+  }
+
+  .syllable-block.highlight {
+    background: var(--gold);
+    border-color: #d4a010;
+    transform: translateY(-4px) scale(1.06);
+    animation: bounce 0.4s ease;
+  }
+
+  @keyframes bounce {
+    0%,100% { transform: translateY(-4px) scale(1.06); }
+    50% { transform: translateY(-8px) scale(1.08); }
+  }
+
+  .syl-hebrew {
+    font-size: 2.2em;
+    direction: rtl;
+    font-weight: 800;
+    color: var(--blue);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .syllable-block.highlight .syl-hebrew { color: var(--blue); }
+
+  .syl-sound {
+    font-size: 1em;
+    font-weight: 800;
+    color: var(--lightblue);
+    background: var(--sky);
+    padding: 3px 10px;
+    border-radius: 20px;
+    display: inline-block;
+  }
+
+  .syllable-block.highlight .syl-sound {
+    background: rgba(255,255,255,0.6);
+    color: var(--blue);
+  }
+
+  .play-all-btn {
+    display: block;
+    margin: 18px auto 0;
+    background: var(--blue);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 12px 36px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 14px rgba(26,58,107,0.25);
+  }
+
+  .play-all-btn:hover {
+    background: var(--lightblue);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(26,58,107,0.3);
+  }
+
+  .pronounce-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 10px 24px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 14px rgba(46,204,113,0.35);
+    margin: 10px auto 0;
+    display: block;
+  }
+  .pronounce-btn:hover {
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 8px 20px rgba(46,204,113,0.45);
+  }
+  .pronounce-btn.speaking {
+    background: linear-gradient(135deg, #f0c040, #e6a800);
+    box-shadow: 0 4px 14px rgba(240,192,64,0.45);
+    animation: pulse 0.6s ease infinite alternate;
+  }
+  @keyframes pulse {
+    from { transform: scale(1); }
+    to { transform: scale(1.05); }
+  }
+  .tts-note {
+    text-align: center;
+    font-size: 0.8em;
+    color: #999;
+    margin-top: 6px;
+  }
+
+  .tip-box {
+    background: linear-gradient(135deg, #fffbe6, #fff8cc);
+    border: 2px solid var(--gold);
+    border-radius: 16px;
+    padding: 14px 18px;
+    margin-top: 16px;
+    font-size: 0.97em;
+    color: #7a5700;
+    font-weight: 600;
+  }
+
+  /* ===== ALPHABET SECTION ===== */
+  .aleph-bet-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 12px;
+  }
+
+  .letter-card {
+    background: var(--sky);
+    border: 2px solid #c5d8ff;
+    border-radius: 16px;
+    padding: 14px 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .letter-card:hover {
+    background: var(--blue);
+    border-color: var(--blue);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+  }
+
+  .letter-card:hover .lc-heb { color: var(--gold); }
+  .letter-card:hover .lc-name, .letter-card:hover .lc-sound { color: white; }
+
+  .lc-heb {
+    font-size: 2em;
+    font-weight: 800;
+    color: var(--blue);
+    display: block;
+  }
+
+  .lc-name {
+    font-size: 0.72em;
+    font-weight: 700;
+    color: var(--blue);
+    display: block;
+    margin-top: 3px;
+  }
+
+  .lc-sound {
+    font-size: 0.7em;
+    color: var(--lightblue);
+    display: block;
+    font-weight: 600;
+  }
+
+  /* ===== VOWELS SECTION ===== */
+  .vowel-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 14px;
+  }
+
+  .vowel-card {
+    background: var(--sky);
+    border: 2px solid #c5d8ff;
+    border-radius: 16px;
+    padding: 16px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .vowel-card:hover {
+    background: linear-gradient(135deg, #1a3a6b, #4a7ec7);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+    border-color: var(--blue);
+  }
+
+  .vowel-card:hover .vc-heb { color: var(--gold); }
+  .vowel-card:hover .vc-name, .vowel-card:hover .vc-sound { color: white; }
+
+  .vc-heb {
+    font-size: 2.4em;
+    font-weight: 800;
+    color: var(--blue);
+    display: block;
+    direction: rtl;
+  }
+
+  .vc-name {
+    font-size: 0.8em;
+    font-weight: 700;
+    color: var(--blue);
+    display: block;
+    margin-top: 5px;
+  }
+
+  .vc-sound {
+    font-size: 0.8em;
+    color: var(--lightblue);
+    display: block;
+    font-weight: 700;
+    background: white;
+    border-radius: 12px;
+    padding: 2px 8px;
+    margin-top: 4px;
+    display: inline-block;
+  }
+
+  .vowel-card:hover .vc-sound {
+    background: rgba(255,255,255,0.2);
+    color: white;
+  }
+
+  .hidden { display: none !important; }
+
+  /* ===== PRAYERS SECTION ===== */
+  .prayer-list { display: flex; flex-direction: column; gap: 14px; }
+
+  .prayer-card {
+    background: var(--sky);
+    border: 2px solid #c5d8ff;
+    border-radius: 18px;
+    padding: 18px 22px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .prayer-card:hover {
+    border-color: var(--blue);
+    box-shadow: var(--shadow);
+    transform: translateX(4px);
+  }
+
+  .prayer-card.open {
+    border-color: var(--gold);
+    background: #fffbe6;
+  }
+
+  .prayer-name {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.2em;
+    color: var(--blue);
+    margin-bottom: 2px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .prayer-hebrew-name {
+    font-size: 1.4em;
+    direction: rtl;
+    font-weight: 800;
+    color: var(--lightblue);
+  }
+
+  .prayer-body {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 2px dashed #c5d8ff;
+  }
+
+  .prayer-text-heb {
+    font-size: 1.9em;
+    direction: rtl;
+    text-align: right;
+    font-weight: 800;
+    color: var(--blue);
+    line-height: 1.8;
+    margin-bottom: 10px;
+  }
+
+  .prayer-text-eng {
+    font-size: 0.95em;
+    color: #555;
+    font-weight: 600;
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  .prayer-syllables {
+    margin-top: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    direction: rtl;
+  }
+
+  .chunk {
+    background: white;
+    border: 2px solid var(--lightblue);
+    border-radius: 12px;
+    padding: 8px 14px;
+    text-align: center;
+    direction: rtl;
+    transition: all 0.25s;
+    opacity: 1;
+  }
+
+  .chunk-heb { font-size: 1.4em; font-weight: 800; color: var(--blue); display: block; transition: color 0.2s; }
+  .chunk-sound { font-size: 0.75em; font-weight: 700; display: block; margin-top: 2px; transition: all 0.2s; }
+
+  .step-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #9b59b6, #7d3c98);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 10px 24px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 14px rgba(155,89,182,0.35);
+  }
+  .step-btn:hover {
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 8px 20px rgba(155,89,182,0.45);
+  }
+  .step-btn.reset {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    box-shadow: 0 4px 14px rgba(231,76,60,0.35);
+  }
+  .step-counter {
+    text-align: center;
+    font-size: 0.9em;
+    font-weight: 700;
+    color: #9b59b6;
+    margin-top: 8px;
+    min-height: 22px;
+    transition: all 0.2s;
+  }
+  .btn-row {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+
+  footer {
+    text-align: center;
+    padding: 18px;
+    color: rgba(255,255,255,0.6);
+    font-size: 0.9em;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="stars">✡️ ⭐ ✡️</div>
+  <h1>Hebrew Reading Adventure</h1>
+  <p class="subtitle">Learn to read Hebrew — one syllable at a time! 🎉</p>
+</header>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab('words',this)">📖 Word Breakdown</button>
+  <button class="tab-btn" onclick="showTab('alphabet',this)">🔤 Aleph-Bet</button>
+  <button class="tab-btn" onclick="showTab('vowels',this)">🎵 Vowels</button>
+  <button class="tab-btn" onclick="showTab('prayers',this)">🕍 Prayers</button>
+</div>
+
+<div class="container">
+
+  <!-- WORD BREAKDOWN TAB -->
+  <div id="tab-words" class="card">
+    <div class="section-title">📖 Click a word, then tap the syllables!</div>
+    <div class="word-selector" id="wordSelector"></div>
+    <div class="hebrew-display">
+      <div class="hebrew-full" id="hebrewFull">שָׁלוֹם</div>
+      <div id="hebrewPronounce" style="font-size:1.3em;font-weight:800;color:#4a7ec7;margin-top:4px;"></div>
+      <div class="english-meaning" id="englishMeaning">Peace / Hello / Goodbye</div>
+    </div>
+    <div class="syllable-row" id="syllableRow"></div>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:18px;">
+      <button class="play-all-btn" style="margin:0;" onclick="playAllSyllables()">▶ Animate syllables: <span id="playAllText"></span></button>
+      <button class="pronounce-btn" id="pronounceBtn" onclick="pronounceWord()">🔊 Hear it spoken</button>
+    </div>
+    <div class="tts-note" id="ttsNote"></div>
+    <div class="tip-box" id="tipBox" style="margin-top:16px;">💡 Tip: Hebrew is read <strong>right to left</strong>! The first syllable is on the right.</div>
+  </div>
+
+  <!-- ALPHABET TAB -->
+  <div id="tab-alphabet" class="card hidden">
+    <div class="section-title">🔤 The Aleph-Bet (Hebrew Alphabet)</div>
+    <p style="margin-bottom:18px;color:#555;font-weight:600;">Click any letter to highlight it! Hebrew has 22 letters, all consonants.</p>
+    <div class="aleph-bet-grid" id="alephBetGrid"></div>
+    <div class="tip-box" style="margin-top:18px;">💡 Letters with a dot (dagesh) in the middle have a slightly harder sound. Some letters have a different shape at the END of a word — called a <strong>sofit</strong> form!</div>
+  </div>
+
+  <!-- VOWELS TAB -->
+  <div id="tab-vowels" class="card hidden">
+    <div class="section-title">🎵 Vowel Signs (Nikkud)</div>
+    <p style="margin-bottom:18px;color:#555;font-weight:600;">In prayer books, little dots and dashes under/over letters tell you what vowel sound to make. Hover to see!</p>
+    <div class="vowel-grid" id="vowelGrid"></div>
+    <div class="tip-box" style="margin-top:18px;">💡 The vowel sound comes AFTER the consonant. So בָּ (Bet + Kamatz) = "BAH"!</div>
+  </div>
+
+  <!-- PRAYERS TAB -->
+  <div id="tab-prayers" class="card hidden">
+    <div class="section-title">🕍 Common Prayers & Blessings</div>
+    <p style="margin-bottom:18px;color:#555;font-weight:600;">Click any prayer to see it broken into chunks you can practice!</p>
+    <div class="prayer-list" id="prayerList"></div>
+  </div>
+
+</div>
+
+<footer>Built with ❤️ for Bar Mitzvah preparation · Hebrew is a beautiful language!</footer>
+
+<script>
+// ===== DATA =====
+
+const words = [
+  {
+    hebrew: "שָׁלוֹם",
+    english: "Peace / Hello / Goodbye",
+    pronounce: "Sha·LOM",
+    syllables: [
+      { heb: "שָׁ", sound: "SHA" },
+      { heb: "לוֹם", sound: "LOM" }
+    ],
+    tip: "💡 'Shalom' is one of the most important words in Hebrew — it means peace, hello, AND goodbye!"
+  },
+  {
+    hebrew: "בְּרָכָה",
+    english: "Blessing",
+    pronounce: "B'·ra·KHAH",
+    syllables: [
+      { heb: "בְּ", sound: "B'" },
+      { heb: "רָ", sound: "RA" },
+      { heb: "כָה", sound: "KHAH" }
+    ],
+    tip: "💡 A 'bracha' is a blessing you say before doing a mitzvah or eating."
+  },
+  {
+    hebrew: "תּוֹרָה",
+    english: "The Torah",
+    pronounce: "To·RAH",
+    syllables: [
+      { heb: "תּוֹ", sound: "TO" },
+      { heb: "רָה", sound: "RAH" }
+    ],
+    tip: "💡 The Torah is the first 5 books of the Bible — the most sacred Jewish text!"
+  },
+  {
+    hebrew: "שַׁבָּת",
+    english: "Sabbath / Saturday",
+    pronounce: "Sha·BAT",
+    syllables: [
+      { heb: "שַׁ", sound: "SHA" },
+      { heb: "בָּת", sound: "BAT" }
+    ],
+    tip: "💡 Shabbat starts Friday at sunset and ends Saturday night. It's a day of rest!"
+  },
+  {
+    hebrew: "מִצְוָה",
+    english: "Commandment / Good deed",
+    pronounce: "mitz·VAH",
+    syllables: [
+      { heb: "מִ", sound: "MI" },
+      { heb: "צְ", sound: "TZ'" },
+      { heb: "וָה", sound: "VAH" }
+    ],
+    tip: "💡 There are 613 mitzvot (commandments) in the Torah. Bar Mitzvah means 'son of the commandment'!"
+  },
+  {
+    hebrew: "אָמֵן",
+    english: "Amen (So be it)",
+    pronounce: "a·MEN",
+    syllables: [
+      { heb: "אָ", sound: "AH" },
+      { heb: "מֵן", sound: "MEN" }
+    ],
+    tip: "💡 You say 'Amen' after a prayer or blessing to agree with it and make it yours too."
+  },
+  {
+    hebrew: "יִשְׂרָאֵל",
+    english: "Israel",
+    pronounce: "yis·ra·EL",
+    syllables: [
+      { heb: "יִ", sound: "YI" },
+      { heb: "שְׂ", sound: "S'" },
+      { heb: "רָ", sound: "RA" },
+      { heb: "אֵל", sound: "EL" }
+    ],
+    tip: "💡 Yisrael means 'one who wrestles with God.' It became the name of the Jewish people!"
+  },
+  {
+    hebrew: "אֱלֹהִים",
+    english: "God (plural of majesty)",
+    pronounce: "e·lo·HIM",
+    syllables: [
+      { heb: "אֱ", sound: "E" },
+      { heb: "לֹ", sound: "LO" },
+      { heb: "הִים", sound: "HIM" }
+    ],
+    tip: "💡 Elohim is a name for God used in the Torah. Even though it looks plural, it refers to the one God."
+  },
+  {
+    hebrew: "חַיִּים",
+    english: "Life / L'Chaim!",
+    pronounce: "cha·YIM",
+    syllables: [
+      { heb: "חַ", sound: "CHA" },
+      { heb: "יִּים", sound: "YIM" }
+    ],
+    tip: "💡 'L'Chaim' means 'To life!' — the classic Jewish toast at celebrations!"
+  },
+  {
+    hebrew: "קְדוּשָׁה",
+    english: "Holiness / Kedushah",
+    pronounce: "k'·du·SHAH",
+    syllables: [
+      { heb: "קְ", sound: "K'" },
+      { heb: "דוּ", sound: "DU" },
+      { heb: "שָׁה", sound: "SHAH" }
+    ],
+    tip: "💡 Kedushah means holiness — it's also the name of an important prayer in the Amidah!"
+  },
+  {
+    hebrew: "בָּרוּךְ",
+    english: "Blessed",
+    pronounce: "ba·RUKH",
+    syllables: [
+      { heb: "בָּ", sound: "BA" },
+      { heb: "רוּךְ", sound: "RUKH" }
+    ],
+    tip: "💡 Every blessing starts with 'Baruch Atah Adonai' — Blessed are You, Lord!"
+  },
+  {
+    hebrew: "אַתָּה",
+    english: "You",
+    pronounce: "a·TAH",
+    syllables: [
+      { heb: "אַ", sound: "A" },
+      { heb: "תָּה", sound: "TAH" }
+    ],
+    tip: "💡 'Atah' is the word for 'You' when speaking to God — used in every bracha!"
+  },
+  {
+    hebrew: "מֶלֶךְ",
+    english: "King",
+    pronounce: "ME·lekh",
+    syllables: [
+      { heb: "מֶ", sound: "ME" },
+      { heb: "לֶךְ", sound: "lekh" }
+    ],
+    tip: "💡 We call God 'Melech ha-Olam' — King of the Universe — in every blessing!"
+  },
+  {
+    hebrew: "הָעוֹלָם",
+    english: "The universe / The world",
+    pronounce: "ha·o·LAM",
+    syllables: [
+      { heb: "הָ", sound: "HA" },
+      { heb: "עוֹ", sound: "O" },
+      { heb: "לָם", sound: "LAM" }
+    ],
+    tip: "💡 Ha-Olam means 'the world' or 'the universe' — it appears in nearly every blessing!"
+  },
+  {
+    hebrew: "תְּפִלָּה",
+    english: "Prayer",
+    pronounce: "t'·fi·LAH",
+    syllables: [
+      { heb: "תְּ", sound: "T'" },
+      { heb: "פִ", sound: "FI" },
+      { heb: "לָּה", sound: "LAH" }
+    ],
+    tip: "💡 Tefillah means prayer. The Amidah is sometimes called 'HaTefillah' — THE prayer!"
+  },
+  {
+    hebrew: "עֲמִידָה",
+    english: "The Standing Prayer",
+    pronounce: "a·mi·DAH",
+    syllables: [
+      { heb: "עֲ", sound: "A" },
+      { heb: "מִ", sound: "MI" },
+      { heb: "דָה", sound: "DAH" }
+    ],
+    tip: "💡 The Amidah (meaning 'standing') is the central prayer of every service — said while standing!"
+  },
+  {
+    hebrew: "סִדּוּר",
+    english: "Prayer book",
+    pronounce: "si·DUR",
+    syllables: [
+      { heb: "סִ", sound: "SI" },
+      { heb: "דּוּר", sound: "DUR" }
+    ],
+    tip: "💡 The Siddur is the Jewish prayer book. 'Seder' and 'Siddur' both come from the root meaning 'order'!"
+  },
+  {
+    hebrew: "כַּוָּנָה",
+    english: "Intention / Focus",
+    pronounce: "ka·va·NAH",
+    syllables: [
+      { heb: "כַּ", sound: "KA" },
+      { heb: "וָּ", sound: "VA" },
+      { heb: "נָה", sound: "NAH" }
+    ],
+    tip: "💡 Kavanah means the intention and focus you bring to prayer — praying with your heart, not just your mouth!"
+  },
+  {
+    hebrew: "צִיצִית",
+    english: "Fringes / Tzitzit",
+    pronounce: "tzi·TZIT",
+    syllables: [
+      { heb: "צִי", sound: "TZI" },
+      { heb: "צִית", sound: "TZIT" }
+    ],
+    tip: "💡 Tzitzit are the fringes on the corners of a tallit — a reminder of all 613 commandments!"
+  },
+  {
+    hebrew: "טַלִּית",
+    english: "Prayer shawl",
+    pronounce: "ta·LIT",
+    syllables: [
+      { heb: "טַ", sound: "TA" },
+      { heb: "לִּית", sound: "LIT" }
+    ],
+    tip: "💡 The tallit is the prayer shawl worn during morning prayers. Bar mitzvah boys often get their first one!"
+  },
+  {
+    hebrew: "תְּשׁוּבָה",
+    english: "Repentance / Return",
+    pronounce: "t'·shu·VAH",
+    syllables: [
+      { heb: "תְּ", sound: "T'" },
+      { heb: "שׁוּ", sound: "SHU" },
+      { heb: "בָה", sound: "VAH" }
+    ],
+    tip: "💡 Teshuvah means returning to God. It's central to Yom Kippur — the holiest day of the year!"
+  },
+  {
+    hebrew: "צְדָקָה",
+    english: "Charity / Justice",
+    pronounce: "tz'·da·KAH",
+    syllables: [
+      { heb: "צְ", sound: "TZ'" },
+      { heb: "דָ", sound: "DA" },
+      { heb: "קָה", sound: "KAH" }
+    ],
+    tip: "💡 Tzedakah means charity — but it's rooted in the word for justice. Giving is an obligation, not just kindness!"
+  },
+  {
+    hebrew: "כַּפָּרָה",
+    english: "Atonement",
+    pronounce: "ka·pa·RAH",
+    syllables: [
+      { heb: "כַּ", sound: "KA" },
+      { heb: "פָּ", sound: "PA" },
+      { heb: "רָה", sound: "RAH" }
+    ],
+    tip: "💡 Kaparah means atonement — making things right with God. Yom Kippur is the Day of Atonement!"
+  },
+  {
+    hebrew: "קְהִלָּה",
+    english: "Community / Congregation",
+    pronounce: "k'·hi·LAH",
+    syllables: [
+      { heb: "קְ", sound: "K'" },
+      { heb: "הִ", sound: "HI" },
+      { heb: "לָּה", sound: "LAH" }
+    ],
+    tip: "💡 Kehillah is the Jewish community. Judaism emphasizes praying and living together as a community!"
+  },
+  {
+    hebrew: "חַזָּן",
+    english: "Cantor",
+    pronounce: "cha·ZAN",
+    syllables: [
+      { heb: "חַ", sound: "CHA" },
+      { heb: "זָּן", sound: "ZAN" }
+    ],
+    tip: "💡 The Hazzan leads the congregation in prayer and song — often having a beautiful trained voice!"
+  },
+  {
+    hebrew: "רַבִּי",
+    english: "Rabbi / Teacher",
+    pronounce: "ra·BI",
+    syllables: [
+      { heb: "רַ", sound: "RA" },
+      { heb: "בִּי", sound: "BI" }
+    ],
+    tip: "💡 Rabbi means 'my teacher.' Rabbis lead communities and teach Torah!"
+  },
+  {
+    hebrew: "כְּנֶסֶת",
+    english: "Synagogue (lit. gathering)",
+    pronounce: "k'·NE·set",
+    syllables: [
+      { heb: "כְּ", sound: "K'" },
+      { heb: "נֶ", sound: "NE" },
+      { heb: "סֶת", sound: "set" }
+    ],
+    tip: "💡 Beit Knesset means 'house of gathering' — the Hebrew name for synagogue. Israel's parliament is also called the Knesset!"
+  },
+  {
+    hebrew: "כִּפָּה",
+    english: "Skullcap / Yarmulke",
+    pronounce: "ki·PAH",
+    syllables: [
+      { heb: "כִּ", sound: "KI" },
+      { heb: "פָּה", sound: "PAH" }
+    ],
+    tip: "💡 The kippah is worn on the head as a sign of respect for God. It's also called a yarmulke in Yiddish!"
+  },
+  {
+    hebrew: "נֵר",
+    english: "Candle / Light",
+    pronounce: "NER",
+    syllables: [
+      { heb: "נֵר", sound: "NER" }
+    ],
+    tip: "💡 'Ner' means candle or light. Shabbat candles, Hanukkah candles, and Havdalah all use the word 'ner'!"
+  },
+  {
+    hebrew: "יוֹם טוֹב",
+    english: "Holiday / Good day",
+    pronounce: "yom·TOV",
+    syllables: [
+      { heb: "יוֹם", sound: "YOM" },
+      { heb: "טוֹב", sound: "TOV" }
+    ],
+    tip: "💡 Yom Tov means 'good day' and refers to Jewish holidays. You greet people with 'Gut Yom Tov' on holidays!"
+  },
+  {
+    hebrew: "חַג",
+    english: "Festival / Holiday",
+    pronounce: "CHAG",
+    syllables: [
+      { heb: "חַג", sound: "CHAG" }
+    ],
+    tip: "💡 Chag means festival. 'Chag Sameach' (happy holiday) is the greeting for all Jewish festivals!"
+  },
+  {
+    hebrew: "קִדּוּשׁ",
+    english: "Sanctification / Kiddush",
+    pronounce: "ki·DUSH",
+    syllables: [
+      { heb: "קִ", sound: "KI" },
+      { heb: "דּוּשׁ", sound: "DUSH" }
+    ],
+    tip: "💡 Kiddush is the blessing over wine said on Shabbat and holidays to sanctify the day!"
+  },
+  {
+    hebrew: "מוֹצָאֵי",
+    english: "End of (as in Shabbat)",
+    pronounce: "mo·tza·EI",
+    syllables: [
+      { heb: "מוֹ", sound: "MO" },
+      { heb: "צָ", sound: "TZA" },
+      { heb: "אֵי", sound: "EI" }
+    ],
+    tip: "💡 Motza'ei Shabbat means the end of Shabbat — Saturday night when three stars appear in the sky!"
+  },
+  {
+    hebrew: "הַבְדָּלָה",
+    english: "Separation / Havdalah",
+    pronounce: "hav·da·LAH",
+    syllables: [
+      { heb: "הַב", sound: "HAV" },
+      { heb: "דָּ", sound: "DA" },
+      { heb: "לָה", sound: "LAH" }
+    ],
+    tip: "💡 Havdalah separates Shabbat from the rest of the week using wine, spices, and a braided candle!"
+  },
+  {
+    hebrew: "גַּבַּאי",
+    english: "Synagogue caretaker",
+    pronounce: "ga·BAI",
+    syllables: [
+      { heb: "גַּ", sound: "GA" },
+      { heb: "בַּאי", sound: "BAI" }
+    ],
+    tip: "💡 The Gabbai organizes who gets called to the Torah and helps run the synagogue service!"
+  },
+  {
+    hebrew: "עֲלִיָּה",
+    english: "Going up (to Torah)",
+    pronounce: "a·li·YAH",
+    syllables: [
+      { heb: "עֲ", sound: "A" },
+      { heb: "לִ", sound: "LI" },
+      { heb: "יָּה", sound: "YAH" }
+    ],
+    tip: "💡 An aliyah is the honor of being called up to say blessings over the Torah. Your Bar Mitzvah includes an aliyah!"
+  },
+  {
+    hebrew: "הַפְטָרָה",
+    english: "Prophets reading",
+    pronounce: "haf·ta·RAH",
+    syllables: [
+      { heb: "הַף", sound: "HAF" },
+      { heb: "טָ", sound: "TA" },
+      { heb: "רָה", sound: "RAH" }
+    ],
+    tip: "💡 The Haftarah is a reading from the Prophets that follows the Torah portion — the Bar Mitzvah boy chants it!"
+  },
+  {
+    hebrew: "דְּרָשָׁה",
+    english: "Torah speech / Sermon",
+    pronounce: "d'·ra·SHAH",
+    syllables: [
+      { heb: "דְּ", sound: "D'" },
+      { heb: "רָ", sound: "RA" },
+      { heb: "שָׁה", sound: "SHAH" }
+    ],
+    tip: "💡 A D'var Torah or derashah is a speech explaining the Torah portion — the Bar Mitzvah boy gives one!"
+  },
+  {
+    hebrew: "מַזָּל טוֹב",
+    english: "Congratulations!",
+    pronounce: "ma·zel·TOV",
+    syllables: [
+      { heb: "מַ", sound: "MA" },
+      { heb: "זָּל", sound: "ZEL" },
+      { heb: "טוֹב", sound: "TOV" }
+    ],
+    tip: "💡 Mazel Tov literally means 'good luck/star' but is used to mean congratulations — you'll hear it a LOT at your Bar Mitzvah!"
+  }
+];
+
+const alphabet = [
+  { heb: "א", name: "Aleph", sound: "silent" },
+  { heb: "בּ", name: "Bet", sound: "B" },
+  { heb: "ב", name: "Vet", sound: "V" },
+  { heb: "ג", name: "Gimel", sound: "G" },
+  { heb: "ד", name: "Dalet", sound: "D" },
+  { heb: "ה", name: "Heh", sound: "H" },
+  { heb: "ו", name: "Vav", sound: "V/OO/O" },
+  { heb: "ז", name: "Zayin", sound: "Z" },
+  { heb: "ח", name: "Chet", sound: "CH" },
+  { heb: "ט", name: "Tet", sound: "T" },
+  { heb: "י", name: "Yod", sound: "Y/EE" },
+  { heb: "כּ", name: "Kaf", sound: "K" },
+  { heb: "כ", name: "Khaf", sound: "KH" },
+  { heb: "ל", name: "Lamed", sound: "L" },
+  { heb: "מ", name: "Mem", sound: "M" },
+  { heb: "נ", name: "Nun", sound: "N" },
+  { heb: "ס", name: "Samech", sound: "S" },
+  { heb: "ע", name: "Ayin", sound: "silent" },
+  { heb: "פּ", name: "Peh", sound: "P" },
+  { heb: "פ", name: "Feh", sound: "F" },
+  { heb: "צ", name: "Tsadi", sound: "TZ" },
+  { heb: "ק", name: "Kuf", sound: "K" },
+  { heb: "ר", name: "Resh", sound: "R" },
+  { heb: "שׁ", name: "Shin", sound: "SH" },
+  { heb: "שׂ", name: "Sin", sound: "S" },
+  { heb: "ת", name: "Tav", sound: "T" }
+];
+
+const vowels = [
+  { heb: "בָ", name: "Kamatz", sound: "AH" },
+  { heb: "בַ", name: "Patach", sound: "AH" },
+  { heb: "בֵ", name: "Tzere", sound: "AY" },
+  { heb: "בֶ", name: "Segol", sound: "EH" },
+  { heb: "בִ", name: "Chirik", sound: "EE" },
+  { heb: "בֹ", name: "Cholam", sound: "OH" },
+  { heb: "בוֹ", name: "Cholam Male", sound: "OH" },
+  { heb: "בוּ", name: "Shuruk", sound: "OO" },
+  { heb: "בֻ", name: "Kubutz", sound: "OO" },
+  { heb: "בְ", name: "Shva", sound: "short E" },
+  { heb: "בֱ", name: "Chataf Segol", sound: "EH" },
+  { heb: "בֲ", name: "Chataf Patach", sound: "AH" },
+  { heb: "בֳ", name: "Chataf Kamatz", sound: "OH" }
+];
+
+const prayers = [
+  {
+    name: "Shema — said every service",
+    hebrewName: "שְׁמַע",
+    text: "שְׁמַע יִשְׂרָאֵל יְהוָה אֱלֹהֵינוּ יְהוָה אֶחָד",
+    translation: "Hear O Israel, the Lord is our God, the Lord is One.",
+    chunks: [
+      { heb: "שְׁמַע", sound: "sh'MA" },
+      { heb: "יִשְׂרָאֵל", sound: "yis-ra-EL" },
+      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי" },
+      { heb: "אֱלֹהֵינוּ", sound: "e-lo-HEI-nu" },
+      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי" },
+      { heb: "אֶחָד", sound: "e-CHAD" }
+    ]
+  },
+  {
+    name: "Blessing Formula — every bracha",
+    hebrewName: "בָּרוּךְ אַתָּה",
+    text: "בָּרוּךְ אַתָּה יְהוָה אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם",
+    translation: "Blessed are You, Lord our God, King of the universe.",
+    chunks: [
+      { heb: "בָּרוּךְ", sound: "ba-RUKH" },
+      { heb: "אַתָּה", sound: "a-TAH" },
+      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי" },
+      { heb: "אֱלֹהֵינוּ", sound: "e-lo-HEI-nu" },
+      { heb: "מֶלֶךְ", sound: "ME-lekh" },
+      { heb: "הָעוֹלָם", sound: "ha-o-LAM" }
+    ]
+  },
+  {
+    name: "Barchu — call to worship",
+    hebrewName: "בָּרְכוּ",
+    text: "בָּרְכוּ אֶת יְהוָה הַמְבֹרָךְ",
+    translation: "Bless the Lord who is blessed.",
+    chunks: [
+      { heb: "בָּרְכוּ", sound: "bar-KHU" },
+      { heb: "אֶת", sound: "et" },
+      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי" },
+      { heb: "הַמְבֹרָךְ", sound: "ha-m'vo-RAKH" }
+    ]
+  },
+  {
+    name: "Amidah Opening — 3x daily",
+    hebrewName: "עֲמִידָה",
+    text: "אֲדֹנָי שְׂפָתַי תִּפְתָּח וּפִי יַגִּיד תְּהִלָּתֶךָ",
+    translation: "Lord, open my lips, and my mouth will declare Your praise.",
+    chunks: [
+      { heb: "אֲדֹנָי", sound: "a-do-NAI" },
+      { heb: "שְׂפָתַי", sound: "s'fa-TAI" },
+      { heb: "תִּפְתָּח", sound: "tif-TACH" },
+      { heb: "וּפִי", sound: "u-FI" },
+      { heb: "יַגִּיד", sound: "ya-GID" },
+      { heb: "תְּהִלָּתֶךָ", sound: "t'hi-la-TE-kha" }
+    ]
+  },
+  {
+    name: "Kedushah — Amidah holiness prayer",
+    hebrewName: "קְדוּשָׁה",
+    text: "קָדוֹשׁ קָדוֹשׁ קָדוֹשׁ יְהוָה צְבָאוֹת מְלֹא כָל הָאָרֶץ כְּבוֹדוֹ",
+    translation: "Holy, holy, holy is the Lord of Hosts; the whole earth is full of His glory.",
+    chunks: [
+      { heb: "קָדוֹשׁ", sound: "ka-DOSH" },
+      { heb: "קָדוֹשׁ", sound: "ka-DOSH" },
+      { heb: "קָדוֹשׁ", sound: "ka-DOSH" },
+      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי" },
+      { heb: "צְבָאוֹת", sound: "tz'va-OT" },
+      { heb: "מְלֹא", sound: "m'LO" },
+      { heb: "כָל", sound: "kol" },
+      { heb: "הָאָרֶץ", sound: "ha-A-rets" },
+      { heb: "כְּבוֹדוֹ", sound: "k'vo-DO" }
+    ]
+  },
+  {
+    name: "Aleinu — closing prayer",
+    hebrewName: "עָלֵינוּ",
+    text: "עָלֵינוּ לְשַׁבֵּחַ לַאֲדוֹן הַכֹּל",
+    translation: "It is our duty to praise the Master of all.",
+    chunks: [
+      { heb: "עָלֵינוּ", sound: "a-LEI-nu" },
+      { heb: "לְשַׁבֵּחַ", sound: "l'sha-BEI-ach" },
+      { heb: "לַאֲדוֹן", sound: "la-a-DON" },
+      { heb: "הַכֹּל", sound: "ha-KOL" }
+    ]
+  },
+  {
+    name: "Kaddish Opening — mourner's prayer",
+    hebrewName: "קַדִּישׁ",
+    text: "יִתְגַּדַּל וְיִתְקַדַּשׁ שְׁמֵהּ רַבָּא",
+    translation: "May His great name be exalted and sanctified.",
+    chunks: [
+      { heb: "יִתְגַּדַּל", sound: "yit-ga-DAL" },
+      { heb: "וְיִתְקַדַּשׁ", sound: "v'yit-ka-DASH" },
+      { heb: "שְׁמֵהּ", sound: "sh'MEH" },
+      { heb: "רַבָּא", sound: "ra-BA" }
+    ]
+  },
+  {
+    name: "Modeh Ani — morning thanks",
+    hebrewName: "מוֹדֶה אֲנִי",
+    text: "מוֹדֶה אֲנִי לְפָנֶיךָ מֶלֶךְ חַי וְקַיָּם",
+    translation: "I give thanks before You, living and eternal King.",
+    chunks: [
+      { heb: "מוֹדֶה", sound: "MO-deh" },
+      { heb: "אֲנִי", sound: "a-NI" },
+      { heb: "לְפָנֶיךָ", sound: "l'fa-NE-kha" },
+      { heb: "מֶלֶךְ", sound: "ME-lekh" },
+      { heb: "חַי", sound: "CHAI" },
+      { heb: "וְקַיָּם", sound: "v'ka-YAM" }
+    ]
+  },
+  {
+    name: "Blessing over Tallit",
+    hebrewName: "טַלִּית",
+    text: "בָּרוּךְ אַתָּה יְהוָה אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם אֲשֶׁר קִדְּשָׁנוּ בְּמִצְוֹתָיו וְצִוָּנוּ לְהִתְעַטֵּף בַּצִּיצִית",
+    translation: "Blessed are You, Lord our God, King of the universe, who sanctified us with His commandments and commanded us to wrap ourselves in tzitzit.",
+    chunks: [
+      { heb: "בָּרוּךְ", sound: "ba-RUKH" },
+      { heb: "אַתָּה", sound: "a-TAH" },
+      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי" },
+      { heb: "אֱלֹהֵינוּ", sound: "e-lo-HEI-nu" },
+      { heb: "מֶלֶךְ", sound: "ME-lekh" },
+      { heb: "הָעוֹלָם", sound: "ha-o-LAM" },
+      { heb: "אֲשֶׁר", sound: "a-SHER" },
+      { heb: "קִדְּשָׁנוּ", sound: "ki-d'SHA-nu" },
+      { heb: "בְּמִצְוֹתָיו", sound: "b'mitz-vo-TAV" },
+      { heb: "וְצִוָּנוּ", sound: "v'tzi-VA-nu" },
+      { heb: "לְהִתְעַטֵּף", sound: "l'hit-a-TEF" },
+      { heb: "בַּצִּיצִית", sound: "ba-tzi-TZIT" }
+    ]
+  },
+  {
+    name: "Blessing over Tzitzit",
+    hebrewName: "צִיצִית",
+    text: "בָּרוּךְ אַתָּה יְהוָה אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם אֲשֶׁר קִדְּשָׁנוּ בְּמִצְוֹתָיו וְצִוָּנוּ עַל מִצְוַת צִיצִית",
+    translation: "Blessed are You, Lord our God, King of the universe, who sanctified us with His commandments and commanded us regarding the mitzvah of tzitzit.",
+    chunks: [
+      { heb: "בָּרוּךְ", sound: "ba-RUKH" },
+      { heb: "אַתָּה", sound: "a-TAH" },
+      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי" },
+      { heb: "אֱלֹהֵינוּ", sound: "e-lo-HEI-nu" },
+      { heb: "מֶלֶךְ", sound: "ME-lekh" },
+      { heb: "הָעוֹלָם", sound: "ha-o-LAM" },
+      { heb: "אֲשֶׁר", sound: "a-SHER" },
+      { heb: "קִדְּשָׁנוּ", sound: "ki-d'SHA-nu" },
+      { heb: "בְּמִצְוֹתָיו", sound: "b'mitz-vo-TAV" },
+      { heb: "וְצִוָּנוּ", sound: "v'tzi-VA-nu" },
+      { heb: "עַל", sound: "al" },
+      { heb: "מִצְוַת", sound: "mitz-VAT" },
+      { heb: "צִיצִית", sound: "tzi-TZIT" }
+    ]
+  },
+  {
+    name: "Torah Blessings — before reading",
+    hebrewName: "בִּרְכוֹת הַתּוֹרָה",
+    text: "בָּרְכוּ אֶת יְהוָה הַמְבֹרָךְ בָּרוּךְ יְהוָה הַמְבֹרָךְ לְעוֹלָם וָעֶד",
+    translation: "Bless the Lord who is blessed. Blessed is the Lord who is blessed forever and ever.",
+    chunks: [
+      { heb: "בָּרְכוּ", sound: "bar-KHU" },
+      { heb: "אֶת", sound: "et" },
+      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי" },
+      { heb: "הַמְבֹרָךְ", sound: "ha-m'vo-RAKH" },
+      { heb: "בָּרוּךְ", sound: "ba-RUKH" },
+      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי" },
+      { heb: "הַמְבֹרָךְ", sound: "ha-m'vo-RAKH" },
+      { heb: "לְעוֹלָם", sound: "l'o-LAM" },
+      { heb: "וָעֶד", sound: "va-ED" }
+    ]
+  },
+  {
+    name: "Haftarah Blessing — after Prophets",
+    hebrewName: "הַפְטָרָה",
+    text: "בָּרוּךְ אַתָּה יְהוָה אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם אֲשֶׁר בָּחַר בִּנְבִיאִים טוֹבִים",
+    translation: "Blessed are You, Lord our God, King of the universe, who chose good prophets.",
+    chunks: [
+      { heb: "בָּרוּךְ", sound: "ba-RUKH" },
+      { heb: "אַתָּה", sound: "a-TAH" },
+      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי" },
+      { heb: "אֱלֹהֵינוּ", sound: "e-lo-HEI-nu" },
+      { heb: "מֶלֶךְ", sound: "ME-lekh" },
+      { heb: "הָעוֹלָם", sound: "ha-o-LAM" },
+      { heb: "אֲשֶׁר", sound: "a-SHER" },
+      { heb: "בָּחַר", sound: "ba-CHAR" },
+      { heb: "בִּנְבִיאִים", sound: "bin-vi-IM" },
+      { heb: "טוֹבִים", sound: "to-VIM" }
+    ]
+  },
+  {
+    name: "Tzitzit (Numbers 15:38-40)",
+    hebrewName: "צִיצִת",
+    text: "וְעָשׂוּ לָהֶם צִיצִת עַל כַּנְפֵי בִגְדֵיהֶם לְדֹרֹתָם",
+    translation: "They shall make for themselves fringes on the corners of their garments throughout their generations.",
+    chunks: [
+      { heb: "וְעָשׂוּ", sound: "v'a-SU" },
+      { heb: "לָהֶם", sound: "la-HEM" },
+      { heb: "צִיצִת", sound: "tzi-TZIT" },
+      { heb: "עַל", sound: "al" },
+      { heb: "כַּנְפֵי", sound: "kan-FEI" },
+      { heb: "בִגְדֵיהֶם", sound: "big-dei-HEM" },
+      { heb: "לְדֹרֹתָם", sound: "l'do-ro-TAM" }
+    ]
+  },
+  {
+    name: "Kiddush — Shabbat blessing over wine",
+    hebrewName: "קִדּוּשׁ",
+    text: "בָּרוּךְ אַתָּה יְהוָה אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם בּוֹרֵא פְּרִי הַגָּפֶן",
+    translation: "Blessed are You, Lord our God, King of the universe, who creates the fruit of the vine.",
+    chunks: [
+      { heb: "בָּרוּךְ", sound: "ba-RUKH" },
+      { heb: "אַתָּה", sound: "a-TAH" },
+      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי" },
+      { heb: "אֱלֹהֵינוּ", sound: "e-lo-HEI-nu" },
+      { heb: "מֶלֶךְ", sound: "ME-lekh" },
+      { heb: "הָעוֹלָם", sound: "ha-o-LAM" },
+      { heb: "בּוֹרֵא", sound: "bo-REI" },
+      { heb: "פְּרִי", sound: "p'RI" },
+      { heb: "הַגָּפֶן", sound: "ha-GA-fen" }
+    ]
+  },
+  {
+    name: "HaMotzi — blessing over bread",
+    hebrewName: "הַמּוֹצִיא",
+    text: "בָּרוּךְ אַתָּה יְהוָה אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם הַמּוֹצִיא לֶחֶם מִן הָאָרֶץ",
+    translation: "Blessed are You, Lord our God, King of the universe, who brings forth bread from the earth.",
+    chunks: [
+      { heb: "בָּרוּךְ", sound: "ba-RUKH" },
+      { heb: "אַתָּה", sound: "a-TAH" },
+      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי" },
+      { heb: "אֱלֹהֵינוּ", sound: "e-lo-HEI-nu" },
+      { heb: "מֶלֶךְ", sound: "ME-lekh" },
+      { heb: "הָעוֹלָם", sound: "ha-o-LAM" },
+      { heb: "הַמּוֹצִיא", sound: "ha-mo-TZI" },
+      { heb: "לֶחֶם", sound: "LE-chem" },
+      { heb: "מִן", sound: "min" },
+      { heb: "הָאָרֶץ", sound: "ha-A-rets" }
+    ]
+  }
+];
+
+// ===== STATE =====
+let currentWord = 0;
+
+// ===== BUILD UI =====
+
+function buildWords() {
+  const selector = document.getElementById('wordSelector');
+  words.forEach((w, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'word-btn' + (i === 0 ? ' active' : '');
+    btn.textContent = w.pronounce;
+    btn.onclick = () => selectWord(i);
+    selector.appendChild(btn);
+  });
+  selectWord(0);
+}
+
+// Vibrant per-syllable colors
+const SYL_COLORS = [
+  { bg: '#ff6b6b', text: '#fff' },  // red
+  { bg: '#4a90e2', text: '#fff' },  // blue
+  { bg: '#f5a623', text: '#fff' },  // orange
+  { bg: '#7ed321', text: '#fff' },  // green
+  { bg: '#9b59b6', text: '#fff' },  // purple
+];
+
+const CHUNK_COLORS = ['#ff6b6b','#4a90e2','#f5a623','#7ed321','#9b59b6','#e84393','#00b894'];
+
+function renderHebrewSpans(w, activeIdx = -1) {
+  // Big Hebrew word — colored spans
+  const hebrewFull = document.getElementById('hebrewFull');
+  hebrewFull.innerHTML = w.syllables.map((s, i) => {
+    const col = SYL_COLORS[i % SYL_COLORS.length];
+    const isActive = i === activeIdx;
+    const style = isActive
+      ? `color:${col.bg}; text-shadow: 0 0 24px ${col.bg}, 0 4px 16px rgba(0,0,0,0.15); transform:scale(1.18); display:inline-block; transition:all 0.2s;`
+      : `color:${col.bg}; opacity:${activeIdx === -1 ? 1 : 0.2}; display:inline-block; transition:all 0.2s;`;
+    return `<span class="syl-span" data-idx="${i}" style="${style}">${s.heb}</span>`;
+  }).join('<span style="display:inline-block;width:6px;"></span>');
+
+  // Syllable blocks below — highlight active, dim others
+  const blocks = document.querySelectorAll('.syllable-block');
+  blocks.forEach((block, i) => {
+    const col = SYL_COLORS[i % SYL_COLORS.length];
+    const isActive = i === activeIdx;
+    if (activeIdx === -1) {
+      // Reset all to normal
+      block.style.background = 'white';
+      block.style.transform = '';
+      block.style.boxShadow = '';
+      block.style.opacity = '1';
+    } else if (isActive) {
+      block.style.background = col.bg;
+      block.style.transform = 'translateY(-6px) scale(1.08)';
+      block.style.boxShadow = `0 8px 24px ${col.bg}99`;
+      block.style.opacity = '1';
+      // Flip text colors for contrast
+      const hebSpan = block.querySelector('.syl-hebrew');
+      const sndSpan = block.querySelector('.syl-sound');
+      if (hebSpan) hebSpan.style.color = '#fff';
+      if (sndSpan) { sndSpan.style.background = 'rgba(255,255,255,0.25)'; sndSpan.style.color = '#fff'; }
+    } else {
+      block.style.background = 'white';
+      block.style.transform = '';
+      block.style.boxShadow = '';
+      block.style.opacity = '0.25';
+      // Restore original colors
+      const hebSpan = block.querySelector('.syl-hebrew');
+      const sndSpan = block.querySelector('.syl-sound');
+      if (hebSpan) hebSpan.style.color = col.bg;
+      if (sndSpan) { sndSpan.style.background = col.bg; sndSpan.style.color = '#fff'; }
+    }
+  });
+}
+
+function selectWord(i) {
+  currentWord = i;
+  document.querySelectorAll('.word-btn').forEach((b, idx) => {
+    b.classList.toggle('active', idx === i);
+  });
+  const w = words[i];
+  renderHebrewSpans(w, -1);
+  document.getElementById('hebrewPronounce').textContent = '(' + w.pronounce + ')';
+  document.getElementById('englishMeaning').textContent = w.english;
+  document.getElementById('playAllText').textContent = w.pronounce;
+  document.getElementById('tipBox').innerHTML = w.tip;
+
+  const row = document.getElementById('syllableRow');
+  row.innerHTML = '';
+  w.syllables.forEach((s, si) => {
+    const col = SYL_COLORS[si % SYL_COLORS.length];
+    const block = document.createElement('div');
+    block.className = 'syllable-block';
+    block.style.borderColor = col.bg;
+    block.innerHTML = `<span class="syl-hebrew" style="color:${col.bg}">${s.heb}</span><span class="syl-sound" style="background:${col.bg};color:#fff">${s.sound}</span>`;
+    block.onclick = () => {
+      renderHebrewSpans(w, si);
+      setTimeout(() => renderHebrewSpans(w, -1), 1200);
+    };
+    row.appendChild(block);
+  });
+}
+
+async function playAllSyllables() {
+  const w = words[currentWord];
+  for (let i = 0; i < w.syllables.length; i++) {
+    renderHebrewSpans(w, i);
+    await new Promise(r => setTimeout(r, 600));
+  }
+  renderHebrewSpans(w, -1);
+}
+
+function buildAlphabet() {
+  const grid = document.getElementById('alephBetGrid');
+  alphabet.forEach(l => {
+    const card = document.createElement('div');
+    card.className = 'letter-card';
+    card.innerHTML = `<span class="lc-heb">${l.heb}</span><span class="lc-name">${l.name}</span><span class="lc-sound">${l.sound}</span>`;
+    card.onclick = () => {
+      // Highlight
+      document.querySelectorAll('.letter-card').forEach(c => {
+        c.style.background = '';
+        c.querySelectorAll('.lc-heb,.lc-name,.lc-sound').forEach(el => el.style.color = '');
+      });
+      card.style.background = '#1a3a6b';
+      card.querySelectorAll('.lc-heb,.lc-name,.lc-sound').forEach(el => el.style.color = 'white');
+      // Speak the letter
+      speechSynthesis.cancel();
+      setTimeout(() => {
+        speechSynthesis.resume();
+        const u = new SpeechSynthesisUtterance(l.heb);
+        u.lang = 'he-IL';
+        u.rate = 0.7;
+        if (hebrewVoice) u.voice = hebrewVoice;
+        speechSynthesis.speak(u);
+      }, 120);
+    };
+    grid.appendChild(card);
+  });
+}
+
+function buildVowels() {
+  const grid = document.getElementById('vowelGrid');
+  vowels.forEach(v => {
+    const card = document.createElement('div');
+    card.className = 'vowel-card';
+    card.innerHTML = `<span class="vc-heb">${v.heb}</span><span class="vc-name">${v.name}</span><span class="vc-sound">"${v.sound}"</span>`;
+    card.onclick = () => {
+      speechSynthesis.cancel();
+      setTimeout(() => {
+        speechSynthesis.resume();
+        const u = new SpeechSynthesisUtterance(v.heb);
+        u.lang = 'he-IL';
+        u.rate = 0.6;
+        if (hebrewVoice) u.voice = hebrewVoice;
+        speechSynthesis.speak(u);
+      }, 120);
+    };
+    grid.appendChild(card);
+  });
+}
+
+// Render prayer chunks as big colored spans in a display box (like word breakdown)
+function renderPrayerSpans(displayEl, chunks, activeIdx) {
+  displayEl.innerHTML = chunks.map((c, i) => {
+    const col = SYL_COLORS[i % SYL_COLORS.length];
+    const isActive = i === activeIdx;
+    const style = isActive
+      ? `color:${col.bg}; text-shadow: 0 0 22px ${col.bg}; transform:scale(1.15); display:inline-block; transition:all 0.2s; margin: 0 4px;`
+      : `color:${col.bg}; opacity:${activeIdx === -1 ? 1 : 0.2}; display:inline-block; transition:all 0.2s; margin: 0 4px;`;
+    return `<span style="${style}">${c.heb}</span>`;
+  }).join('');
+}
+
+function buildPrayers() {
+  const list = document.getElementById('prayerList');
+  prayers.forEach((p) => {
+    const card = document.createElement('div');
+    card.className = 'prayer-card';
+
+    // Header (always visible, click to expand)
+    const header = document.createElement('div');
+    header.innerHTML = `
+      <div class="prayer-name">
+        <span>${p.name} <span style="font-size:0.8em;color:#888;">▼</span></span>
+        <span class="prayer-hebrew-name">${p.hebrewName}</span>
+      </div>
+    `;
+
+    const body = document.createElement('div');
+    body.className = 'prayer-body hidden';
+
+    // BIG Hebrew display box (matches word breakdown style)
+    const display = document.createElement('div');
+    display.className = 'hebrew-display';
+    display.style.cssText = 'margin-bottom:16px;';
+
+    const bigText = document.createElement('div');
+    bigText.style.cssText = 'font-size:2.2em; direction:rtl; font-weight:800; line-height:1.6; letter-spacing:3px; padding:4px 0;';
+    renderPrayerSpans(bigText, p.chunks, -1);
+
+    const engLine = document.createElement('div');
+    engLine.className = 'english-meaning';
+    engLine.textContent = p.translation;
+
+    display.appendChild(bigText);
+    display.appendChild(engLine);
+
+    // Chunk blocks (RTL, colored, clickable — same style as syllable blocks)
+    const chunksDiv = document.createElement('div');
+    chunksDiv.className = 'syllable-row';  // reuse same RTL flex style
+
+    p.chunks.forEach((c, ci) => {
+      const col = SYL_COLORS[ci % SYL_COLORS.length];
+      const block = document.createElement('div');
+      block.className = 'syllable-block';
+      block.style.borderColor = col.bg;
+      block.style.minWidth = '80px';
+      block.innerHTML = `
+        <span class="syl-hebrew" style="color:${col.bg}; font-size:1.6em;">${c.heb}</span>
+        <span class="syl-sound" data-idx="${ci}" style="background:${col.bg}; color:#fff; transition: all 0.2s;">${c.sound}</span>
+      `;
+      block.addEventListener('click', e => {
+        e.stopPropagation();
+        // Light up in big display
+        renderPrayerSpans(bigText, p.chunks, ci);
+        setTimeout(() => renderPrayerSpans(bigText, p.chunks, -1), 1100);
+        // Speak it
+        speakText(c);
+      });
+      chunksDiv.appendChild(block);
+    });
+
+    // Button row + step counter
+    const btnRow = document.createElement('div');
+    btnRow.className = 'btn-row';
+
+    const pronounceBtn = document.createElement('button');
+    pronounceBtn.className = 'pronounce-btn';
+    pronounceBtn.style.cssText = 'font-size:1em; padding:10px 20px; margin:0;';
+    pronounceBtn.textContent = '🔊 Hear all';
+
+    const stepBtn = document.createElement('button');
+    stepBtn.className = 'step-btn';
+    stepBtn.textContent = '👆 Step: word 1';
+
+    const stepCounter = document.createElement('div');
+    stepCounter.className = 'step-counter';
+
+    // Per-prayer step state
+    let stepIdx = 0;
+    const totalWords = p.chunks.length;
+
+    function highlightStep(idx, speak) {
+      renderPrayerSpans(bigText, p.chunks, idx);
+      const blocks = Array.from(chunksDiv.querySelectorAll('.syllable-block'));
+      blocks.forEach((el, j) => {
+        const col = SYL_COLORS[j % SYL_COLORS.length];
+        const hebEl = el.querySelector('.syl-hebrew');
+        const sndEl = el.querySelector('.syl-sound');
+        if (j === idx) {
+          el.style.background = col.bg;
+          el.style.borderColor = col.bg;
+          el.style.transform = 'translateY(-5px) scale(1.08)';
+          el.style.boxShadow = `0 8px 24px ${col.bg}88`;
+          el.style.opacity = '1';
+          if (hebEl) hebEl.style.color = '#fff';
+          if (sndEl) { sndEl.style.background = 'rgba(255,255,255,0.3)'; sndEl.style.color = '#fff'; sndEl.style.transform = 'scale(1.2)'; sndEl.style.fontWeight = '900'; }
+        } else {
+          el.style.background = 'white';
+          el.style.borderColor = col.bg;
+          el.style.transform = '';
+          el.style.boxShadow = '';
+          el.style.opacity = j < idx ? '0.5' : '0.22';
+          if (hebEl) hebEl.style.color = col.bg;
+          if (sndEl) { sndEl.style.background = col.bg; sndEl.style.color = '#fff'; sndEl.style.transform = ''; sndEl.style.fontWeight = ''; }
+        }
+      });
+      stepCounter.textContent = `Word ${idx + 1} of ${totalWords}: ${p.chunks[idx].sound}`;
+      if (speak) speakText(p.chunks[idx]);
+    }
+
+    function resetStep() {
+      stepIdx = 0;
+      renderPrayerSpans(bigText, p.chunks, -1);
+      const blocks = Array.from(chunksDiv.querySelectorAll('.syllable-block'));
+      blocks.forEach((el, j) => {
+        const col = SYL_COLORS[j % SYL_COLORS.length];
+        el.style.background = 'white'; el.style.borderColor = col.bg;
+        el.style.transform = ''; el.style.boxShadow = ''; el.style.opacity = '1';
+        const hebEl = el.querySelector('.syl-hebrew');
+        const sndEl = el.querySelector('.syl-sound');
+        if (hebEl) hebEl.style.color = col.bg;
+        if (sndEl) { sndEl.style.background = col.bg; sndEl.style.color = '#fff'; sndEl.style.transform = ''; sndEl.style.fontWeight = ''; }
+      });
+      stepCounter.textContent = '';
+      stepBtn.textContent = '👆 Step: word 1';
+      stepBtn.classList.remove('reset');
+    }
+
+    stepBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      if (stepBtn.classList.contains('reset')) { resetStep(); return; }
+      highlightStep(stepIdx, true);
+      stepIdx++;
+      if (stepIdx >= totalWords) {
+        stepBtn.textContent = '🔄 Reset';
+        stepBtn.classList.add('reset');
+      } else {
+        stepBtn.textContent = `👆 Step: word ${stepIdx + 1}`;
+      }
+    });
+
+    pronounceBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      resetStep();
+      pronouncePrayer(pronounceBtn, bigText, chunksDiv, p.chunks);
+    });
+
+    btnRow.appendChild(pronounceBtn);
+    btnRow.appendChild(stepBtn);
+
+    body.appendChild(display);
+    body.appendChild(chunksDiv);
+    body.appendChild(btnRow);
+    body.appendChild(stepCounter);
+
+    header.addEventListener('click', () => {
+      const isOpen = card.classList.contains('open');
+      document.querySelectorAll('.prayer-card').forEach(c => {
+        c.classList.remove('open');
+        c.querySelector('.prayer-body').classList.add('hidden');
+      });
+      if (!isOpen) {
+        card.classList.add('open');
+        body.classList.remove('hidden');
+      }
+    });
+
+    card.appendChild(header);
+    card.appendChild(body);
+    list.appendChild(card);
+  });
+}
+
+// ===== TEXT-TO-SPEECH =====
+let hebrewVoice = null;
+let ttsReady = false;
+
+function initTTS() {
+  if (!window.speechSynthesis) {
+    document.getElementById('ttsNote').textContent = '⚠️ Your browser doesn\'t support speech. Try Chrome.';
+    return;
+  }
+  function loadVoices() {
+    const voices = speechSynthesis.getVoices();
+    // Look for Hebrew voice
+    hebrewVoice = voices.find(v => v.lang.startsWith('he')) || null;
+    ttsReady = true;
+    const note = document.getElementById('ttsNote');
+    if (hebrewVoice) {
+      note.textContent = '✅ Hebrew voice found: ' + hebrewVoice.name;
+      note.style.color = '#2ecc71';
+    } else {
+      note.textContent = '⚠️ No Hebrew voice found — using English approximation. Install Hebrew on your device for best results!';
+      note.style.color = '#e67e22';
+    }
+  }
+  if (speechSynthesis.getVoices().length) loadVoices();
+  else speechSynthesis.addEventListener('voiceschanged', loadVoices);
+}
+
+async function speakUtterance(utter) {
+  return new Promise((resolve, reject) => {
+    utter.onend = resolve;
+    utter.onerror = reject;
+    speechSynthesis.speak(utter);
+  });
+}
+
+async function pronounceWord() {
+  if (!window.speechSynthesis) return;
+  const w = words[currentWord];
+  const btn = document.getElementById('pronounceBtn');
+
+  speechSynthesis.cancel();
+  await new Promise(r => setTimeout(r, 150));
+  speechSynthesis.resume();
+
+  btn.classList.add('speaking');
+  btn.textContent = '🔊 Speaking...';
+
+  for (let i = 0; i < w.syllables.length; i++) {
+    const syl = w.syllables[i];
+    renderHebrewSpans(w, i);
+
+    const u = new SpeechSynthesisUtterance();
+    u.lang = 'he-IL';
+    u.text = syl.heb;
+    u.rate = 0.75;
+    if (hebrewVoice) u.voice = hebrewVoice;
+
+    try { await speakUtterance(u); } catch(e) { break; }
+    await new Promise(r => setTimeout(r, 220));
+  }
+
+  renderHebrewSpans(w, -1);
+  btn.classList.remove('speaking');
+  btn.textContent = '🔊 Hear it spoken';
+}
+
+
+// ===== PRAYER PRONUNCIATION =====
+
+// Convert our pronunciation guide into something an English TTS voice reads naturally
+function toNaturalPhonetic(sound) {
+  return sound
+    .replace(/'/g, '')           // remove apostrophes
+    .replace(/kh/gi, 'ch')       // KH -> ch (like "Bach")
+    .replace(/ch(?!a|e|i|o|u)/gi, 'kh')  // lone CH -> kh for guttural
+    .replace(/-/g, ' ')          // dashes become spaces (short pause)
+    .replace(/\b([A-Z]+)\b/g, m => m.toLowerCase()) // lowercase shouted syllables
+    .trim();
+}
+
+function highlightChunk(chunkEl, color, active, allChunks) {
+  if (active) {
+    chunkEl.style.background = color;
+    chunkEl.style.borderColor = color;
+    chunkEl.style.transform = 'translateY(-6px) scale(1.12)';
+    chunkEl.style.boxShadow = `0 8px 24px ${color}99`;
+    chunkEl.style.opacity = '1';
+    chunkEl.style.zIndex = '2';
+    const heb = chunkEl.querySelector('.chunk-heb');
+    const snd = chunkEl.querySelector('.chunk-sound');
+    if (heb) heb.style.color = '#fff';
+    if (snd) { snd.style.color = '#fff'; snd.style.background = 'rgba(255,255,255,0.25)'; snd.style.borderRadius = '8px'; snd.style.padding = '1px 6px'; }
+  } else if (allChunks) {
+    // dim
+    chunkEl.style.background = 'white';
+    chunkEl.style.borderColor = '#c5d8ff';
+    chunkEl.style.transform = '';
+    chunkEl.style.boxShadow = '';
+    chunkEl.style.opacity = '0.25';
+    chunkEl.style.zIndex = '';
+    const heb = chunkEl.querySelector('.chunk-heb');
+    const snd = chunkEl.querySelector('.chunk-sound');
+    if (heb) heb.style.color = '#1a3a6b';
+    if (snd) { snd.style.color = '#4a7ec7'; snd.style.background = ''; snd.style.padding = ''; }
+  } else {
+    // reset
+    chunkEl.style.background = 'white';
+    chunkEl.style.borderColor = '#c5d8ff';
+    chunkEl.style.transform = '';
+    chunkEl.style.boxShadow = '';
+    chunkEl.style.opacity = '1';
+    chunkEl.style.zIndex = '';
+    const heb = chunkEl.querySelector('.chunk-heb');
+    const snd = chunkEl.querySelector('.chunk-sound');
+    if (heb) heb.style.color = '#1a3a6b';
+    if (snd) { snd.style.color = '#4a7ec7'; snd.style.background = ''; snd.style.padding = ''; }
+  }
+}
+
+function speakText(c) {
+  const chunk = typeof c === 'string' ? { heb: c } : c;
+  speechSynthesis.cancel();
+  setTimeout(() => {
+    speechSynthesis.resume();
+    const u = new SpeechSynthesisUtterance();
+    u.lang = 'he-IL';
+    u.text = chunk.speak || chunk.heb;
+    u.rate = 0.75;
+    if (hebrewVoice) u.voice = hebrewVoice;
+    speechSynthesis.speak(u);
+  }, 120);
+}
+
+async function pronouncePrayer(btn, prayerDisplay, chunksDiv, chunks) {
+  btn.classList.add('speaking');
+  btn.textContent = '🔊 Speaking...';
+
+  speechSynthesis.cancel();
+  await new Promise(r => setTimeout(r, 150));
+  speechSynthesis.resume();
+
+    const chunkEls = Array.from(chunksDiv.querySelectorAll('.syllable-block'));
+
+  for (let i = 0; i < chunks.length; i++) {
+    const c = chunks[i];
+
+    // Animate the big prayer display
+    renderPrayerSpans(prayerDisplay, chunks, i);
+
+    // Highlight active chunk block, dim all others
+    chunkEls.forEach((el, j) => {
+      const col = SYL_COLORS[j % SYL_COLORS.length];
+      const hebEl = el.querySelector('.syl-hebrew');
+      const sndEl = el.querySelector('.syl-sound');
+      if (j === i) {
+        el.style.background = col.bg;
+        el.style.borderColor = col.bg;
+        el.style.transform = 'translateY(-5px) scale(1.08)';
+        el.style.boxShadow = `0 8px 24px ${col.bg}88`;
+        el.style.opacity = '1';
+        if (hebEl) hebEl.style.color = '#fff';
+        if (sndEl) {
+          sndEl.style.background = 'rgba(255,255,255,0.3)';
+          sndEl.style.color = '#fff';
+          sndEl.style.transform = 'scale(1.2)';
+          sndEl.style.fontWeight = '900';
+          sndEl.style.letterSpacing = '1px';
+          sndEl.style.display = 'inline-block';
+        }
+      } else {
+        el.style.background = 'white';
+        el.style.borderColor = col.bg;
+        el.style.transform = '';
+        el.style.boxShadow = '';
+        el.style.opacity = '0.25';
+        if (hebEl) hebEl.style.color = col.bg;
+        if (sndEl) {
+          sndEl.style.background = col.bg;
+          sndEl.style.color = '#fff';
+          sndEl.style.transform = '';
+          sndEl.style.fontWeight = '';
+          sndEl.style.letterSpacing = '';
+        }
+      }
+    });
+
+    const u = new SpeechSynthesisUtterance();
+    u.lang = 'he-IL';
+    u.text = c.speak || c.heb;
+    u.rate = 0.75;
+    if (hebrewVoice) u.voice = hebrewVoice;
+
+    try { await speakUtterance(u); } catch(e) { break; }
+    await new Promise(r => setTimeout(r, 280));
+  }
+
+  // Reset everything
+  renderPrayerSpans(prayerDisplay, chunks, -1);
+  chunkEls.forEach((el, j) => {
+    const col = SYL_COLORS[j % SYL_COLORS.length];
+    el.style.background = 'white';
+    el.style.borderColor = col.bg;
+    el.style.transform = '';
+    el.style.boxShadow = '';
+    el.style.opacity = '1';
+    const hebEl = el.querySelector('.syl-hebrew');
+    const sndEl = el.querySelector('.syl-sound');
+    if (hebEl) hebEl.style.color = col.bg;
+    if (sndEl) {
+      sndEl.style.background = col.bg;
+      sndEl.style.color = '#fff';
+      sndEl.style.transform = '';
+      sndEl.style.fontWeight = '';
+      sndEl.style.letterSpacing = '';
+    }
+  });
+
+  btn.classList.remove('speaking');
+  btn.textContent = '🔊 Hear word by word';
+}
+
+function showTab(tab, clickedBtn) {
+  ['words','alphabet','vowels','prayers'].forEach(t => {
+    document.getElementById('tab-' + t).classList.add('hidden');
+  });
+  document.getElementById('tab-' + tab).classList.remove('hidden');
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  if (clickedBtn) clickedBtn.classList.add('active');
+}
+
+// ===== INIT =====
+buildWords();
+buildAlphabet();
+buildVowels();
+buildPrayers();
+initTTS();
+</script>
+</body>
+</html>
