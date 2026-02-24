@@ -171,15 +171,32 @@ const SYL_COLORS=['#e74c3c','#3498db','#e67e22','#27ae60','#8e44ad','#e91e8c','#
 
 // ===== ALPHABET =====
 const alphabet=[
-  {heb:"א",name:"Aleph",sound:"silent"},{heb:"בּ",name:"Bet",sound:"B"},{heb:"ב",name:"Vet",sound:"V"},
-  {heb:"ג",name:"Gimel",sound:"G"},{heb:"ד",name:"Dalet",sound:"D"},{heb:"ה",name:"Heh",sound:"H"},
-  {heb:"ו",name:"Vav",sound:"V/OO/O"},{heb:"ז",name:"Zayin",sound:"Z"},{heb:"ח",name:"Chet",sound:"CH"},
-  {heb:"ט",name:"Tet",sound:"T"},{heb:"י",name:"Yod",sound:"Y/EE"},{heb:"כּ",name:"Kaf",sound:"K"},
-  {heb:"כ",name:"Khaf",sound:"KH"},{heb:"ל",name:"Lamed",sound:"L"},{heb:"מ",name:"Mem",sound:"M"},
-  {heb:"נ",name:"Nun",sound:"N"},{heb:"ס",name:"Samech",sound:"S"},{heb:"ע",name:"Ayin",sound:"silent"},
-  {heb:"פּ",name:"Peh",sound:"P"},{heb:"פ",name:"Feh",sound:"F"},{heb:"צ",name:"Tsadi",sound:"TZ"},
-  {heb:"ק",name:"Kuf",sound:"K"},{heb:"ר",name:"Resh",sound:"R"},{heb:"שׁ",name:"Shin",sound:"SH"},
-  {heb:"שׂ",name:"Sin",sound:"S"},{heb:"ת",name:"Tav",sound:"T"}
+  {heb:"א",name:"Aleph",sound:"silent",speak:"אָ"},
+  {heb:"בּ",name:"Bet",sound:"B",speak:"בָּ"},
+  {heb:"ב",name:"Vet",sound:"V",speak:"וָ"},
+  {heb:"ג",name:"Gimel",sound:"G",speak:"גָּ"},
+  {heb:"ד",name:"Dalet",sound:"D",speak:"דָּ"},
+  {heb:"ה",name:"Heh",sound:"H",speak:"הָ"},
+  {heb:"ו",name:"Vav",sound:"V/OO/O",speak:"וָ"},
+  {heb:"ז",name:"Zayin",sound:"Z",speak:"זָ"},
+  {heb:"ח",name:"Chet",sound:"CH",speak:"חָ"},
+  {heb:"ט",name:"Tet",sound:"T",speak:"טָ"},
+  {heb:"י",name:"Yod",sound:"Y/EE",speak:"יָ"},
+  {heb:"כּ",name:"Kaf",sound:"K",speak:"כָּ"},
+  {heb:"כ",name:"Khaf",sound:"KH",speak:"כָ"},
+  {heb:"ל",name:"Lamed",sound:"L",speak:"לָ"},
+  {heb:"מ",name:"Mem",sound:"M",speak:"מָ"},
+  {heb:"נ",name:"Nun",sound:"N",speak:"נָ"},
+  {heb:"ס",name:"Samech",sound:"S",speak:"סָ"},
+  {heb:"ע",name:"Ayin",sound:"silent",speak:"עָ"},
+  {heb:"פּ",name:"Peh",sound:"P",speak:"פָּ"},
+  {heb:"פ",name:"Feh",sound:"F",speak:"פָ"},
+  {heb:"צ",name:"Tsadi",sound:"TZ",speak:"צָ"},
+  {heb:"ק",name:"Kuf",sound:"K",speak:"קָ"},
+  {heb:"ר",name:"Resh",sound:"R",speak:"רָ"},
+  {heb:"שׁ",name:"Shin",sound:"SH",speak:"שָׁ"},
+  {heb:"שׂ",name:"Sin",sound:"S",speak:"שָׂ"},
+  {heb:"ת",name:"Tav",sound:"T",speak:"תָּ"},
 ];
 const vowels=[
   {heb:"בָ",name:"Kamatz",sound:"AH"},{heb:"בַ",name:"Patach",sound:"AH"},{heb:"בֵ",name:"Tzere",sound:"AY"},
@@ -774,7 +791,7 @@ function buildLetters(){
     const c=document.createElement('div');
     c.className='lc';
     c.innerHTML=`<span class="lch">${l.heb}</span><span class="lcn">${l.name}</span><span class="lcs">${l.sound}</span>`;
-    c.onclick=()=>{document.querySelectorAll('.lc').forEach(x=>x.classList.remove('sel'));c.classList.add('sel');speakHeb(l.heb,0.6);};
+    c.onclick=()=>{document.querySelectorAll('.lc').forEach(x=>x.classList.remove('sel'));c.classList.add('sel');speakHeb(l.speak||l.heb,0.6);};
     g.appendChild(c);
   });
   const vg=document.getElementById('vGrid');
@@ -807,14 +824,30 @@ function selectWord(i){
   const items=w.syllables.map(s=>({heb:s.heb,sound:s.sound,speak:s.speak||s.heb,syllables:[{heb:s.heb,sound:s.sound,speak:s.speak||s.heb}]}));
   const wrap=document.getElementById('wPlayerWrap');
   wrap.innerHTML=`
-    <div style="text-align:center;margin-bottom:4px;">
-      <span style="font-size:2.8em;font-weight:800;direction:rtl;color:#1a3a6b;">${w.hebrew}</span><br>
-      <span style="font-size:1em;color:#888;font-weight:700;">${w.english}</span>
+    <div style="text-align:center;margin-bottom:16px;">
+      <div style="font-size:5em;font-weight:800;direction:rtl;color:#1a3a6b;letter-spacing:4px;line-height:1.3;">${w.hebrew}</div>
+      <button onclick="revealWord()" class="cb bl" style="margin-top:14px;padding:10px 28px;font-size:1em;">👁 Reveal pronunciation & meaning</button>
     </div>
-    <div id="wpi"></div>
-    <div class="tip" style="margin-top:12px;">${w.tip}</div>`;
-  createPlayer(items,'wpi',null);
+    <div id="wReveal" style="display:none;">
+      <div style="text-align:center;margin-bottom:10px;">
+        <span style="font-size:1.1em;color:#888;font-weight:700;">${w.english}</span>
+      </div>
+      <div id="wpi"></div>
+      <div class="tip" style="margin-top:12px;">${w.tip}</div>
+    </div>`;
+  // Store items for reveal
+  wrap._pendingItems = items;
 }
+
+window.revealWord = function(){
+  const wrap = document.getElementById('wPlayerWrap');
+  const reveal = document.getElementById('wReveal');
+  if(reveal) reveal.style.display = 'block';
+  // Hide the reveal button
+  const btn = wrap.querySelector('button[onclick="revealWord()"]');
+  if(btn) btn.style.display = 'none';
+  if(wrap._pendingItems) createPlayer(wrap._pendingItems, 'wpi', null);
+};
 
 // ===================================================================
 // BUILD PRAYERS TAB
@@ -950,7 +983,6 @@ function renderQuizQ(){
   recordingIdx=cur;
   audioChunks=[];
 
-  setTimeout(()=>speakCurrent(),400);
   const inp=document.getElementById('qinput');
   if(inp)inp.focus();
 }
@@ -973,11 +1005,15 @@ async function startRecording(){
   try{
     const stream=await navigator.mediaDevices.getUserMedia({audio:true});
     audioChunks=[];
-    mediaRecorder=new MediaRecorder(stream);
+    // Pick the best supported format for this browser
+    const mimeType=['audio/webm;codecs=opus','audio/webm','audio/ogg;codecs=opus','audio/mp4','audio/ogg'].find(t=>MediaRecorder.isTypeSupported(t))||'';
+    mediaRecorder=new MediaRecorder(stream, mimeType?{mimeType}:{});
     mediaRecorder.ondataavailable=e=>{if(e.data.size>0)audioChunks.push(e.data);};
     mediaRecorder.onstop=()=>{
-      const blob=new Blob(audioChunks,{type:'audio/webm'});
+      const mime=mediaRecorder.mimeType||'audio/webm';
+      const blob=new Blob(audioChunks,{type:mime});
       const url=URL.createObjectURL(blob);
+      console.log('Recorded format:', mime, 'Blob size:', blob.size);
       // Save to QS for this word
       const idx=QS.cur;
       if(!QS.answers[idx])QS.answers[idx]={};
