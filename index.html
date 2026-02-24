@@ -41,6 +41,16 @@ footer{text-align:center;padding:16px;color:rgba(255,255,255,0.6);font-size:.88e
 .vc:hover .vcs{background:rgba(255,255,255,0.2);color:white;}
 .tip{background:linear-gradient(135deg,#fffbe6,#fff8cc);border:2px solid var(--gold);border-radius:14px;padding:12px 16px;margin-top:14px;font-size:.92em;color:#7a5700;font-weight:600;}
 .subsec{margin-top:26px;padding-top:22px;border-top:2px dashed #c5d8ff;}
+.trope-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;margin-bottom:14px;}
+.tc{background:var(--sky);border:2px solid #c5d8ff;border-radius:14px;padding:12px 8px;text-align:center;cursor:pointer;transition:all .2s;}
+.tc:hover,.tc.sel{background:var(--blue);border-color:var(--blue);transform:translateY(-3px);box-shadow:var(--sh);}
+.tc:hover .tch,.tc.sel .tch{color:var(--gold);}
+.tc:hover .tcn,.tc:hover .tct,.tc.sel .tcn,.tc.sel .tct{color:white;}
+.tch{font-size:1.9em;font-weight:800;color:var(--blue);display:block;direction:rtl;line-height:1.4;}
+.tcn{font-size:.72em;font-weight:800;color:var(--blue);display:block;margin-top:3px;}
+.tct{font-size:.65em;color:var(--lb);display:block;font-weight:600;}
+.tdot{width:14px;height:14px;border-radius:50%;display:inline-block;transition:transform .15s,opacity .15s;opacity:.25;}
+.tdot.active{transform:scale(1.5);opacity:1;}
 /* PRAYER FILTERS */
 .pfilters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
 .fpill{background:var(--sky);border:2px solid #c5d8ff;border-radius:30px;padding:6px 15px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.84em;color:var(--blue);cursor:pointer;transition:all .2s;}
@@ -67,7 +77,7 @@ footer{text-align:center;padding:16px;color:rgba(255,255,255,0.6);font-size:.88e
 .hsp.dim{opacity:.16;}
 .hsp.done{opacity:.38;}
 .engline{font-size:.88em;color:#666;font-weight:600;margin-top:10px;font-style:italic;max-width:600px;text-align:center;}
-.pron-strip{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin-bottom:12px;direction:rtl;}
+.pron-strip{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin-bottom:12px;direction:ltr;}
 .pchip{background:white;border:2px solid #c5d8ff;border-radius:10px;padding:4px 10px;font-size:.8em;font-weight:800;color:#aaa;cursor:pointer;transition:all .18s;}
 .pchip.sa{color:white;transform:translateY(-4px) scale(1.12);box-shadow:0 5px 14px rgba(0,0,0,0.22);}
 .pchip.wa{transform:translateY(-2px) scale(1.06);box-shadow:0 3px 10px rgba(0,0,0,0.14);}
@@ -145,14 +155,32 @@ footer{text-align:center;padding:16px;color:rgba(255,255,255,0.6);font-size:.88e
       <div class="vg" id="vGrid"></div>
       <div class="tip">💡 The vowel sound comes AFTER the consonant. So בָּ (Bet + Kamatz) = "BAH"!</div>
     </div>
+    <div class="subsec">
+      <div class="sec-title">🎵 Trope (Cantillation)</div>
+      <p style="margin-bottom:6px;color:#555;font-weight:600;">These are the musical symbols used when chanting Torah and Haftarah. Click any trope to hear its melody!</p>
+      <p style="margin-bottom:14px;font-size:.84em;color:#888;font-weight:600;">Each mark tells the reader which melody to sing on that word. The tones are approximated using the Web Audio API.</p>
+      <div class="trope-grid" id="tropeGrid"></div>
+      <div class="tip">💡 Trope marks appear above or below Hebrew letters — they tell you both the melody AND where to put emphasis in the phrase!</div>
+      <div id="tropePlayer" style="display:none;margin-top:16px;background:linear-gradient(135deg,#f0f6ff,#e8f0ff);border:2px solid #c5d8ff;border-radius:16px;padding:16px;text-align:center;">
+        <div style="font-family:'Fredoka One',cursive;font-size:1.1em;color:var(--blue);margin-bottom:4px;" id="tropeName"></div>
+        <div style="font-size:3em;margin:6px 0;" id="tropeSymbol"></div>
+        <div style="font-size:.88em;color:#666;font-weight:600;margin-bottom:10px;" id="tropeDesc"></div>
+        <div id="tropeDots" style="display:flex;justify-content:center;gap:6px;margin-bottom:12px;min-height:28px;align-items:center;"></div>
+        <button class="cb bl" id="tropePlayBtn" onclick="playTrope()" style="padding:9px 28px;">▶ Play melody</button>
+        <button class="cb go" onclick="playTropeLoop()" style="padding:9px 20px;" id="tropeLoopBtn">🔁 Loop</button>
+        <button class="cb rd" onclick="stopTrope()" style="padding:9px 20px;">⏹ Stop</button>
+      </div>
+    </div>
   </div>
   <div id="tab-words" class="card hidden">
     <div class="sec-title">📖 Word Practice</div>
-    <p style="margin-bottom:14px;color:#555;font-weight:600;">Pick a Hebrew word — try to read it first, then reveal the pronunciation!</p>
-    <div id="wPlayerWrap"></div>
-    <div style="margin-top:18px;padding-top:18px;border-top:2px dashed #c5d8ff;">
-      <div style="font-size:.82em;font-weight:700;color:#aaa;margin-bottom:10px;text-transform:uppercase;letter-spacing:1px;">Choose a word:</div>
+    <p style="margin-bottom:10px;color:#555;font-weight:600;">Pick a word — try to read it first, then reveal!</p>
+    <div style="margin-bottom:14px;">
+      <div style="font-size:.75em;font-weight:700;color:#aaa;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;">Choose a word:</div>
       <div class="wgrid" id="wGrid"></div>
+    </div>
+    <div style="border-top:2px dashed #c5d8ff;padding-top:16px;">
+      <div id="wPlayerWrap"></div>
     </div>
     <div class="ttsnote" id="ttsNote"></div>
   </div>
@@ -615,8 +643,8 @@ function createPlayer(items,cid,translation){
       </div>
       <div class="pron-strip" id="${cid}_pron"></div>
       <div class="mtoggle">
-        <button class="mtbtn active" id="${cid}_ms" onclick="setMode('${cid}','syl')">&#128300; By Syllable</button>
-        <button class="mtbtn" id="${cid}_mw" onclick="setMode('${cid}','word')">&#128214; By Word</button>
+        <button class="mtbtn" id="${cid}_ms" onclick="setMode('${cid}','syl')">&#128300; By Syllable</button>
+        <button class="mtbtn active" id="${cid}_mw" onclick="setMode('${cid}','word')">&#128214; By Word</button>
       </div>
       <div class="pcontrols">
         <button class="cb te" onclick="pStep('${cid}',-1)">&#9198; Back</button>
@@ -627,7 +655,7 @@ function createPlayer(items,cid,translation){
       <div class="pctr" id="${cid}_ctr"></div>
     </div>`;
 
-  container._p={items,flat,colors,cur:0,playing:false,mode:'syl',timer:null,cid};
+  container._p={items,flat,colors,cur:0,playing:false,mode:'word',timer:null,cid};
   buildStage(cid);
 
   // Pron chips — one per syllable
@@ -684,18 +712,42 @@ function renderP(cid){
     });
   }
 
-  // Pron chips always show syllable state
-  flat.forEach((s,i)=>{
-    const el=document.getElementById(cid+'_s'+i);if(!el)return;
-    el.classList.remove('sa','wa','done');
-    if(mode==='syl'){
-      if(i<cur)el.classList.add('done');
-      else if(i===cur)el.classList.add('sa');
-    }else{
-      if(s.wordIdx<curW)el.classList.add('done');
-      else if(s.wordIdx===curW)el.classList.add('wa');
+  // Pron strip: only rebuild HTML when mode changes, otherwise just update classes
+  const pronDiv=document.getElementById(cid+'_pron');
+  if(pronDiv){
+    const currentPronMode=pronDiv.dataset.mode;
+    if(currentPronMode!==mode){
+      // Rebuild chips for this mode
+      pronDiv.dataset.mode=mode;
+      if(mode==='syl'){
+        pronDiv.innerHTML=flat.map((s,i)=>{
+          const c=colors[s.wordIdx];
+          return `<span class="pchip" id="${cid}_s${i}" style="border-color:${c};color:${c};direction:ltr;" onclick="pClickSyl('${cid}',${i})">${s.sound}</span>`;
+        }).join('');
+      }else{
+        pronDiv.innerHTML=items.map((item,wi)=>{
+          const c=colors[wi];
+          return `<span class="pchip" id="${cid}_wc${wi}" style="border-color:${c};color:${c};font-size:.95em;padding:5px 14px;direction:ltr;" onclick="pClickWordW('${cid}',${wi})">${item.sound}</span>`;
+        }).join('');
+      }
     }
-  });
+    // Now just update classes without rebuilding
+    if(mode==='syl'){
+      flat.forEach((s,i)=>{
+        const el=document.getElementById(cid+'_s'+i);if(!el)return;
+        el.classList.remove('sa','wa','done');
+        if(i<cur)el.classList.add('done');
+        else if(i===cur)el.classList.add('sa');
+      });
+    }else{
+      items.forEach((_,wi)=>{
+        const el=document.getElementById(cid+'_wc'+wi);if(!el)return;
+        el.classList.remove('wa','done');
+        if(wi<curW)el.classList.add('done');
+        else if(wi===curW)el.classList.add('wa');
+      });
+    }
+  }
 
   const ms=document.getElementById(cid+'_ms'),mw=document.getElementById(cid+'_mw');
   if(ms)ms.classList.toggle('active',mode==='syl');
@@ -707,10 +759,26 @@ function ctr(cid){
   const{flat,cur,mode,items}=p;
   if(cur>=flat.length){el.textContent='✅ Complete!';return;}
   const fs=flat[cur];
-  if(mode==='syl')el.textContent=`Syllable ${cur+1} / ${flat.length}  ·  "${fs.sound}"`;
-  else el.textContent=`Word ${fs.wordIdx+1} / ${items.length}  ·  "${items[fs.wordIdx].sound}"`;
+  if(mode==='syl'){
+    el.textContent=`Syllable ${cur+1} / ${flat.length}  ·  "${fs.sound}"`;
+    el.style.fontSize='.86em';
+  }else{
+    const wi=fs.wordIdx;
+    el.innerHTML=`Word ${wi+1} / ${items.length} &nbsp;·&nbsp; <span style="direction:rtl;font-size:1.1em;">${items[wi].heb}</span> &nbsp;=&nbsp; "${items[wi].sound}"`;
+    el.style.fontSize='.9em';
+  }
 }
-window.setMode=function(cid,mode){const p=getP(cid);if(!p)return;stopP(cid);p.mode=mode;buildStage(cid);renderP(cid);ctr(cid);};
+window.setMode=function(cid,mode){
+  const p=getP(cid);if(!p)return;
+  stopP(cid);
+  p.mode=mode;
+  // Force pron strip rebuild on next renderP
+  const pd=document.getElementById(cid+'_pron');
+  if(pd)pd.dataset.mode='';
+  buildStage(cid);
+  renderP(cid);
+  ctr(cid);
+};
 window.pClickWordW=function(cid,wi){
   const p=getP(cid);if(!p)return;stopP(cid);
   const idx=p.flat.findIndex(s=>s.wordIdx===wi);
@@ -759,30 +827,235 @@ async function startP(cid){
   const btn=document.getElementById(cid+'_pp');
   if(btn){btn.textContent='⏸ Pause';btn.classList.remove('bl');btn.classList.add('rd');}
   if(p.cur>=p.flat.length)p.cur=0;
-  while(p.playing&&p.cur<p.flat.length){
-    const fs=p.flat[p.cur];
-    renderP(cid);ctr(cid);
-    const t=fs.speak==='יְהוָה'?'אֲדֹנָי':fs.speak;
-    const u=new SpeechSynthesisUtterance(t);
-    u.lang='he-IL';u.rate=0.75;if(hebrewVoice)u.voice=hebrewVoice;
-    speechSynthesis.cancel();
-    await new Promise(r=>setTimeout(r,80));
-    if(!p.playing)break;
-    speechSynthesis.resume();
-    try{await speakUtt(u);}catch(e){break;}
-    if(!p.playing)break;
-    await new Promise(r=>setTimeout(r,p.mode==='syl'?200:350));
-    if(!p.playing)break;
-    if(p.mode==='syl'){p.cur++;}
-    else{
-      const nwi=fs.wordIdx+1;
-      if(nwi>=p.items.length){p.cur=p.flat.length;break;}
-      const idx=p.flat.findIndex(s=>s.wordIdx===nwi);
-      p.cur=idx>=0?idx:p.flat.length;
+
+  // Cancel any previous speech once before starting
+  speechSynthesis.cancel();
+  await new Promise(r=>setTimeout(r,120));
+
+  while(p.playing){
+    if(p.mode==='word'){
+      const wi=p.flat[p.cur]?.wordIdx;
+      if(wi===undefined||wi>=p.items.length)break;
+      // Snap to first syllable of this word
+      const firstSyl=p.flat.findIndex(s=>s.wordIdx===wi);
+      if(firstSyl>=0)p.cur=firstSyl;
+      renderP(cid);ctr(cid);
+      // Speak the whole word
+      const item=p.items[wi];
+      const txt=(item.speak||item.heb)==='יְהוָה'?'אֲדֹנָי':(item.speak||item.heb);
+      const u=new SpeechSynthesisUtterance(txt);
+      u.lang='he-IL';u.rate=0.78;if(hebrewVoice)u.voice=hebrewVoice;
+      speechSynthesis.resume();
+      try{await speakUtt(u);}catch(e){break;}
+      if(!p.playing)break;
+      await new Promise(r=>setTimeout(r,480));
+      if(!p.playing)break;
+      // Advance cursor to next word
+      const nextWi=wi+1;
+      if(nextWi>=p.items.length){p.cur=p.flat.length;break;}
+      const nextIdx=p.flat.findIndex(s=>s.wordIdx===nextWi);
+      p.cur=nextIdx>=0?nextIdx:p.flat.length;
+    }else{
+      // Syllable mode
+      if(p.cur>=p.flat.length)break;
+      const fs=p.flat[p.cur];
+      renderP(cid);ctr(cid);
+      const t=fs.speak==='יְהוָה'?'אֲדֹנָי':fs.speak;
+      const u=new SpeechSynthesisUtterance(t);
+      u.lang='he-IL';u.rate=0.75;if(hebrewVoice)u.voice=hebrewVoice;
+      speechSynthesis.resume();
+      try{await speakUtt(u);}catch(e){break;}
+      if(!p.playing)break;
+      await new Promise(r=>setTimeout(r,220));
+      if(!p.playing)break;
+      p.cur++;
     }
   }
+
   if(p.playing){renderP(cid);ctr(cid);}
   stopP(cid);
+}
+
+// ===================================================================
+// TROPE (CANTILLATION) ENGINE
+// Notes: frequencies in Hz, Ashkenazi Haftarah mode (roughly D minor)
+// ===================================================================
+const NOTE={
+  A3:220, B3:247, C4:262, D4:294, E4:330, F4:349, G4:392,
+  A4:440, Bb4:466, B4:494, C5:523, D5:587, E5:659, F5:698, G5:784
+};
+
+// Each trope: {name, hebrew (with mark on bet), category, desc, notes:[{f,dur}]}
+// dur in seconds, f in Hz. Ashkenazi Haftarah pentatonic-ish on D
+const tropes=[
+  {name:"Sof Pasuk",heb:"בֽ",cat:"Pause",desc:"End of every verse — full stop.",
+   notes:[{f:N('D4'),d:.18},{f:N('E4'),d:.14},{f:N('D4'),d:.14},{f:N('A3'),d:.44}]},
+  {name:"Etnachta",heb:"בֽ֑",cat:"Pause",desc:"Major phrase break — half stop",
+   notes:[{f:N('A4'),d:.15},{f:N('G4'),d:.15},{f:N('E4'),d:.15},{f:N('D4'),d:.15},{f:N('A3'),d:.3}]},
+  {name:"Zakef Katan",heb:"בֽ֔",cat:"Pause",desc:"Minor pause, common divider",
+   notes:[{f:N('E4'),d:.15},{f:N('F4'),d:.15},{f:N('E4'),d:.25}]},
+  {name:"Zakef Gadol",heb:"בֽ֕",cat:"Pause",desc:"Stronger pause than Zakef Katan",
+   notes:[{f:N('E4'),d:.12},{f:N('F4'),d:.12},{f:N('G4'),d:.12},{f:N('E4'),d:.28}]},
+  {name:"Tipcha",heb:"בֽ֖",cat:"Pause",desc:"Pre-pause servant, very common",
+   notes:[{f:N('D4'),d:.18},{f:N('E4'),d:.22}]},
+  {name:"Munach",heb:"בֽ֣",cat:"Servant",desc:"Connecting/serving note",
+   notes:[{f:N('D4'),d:.18},{f:N('C4'),d:.28}]},
+  {name:"Mahpach",heb:"בֽ֤",cat:"Servant",desc:"Quick upward servant",
+   notes:[{f:N('C4'),d:.12},{f:N('D4'),d:.12},{f:N('E4'),d:.2}]},
+  {name:"Pashta",heb:"בֽ֙",cat:"Servant",desc:"Ascending servant trope",
+   notes:[{f:N('D4'),d:.12},{f:N('E4'),d:.12},{f:N('F4'),d:.22}]},
+  {name:"Yetiv",heb:"בֽ֚",cat:"Servant",desc:"Pre-etnachta servant",
+   notes:[{f:N('B3'),d:.12},{f:N('C4'),d:.12},{f:N('D4'),d:.25}]},
+  {name:"Tevir",heb:"בֽ֛",cat:"Servant",desc:"Servant before Etnachta",
+   notes:[{f:N('E4'),d:.14},{f:N('D4'),d:.14},{f:N('C4'),d:.14},{f:N('D4'),d:.25}]},
+  {name:"Geresh",heb:"בֽ֜",cat:"Ruler",desc:"Rising ornamental ruler",
+   notes:[{f:N('D4'),d:.1},{f:N('E4'),d:.1},{f:N('F4'),d:.1},{f:N('G4'),d:.1},{f:N('E4'),d:.22}]},
+  {name:"Gershayim",heb:"בֽ֞",cat:"Ruler",desc:"Double geresh — emphatic rise",
+   notes:[{f:N('D4'),d:.09},{f:N('F4'),d:.09},{f:N('D4'),d:.09},{f:N('F4'),d:.09},{f:N('G4'),d:.09},{f:N('E4'),d:.22}]},
+  {name:"Mercha",heb:"בֽ֥",cat:"Servant",desc:"Smooth flowing connector",
+   notes:[{f:N('C4'),d:.14},{f:N('D4'),d:.28}]},
+  {name:"Darga",heb:"בֽ֧",cat:"Servant",desc:"Trilling servant",
+   notes:[{f:N('D4'),d:.1},{f:N('E4'),d:.1},{f:N('D4'),d:.1},{f:N('E4'),d:.24}]},
+  {name:"Kadma",heb:"בֽ֨",cat:"Servant",desc:"Forward-moving servant",
+   notes:[{f:N('E4'),d:.14},{f:N('F4'),d:.14},{f:N('D4'),d:.22}]},
+  {name:"Telisha Ketana",heb:"בֽ֩",cat:"Ruler",desc:"Small telisha ruler",
+   notes:[{f:N('G4'),d:.12},{f:N('F4'),d:.12},{f:N('E4'),d:.12},{f:N('D4'),d:.25}]},
+  {name:"Pazer",heb:"בֽ֡",cat:"Ruler",desc:"Strong emphatic ruler",
+   notes:[{f:N('D4'),d:.1},{f:N('E4'),d:.1},{f:N('G4'),d:.1},{f:N('A4'),d:.1},{f:N('G4'),d:.1},{f:N('E4'),d:.25}]},
+  {name:"Revia",heb:"בֽ֗",cat:"Ruler",desc:"Common mid-phrase ruler",
+   notes:[{f:N('E4'),d:.14},{f:N('D4'),d:.14},{f:N('E4'),d:.25}]},
+];
+function N(k){return NOTE[k]||440;}
+
+let tropeAudioCtx=null;
+let tropeSources=[];
+let tropeLooping=false;
+let currentTropeIdx=null;
+
+function getTropeCtx(){
+  if(!tropeAudioCtx)tropeAudioCtx=new(window.AudioContext||window.webkitAudioContext)();
+  return tropeAudioCtx;
+}
+
+function playTropeNotes(notes, onEnd){
+  stopTrope();
+  const ctx=getTropeCtx();
+  if(ctx.state==='suspended')ctx.resume();
+  let t=ctx.currentTime+0.05;
+  const dots=document.getElementById('tropeDots');
+
+  notes.forEach((note,i)=>{
+    const osc=ctx.createOscillator();
+    const gain=ctx.createGain();
+    osc.connect(gain);gain.connect(ctx.destination);
+    osc.type='triangle'; // warmer than sine, more voice-like
+    osc.frequency.setValueAtTime(note.f,t);
+    // Slight vibrato for musical feel
+    const lfo=ctx.createOscillator();
+    const lfoGain=ctx.createGain();
+    lfo.connect(lfoGain);lfoGain.connect(osc.frequency);
+    lfo.frequency.value=5.5;lfoGain.gain.value=4;
+    lfo.start(t);lfo.stop(t+note.d);
+    // Envelope
+    gain.gain.setValueAtTime(0,t);
+    gain.gain.linearRampToValueAtTime(0.28,t+0.03);
+    gain.gain.setValueAtTime(0.28,t+note.d-0.05);
+    gain.gain.linearRampToValueAtTime(0,t+note.d);
+    osc.start(t);osc.stop(t+note.d);
+    tropeSources.push(osc);
+    // Animate dot
+    const delay=(t-ctx.currentTime)*1000;
+    setTimeout(()=>{
+      if(dots){
+        dots.querySelectorAll('.tdot').forEach((d,j)=>d.classList.toggle('active',j===i));
+      }
+    },delay);
+    t+=note.d+0.04;
+  });
+
+  // Call onEnd after all notes
+  const totalDur=(t-ctx.currentTime)*1000;
+  setTimeout(()=>{
+    if(dots)dots.querySelectorAll('.tdot').forEach(d=>d.classList.remove('active'));
+    if(onEnd)onEnd();
+  },totalDur+80);
+}
+
+window.playTrope=function(){
+  if(currentTropeIdx===null)return;
+  tropeLooping=false;
+  const btn=document.getElementById('tropeLoopBtn');
+  if(btn){btn.textContent='🔁 Loop';btn.classList.remove('rd');btn.classList.add('go');}
+  playTropeNotes(tropes[currentTropeIdx].notes, null);
+};
+
+window.playTropeLoop=function(){
+  if(currentTropeIdx===null)return;
+  tropeLooping=true;
+  const btn=document.getElementById('tropeLoopBtn');
+  if(btn){btn.textContent='⏹ Stop loop';btn.classList.remove('go');btn.classList.add('rd');}
+  btn.onclick=()=>stopTrope();
+  function loop(){
+    if(!tropeLooping)return;
+    playTropeNotes(tropes[currentTropeIdx].notes, ()=>{
+      if(tropeLooping)setTimeout(loop,400);
+    });
+  }
+  loop();
+};
+
+window.stopTrope=function(){
+  tropeLooping=false;
+  tropeSources.forEach(s=>{try{s.stop();}catch(e){}});
+  tropeSources=[];
+  const btn=document.getElementById('tropeLoopBtn');
+  if(btn){btn.textContent='🔁 Loop';btn.classList.remove('rd');btn.classList.add('go');btn.onclick=()=>playTropeLoop();}
+  const dots=document.getElementById('tropeDots');
+  if(dots)dots.querySelectorAll('.tdot').forEach(d=>d.classList.remove('active'));
+};
+
+function selectTrope(i){
+  currentTropeIdx=i;
+  const t=tropes[i];
+  // Highlight card
+  document.querySelectorAll('.tc').forEach((c,j)=>c.classList.toggle('sel',j===i));
+  // Show player
+  const player=document.getElementById('tropePlayer');
+  if(player)player.style.display='block';
+  const nm=document.getElementById('tropeName');
+  if(nm)nm.textContent=t.name+' — '+t.cat;
+  const sym=document.getElementById('tropeSymbol');
+  if(sym)sym.textContent=t.heb;
+  const desc=document.getElementById('tropeDesc');
+  if(desc)desc.textContent=t.desc;
+  // Build dot visualizer
+  const dots=document.getElementById('tropeDots');
+  if(dots){
+    const colors=['#e74c3c','#e67e22','#f0c040','#27ae60','#3498db','#8e44ad','#e91e8c'];
+    dots.innerHTML=t.notes.map((n,i)=>{
+      const c=colors[i%colors.length];
+      // Height represents pitch roughly
+      const minF=180,maxF=800;
+      const pct=(n.f-minF)/(maxF-minF);
+      const size=10+Math.round(pct*12);
+      return `<span class="tdot" style="background:${c};width:${size}px;height:${size}px;" title="${Math.round(n.f)}Hz"></span>`;
+    }).join('');
+  }
+  // Auto-play
+  playTropeNotes(t.notes, null);
+}
+
+function buildTrope(){
+  const g=document.getElementById('tropeGrid');if(!g)return;
+  const catColors={Pause:'#e74c3c',Servant:'#3498db',Ruler:'#8e44ad'};
+  tropes.forEach((t,i)=>{
+    const c=document.createElement('div');
+    c.className='tc';
+    const cc=catColors[t.cat]||'#888';
+    c.innerHTML=`<span class="tch">${t.heb}</span><span class="tcn">${t.name}</span><span class="tct" style="color:${cc}">${t.cat}</span>`;
+    c.onclick=()=>selectTrope(i);
+    g.appendChild(c);
+  });
 }
 
 // ===================================================================
@@ -828,33 +1101,96 @@ function buildWords(){
 function selectWord(i){
   document.querySelectorAll('.wbtn').forEach((b,j)=>b.classList.toggle('active',j===i));
   const w=words[i];
-  const items=w.syllables.map(s=>({heb:s.heb,sound:s.sound,speak:s.speak||s.heb,syllables:[{heb:s.heb,sound:s.sound,speak:s.speak||s.heb}]}));
+  const items=w.syllables.map(s=>({
+    heb:s.heb,sound:s.sound,speak:s.speak||s.heb,
+    syllables:[{heb:s.heb,sound:s.sound,speak:s.speak||s.heb}]
+  }));
+
   const wrap=document.getElementById('wPlayerWrap');
+  wrap._pendingItems=items;
+  wrap._word=w;
+
+  // Fixed-height practice area — never jumps
   wrap.innerHTML=`
+    <!-- Hebrew always centered and never moves -->
     <div style="text-align:center;margin-bottom:16px;">
-      <div style="font-size:5em;font-weight:800;direction:rtl;color:#1a3a6b;letter-spacing:4px;line-height:1.3;">${w.hebrew}</div>
-      <button onclick="revealWord()" class="cb bl" style="margin-top:14px;padding:10px 28px;font-size:1em;">👁 Reveal pronunciation & meaning</button>
+      <div style="font-size:4.8em;font-weight:800;direction:rtl;color:var(--blue);letter-spacing:4px;line-height:1.2;">${w.hebrew}</div>
     </div>
-    <div id="wReveal" style="display:none;">
-      <div style="text-align:center;margin-bottom:10px;">
-        <span style="font-size:1.1em;color:#888;font-weight:700;">${w.english}</span>
+
+    <!-- Reveal button centered below Hebrew -->
+    <div style="text-align:center;margin-bottom:4px;">
+      <button onclick="revealWord()" id="wRevealBtn" class="cb bl" style="padding:9px 22px;font-size:.92em;">👁 Reveal</button>
+    </div>
+
+    <!-- Revealed content appears below, in same alignment -->
+    <div id="wReveal" style="display:none;margin-top:14px;padding-top:14px;border-top:2px dashed #c5d8ff;">
+
+      <div style="display:flex;align-items:baseline;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:6px;">
+        <span style="font-size:1.6em;font-weight:800;color:var(--lb);letter-spacing:2px;">${w.pronounce}</span>
+        <span style="font-size:.95em;color:#aaa;font-weight:700;font-style:italic;">${w.english}</span>
       </div>
-      <div id="wpi"></div>
-      <div class="tip" style="margin-top:12px;">${w.tip}</div>
+
+      <!-- Syllable chips centered -->
+      <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:12px 0;" id="wSylRow">
+        ${w.syllables.map((s,si)=>`
+          <span onclick="wPlaySyl(${si})" style="background:${SYL_COLORS[si%SYL_COLORS.length]}22;border:2px solid ${SYL_COLORS[si%SYL_COLORS.length]};color:${SYL_COLORS[si%SYL_COLORS.length]};border-radius:10px;padding:6px 14px;font-size:1.05em;font-weight:800;cursor:pointer;direction:rtl;transition:all .15s;" id="wsc_${si}">${s.heb} <span style="font-size:.75em;opacity:.8;">${s.sound}</span></span>
+        `).join('')}
+      </div>
+
+      <!-- Play buttons centered -->
+      <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:10px;">
+        <button class="cb te" onclick="wPlayWord()" style="padding:8px 18px;font-size:.88em;">🔊 Hear word</button>
+        <button class="cb pu" onclick="wPlaySyllables()" style="padding:8px 18px;font-size:.88em;">🔬 Step syllables</button>
+      </div>
+      <div class="tip" style="font-size:.82em;">${w.tip}</div>
     </div>`;
-  // Store items for reveal
-  wrap._pendingItems = items;
 }
 
-window.revealWord = function(){
-  const wrap = document.getElementById('wPlayerWrap');
-  const reveal = document.getElementById('wReveal');
-  if(reveal) reveal.style.display = 'block';
-  // Hide the reveal button
-  const btn = wrap.querySelector('button[onclick="revealWord()"]');
-  if(btn) btn.style.display = 'none';
-  if(wrap._pendingItems) createPlayer(wrap._pendingItems, 'wpi', null);
+// Play the whole word via TTS
+window.wPlayWord=function(){
+  const w=document.getElementById('wPlayerWrap')?._word;
+  if(w)speakHeb(w.hebrew);
 };
+
+// Animate through syllables one by one with TTS
+window.wPlaySyllables=async function(){
+  const wrap=document.getElementById('wPlayerWrap');
+  if(!wrap||!wrap._word)return;
+  const syls=wrap._word.syllables;
+  for(let i=0;i<syls.length;i++){
+    // Highlight current chip
+    syls.forEach((_,j)=>{
+      const el=document.getElementById('wsc_'+j);
+      if(el)el.style.transform=j===i?'scale(1.18) translateY(-3px)':'scale(1)';
+    });
+    speakHeb(syls[i].speak||syls[i].heb,0.7);
+    await new Promise(r=>setTimeout(r,700));
+  }
+  // Reset
+  syls.forEach((_,j)=>{const el=document.getElementById('wsc_'+j);if(el)el.style.transform='scale(1)';});
+};
+
+// Play a single syllable on click
+window.wPlaySyl=function(i){
+  const wrap=document.getElementById('wPlayerWrap');
+  if(!wrap||!wrap._word)return;
+  const s=wrap._word.syllables[i];
+  speakHeb(s.speak||s.heb,0.65);
+  // Quick pulse
+  const el=document.getElementById('wsc_'+i);
+  if(el){
+    el.style.transform='scale(1.2) translateY(-3px)';
+    setTimeout(()=>el.style.transform='scale(1)',400);
+  }
+};
+
+window.revealWord=function(){
+  const reveal=document.getElementById('wReveal');
+  const btn=document.getElementById('wRevealBtn');
+  if(reveal)reveal.style.display='block';
+  if(btn)btn.style.display='none';
+};
+
 
 // ===================================================================
 // BUILD PRAYERS TAB
@@ -1012,6 +1348,11 @@ function toggleRecord(){
 async function startRecording(){
   try{
     const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+
+    // Brief warm-up delay — lets the mic settle before we start capturing
+    // This fixes the "cut off at the start" sync problem
+    await new Promise(r=>setTimeout(r,300));
+
     audioChunks=[];
     const mimeType=['audio/webm;codecs=opus','audio/webm','audio/ogg;codecs=opus','audio/mp4','audio/ogg'].find(t=>MediaRecorder.isTypeSupported(t))||'';
     mediaRecorder=new MediaRecorder(stream, mimeType?{mimeType}:{});
@@ -1022,12 +1363,10 @@ async function startRecording(){
       console.log('Recorded format:', mime, 'Blob size:', blob.size);
       const idx=QS.cur;
       if(!QS.answers[idx])QS.answers[idx]={};
-      // Revoke old URL if re-recording
       if(QS.answers[idx].audioUrl)URL.revokeObjectURL(QS.answers[idx].audioUrl);
       const url=URL.createObjectURL(blob);
       QS.answers[idx].audioUrl=url;
       QS.answers[idx].audioBlob=blob;
-      // Use a fresh audio element to avoid stale state
       const pb=document.getElementById('recPlayback');
       if(pb){
         pb.pause();
@@ -1044,25 +1383,36 @@ async function startRecording(){
       stream.getTracks().forEach(t=>t.stop());
       stopRecordingPulse();
     };
-    mediaRecorder.start(100);
 
-    // Auto-stop after 3 seconds
-    let countdown=3;
+    // Start capturing — small timeslice for reliable chunking
+    mediaRecorder.start(200);
+
+    // 5-second countdown with clear visual tick
+    const DURATION=5;
+    let countdown=DURATION;
+    const btn=document.getElementById('recBtn');
+    if(btn){btn.textContent='⏹ Stop (5s)';btn.disabled=false;btn.classList.remove('pu');btn.classList.add('rd');}
     const st=document.getElementById('recStatus');
-    if(st){st.textContent='🔴 Recording... 3s';st.style.color='var(--red)';}
+    if(st){st.textContent='🔴 Recording... 5s';st.style.color='var(--red)';}
+    startRecordingPulse();
+
     const ticker=setInterval(()=>{
       countdown--;
+      const b=document.getElementById('recBtn');
       const s=document.getElementById('recStatus');
-      if(s&&countdown>0)s.textContent='🔴 Recording... '+countdown+'s';
-      if(countdown<=0){
+      if(countdown>0){
+        if(b)b.textContent='⏹ Stop ('+countdown+'s)';
+        if(s)s.textContent='🔴 Recording... '+countdown+'s';
+      }else{
         clearInterval(ticker);
-        if(mediaRecorder&&mediaRecorder.state==='recording')mediaRecorder.stop();
+        if(mediaRecorder&&mediaRecorder.state==='recording'){
+          if(b){b.textContent='⏹ Stop';b.disabled=true;}
+          if(s){s.textContent='⏳ Saving...';s.style.color='#888';}
+          mediaRecorder.stop();
+        }
       }
     },1000);
 
-    const btn=document.getElementById('recBtn');
-    if(btn){btn.textContent='⏹ Stop';btn.disabled=false;btn.classList.remove('pu');btn.classList.add('rd');}
-    startRecordingPulse();
   }catch(err){
     const st=document.getElementById('recStatus');
     if(st){st.textContent='⚠️ Mic not available: '+err.name;st.style.color='#e67e22';}
@@ -1217,6 +1567,7 @@ function showTab(tab,btn){
 // INIT
 // ===================================================================
 buildLetters();
+buildTrope();
 buildWords();
 buildPrayers();
 buildQuiz();
