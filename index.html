@@ -148,9 +148,12 @@ footer{text-align:center;padding:16px;color:rgba(255,255,255,0.6);font-size:.88e
   </div>
   <div id="tab-words" class="card hidden">
     <div class="sec-title">📖 Word Practice</div>
-    <p style="margin-bottom:14px;color:#555;font-weight:600;">Pick a word — step syllable by syllable, word by word, or play it through!</p>
-    <div class="wgrid" id="wGrid"></div>
+    <p style="margin-bottom:14px;color:#555;font-weight:600;">Pick a Hebrew word — try to read it first, then reveal the pronunciation!</p>
     <div id="wPlayerWrap"></div>
+    <div style="margin-top:18px;padding-top:18px;border-top:2px dashed #c5d8ff;">
+      <div style="font-size:.82em;font-weight:700;color:#aaa;margin-bottom:10px;text-transform:uppercase;letter-spacing:1px;">Choose a word:</div>
+      <div class="wgrid" id="wGrid"></div>
+    </div>
     <div class="ttsnote" id="ttsNote"></div>
   </div>
   <div id="tab-prayers" class="card hidden">
@@ -812,7 +815,11 @@ function buildWords(){
   words.forEach((w,i)=>{
     const btn=document.createElement('button');
     btn.className='wbtn'+(i===0?' active':'');
-    btn.textContent=w.pronounce;
+    btn.style.direction='rtl';
+    btn.style.fontSize='1.3em';
+    btn.style.fontWeight='800';
+    btn.style.padding='7px 16px';
+    btn.textContent=w.hebrew;
     btn.onclick=()=>selectWord(i);
     g.appendChild(btn);
   });
@@ -943,9 +950,7 @@ function renderQuizQ(){
         <div style="font-size:.95em;color:#aaa;font-weight:700;margin-top:2px;">${w.english}</div>
       </div>
 
-      <div style="text-align:center;margin-bottom:16px;">
-        <button class="cb te" onclick="speakCurrent()" style="padding:9px 22px;">🔊 Hear it</button>
-      </div>
+
 
       <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;align-items:stretch;margin-bottom:16px;">
 
@@ -1014,26 +1019,49 @@ async function startRecording(){
     mediaRecorder.onstop=()=>{
       const mime=mediaRecorder.mimeType||mimeType||'audio/webm';
       const blob=new Blob(audioChunks,{type:mime});
-      const url=URL.createObjectURL(blob);
       console.log('Recorded format:', mime, 'Blob size:', blob.size);
       const idx=QS.cur;
       if(!QS.answers[idx])QS.answers[idx]={};
+      // Revoke old URL if re-recording
+      if(QS.answers[idx].audioUrl)URL.revokeObjectURL(QS.answers[idx].audioUrl);
+      const url=URL.createObjectURL(blob);
       QS.answers[idx].audioUrl=url;
       QS.answers[idx].audioBlob=blob;
+      // Use a fresh audio element to avoid stale state
       const pb=document.getElementById('recPlayback');
-      if(pb){pb.src=url;pb.style.display='block';}
+      if(pb){
+        pb.pause();
+        pb.removeAttribute('src');
+        pb.load();
+        pb.src=url;
+        pb.load();
+        pb.style.display='block';
+      }
       const st=document.getElementById('recStatus');
-      if(st){st.textContent='✅ Recording saved!';st.style.color='#27ae60';}
+      if(st){st.textContent='✅ Saved! Press play to hear it.';st.style.color='#27ae60';}
       const btn=document.getElementById('recBtn');
       if(btn){btn.textContent='⏺ Re-record';btn.disabled=false;btn.classList.remove('rd');btn.classList.add('pu');}
       stream.getTracks().forEach(t=>t.stop());
       stopRecordingPulse();
     };
     mediaRecorder.start(100);
-    const btn=document.getElementById('recBtn');
-    if(btn){btn.textContent='⏹ Stop Recording';btn.disabled=false;btn.classList.remove('pu');btn.classList.add('rd');}
+
+    // Auto-stop after 3 seconds
+    let countdown=3;
     const st=document.getElementById('recStatus');
-    if(st){st.textContent='🔴 Recording... tap Stop when done';st.style.color='var(--red)';}
+    if(st){st.textContent='🔴 Recording... 3s';st.style.color='var(--red)';}
+    const ticker=setInterval(()=>{
+      countdown--;
+      const s=document.getElementById('recStatus');
+      if(s&&countdown>0)s.textContent='🔴 Recording... '+countdown+'s';
+      if(countdown<=0){
+        clearInterval(ticker);
+        if(mediaRecorder&&mediaRecorder.state==='recording')mediaRecorder.stop();
+      }
+    },1000);
+
+    const btn=document.getElementById('recBtn');
+    if(btn){btn.textContent='⏹ Stop';btn.disabled=false;btn.classList.remove('pu');btn.classList.add('rd');}
     startRecordingPulse();
   }catch(err){
     const st=document.getElementById('recStatus');
@@ -1108,7 +1136,7 @@ function showReview(){
           <div style="font-size:.82em;font-weight:800;color:var(--lb);">${a.word.pronounce}</div>
           <div style="font-size:.8em;color:#888;font-weight:600;">${a.word.english}</div>
         </div>
-        <button class="cb te" onclick="speakReview('${a.word.hebrew}')" style="padding:6px 14px;font-size:.82em;">🔊 Correct</button>
+
       </div>
 
       <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px;">
