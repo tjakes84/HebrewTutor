@@ -993,11 +993,14 @@ function speakCurrent(){
 }
 
 // ---- RECORDING ----
-async function toggleRecord(){
+function toggleRecord(){
+  const btn=document.getElementById('recBtn');
   if(mediaRecorder&&mediaRecorder.state==='recording'){
     stopRecording(true);
   }else{
-    await startRecording();
+    // Disable button briefly to prevent double-tap
+    if(btn){btn.disabled=true;setTimeout(()=>{if(btn)btn.disabled=false;},600);}
+    startRecording();
   }
 }
 
@@ -1005,40 +1008,36 @@ async function startRecording(){
   try{
     const stream=await navigator.mediaDevices.getUserMedia({audio:true});
     audioChunks=[];
-    // Pick the best supported format for this browser
     const mimeType=['audio/webm;codecs=opus','audio/webm','audio/ogg;codecs=opus','audio/mp4','audio/ogg'].find(t=>MediaRecorder.isTypeSupported(t))||'';
     mediaRecorder=new MediaRecorder(stream, mimeType?{mimeType}:{});
     mediaRecorder.ondataavailable=e=>{if(e.data.size>0)audioChunks.push(e.data);};
     mediaRecorder.onstop=()=>{
-      const mime=mediaRecorder.mimeType||'audio/webm';
+      const mime=mediaRecorder.mimeType||mimeType||'audio/webm';
       const blob=new Blob(audioChunks,{type:mime});
       const url=URL.createObjectURL(blob);
       console.log('Recorded format:', mime, 'Blob size:', blob.size);
-      // Save to QS for this word
       const idx=QS.cur;
       if(!QS.answers[idx])QS.answers[idx]={};
       QS.answers[idx].audioUrl=url;
       QS.answers[idx].audioBlob=blob;
-      // Show playback
       const pb=document.getElementById('recPlayback');
       if(pb){pb.src=url;pb.style.display='block';}
       const st=document.getElementById('recStatus');
       if(st){st.textContent='✅ Recording saved!';st.style.color='#27ae60';}
       const btn=document.getElementById('recBtn');
-      if(btn){btn.textContent='⏺ Re-record';btn.classList.remove('rd');btn.classList.add('pu');}
-      // Stop all tracks
+      if(btn){btn.textContent='⏺ Re-record';btn.disabled=false;btn.classList.remove('rd');btn.classList.add('pu');}
       stream.getTracks().forEach(t=>t.stop());
+      stopRecordingPulse();
     };
-    mediaRecorder.start();
+    mediaRecorder.start(100);
     const btn=document.getElementById('recBtn');
-    if(btn){btn.textContent='⏹ Stop';btn.classList.remove('pu');btn.classList.add('rd');}
+    if(btn){btn.textContent='⏹ Stop Recording';btn.disabled=false;btn.classList.remove('pu');btn.classList.add('rd');}
     const st=document.getElementById('recStatus');
-    if(st){st.textContent='🔴 Recording...';st.style.color='var(--red)';}
-    // Animate recording indicator
+    if(st){st.textContent='🔴 Recording... tap Stop when done';st.style.color='var(--red)';}
     startRecordingPulse();
   }catch(err){
     const st=document.getElementById('recStatus');
-    if(st){st.textContent='⚠️ Mic not available';st.style.color='#e67e22';}
+    if(st){st.textContent='⚠️ Mic not available: '+err.name;st.style.color='#e67e22';}
     console.warn('Mic error:',err);
   }
 }
