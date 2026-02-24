@@ -538,6 +538,278 @@
     font-size: 0.9em;
     font-weight: 600;
   }
+
+  /* ===== PRAYER FILTERS ===== */
+  .prayer-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+  .filter-pill {
+    background: rgba(255,255,255,0.7);
+    border: 2px solid #c5d8ff;
+    border-radius: 30px;
+    padding: 6px 16px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.88em;
+    color: var(--blue);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-pill:hover, .filter-pill.active {
+    background: var(--blue);
+    color: white;
+    border-color: var(--blue);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(26,58,107,0.25);
+  }
+
+  /* ===== SYLLABLE STEP MODE IN PRAYERS ===== */
+  .syl-step-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #00b894, #00997a);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 10px 22px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 14px rgba(0,184,148,0.35);
+  }
+  .syl-step-btn:hover {
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 8px 20px rgba(0,184,148,0.45);
+  }
+  .syl-step-btn.reset {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    box-shadow: 0 4px 14px rgba(231,76,60,0.35);
+  }
+
+  /* Individual syllable chips within prayer chunks */
+  .chunk-syl-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    direction: rtl;
+    margin-top: 12px;
+    min-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  .chunk-syl-chip {
+    background: white;
+    border: 2px solid #c5d8ff;
+    border-radius: 10px;
+    padding: 6px 12px;
+    text-align: center;
+    transition: all 0.25s;
+    opacity: 0.7;
+  }
+  .chunk-syl-chip.active {
+    transform: translateY(-5px) scale(1.1);
+    opacity: 1;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+  }
+  .chunk-syl-chip .cs-heb { font-size: 1.4em; font-weight: 800; display: block; }
+  .chunk-syl-chip .cs-sound { font-size: 0.72em; font-weight: 700; display: block; margin-top: 2px; }
+
+  /* ===== QUIZ STYLES ===== */
+  .quiz-mode-picker {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+    justify-content: center;
+  }
+  .quiz-mode-btn {
+    background: var(--sky);
+    border: 2px solid #c5d8ff;
+    border-radius: 20px;
+    padding: 14px 20px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.95em;
+    color: var(--blue);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    min-width: 140px;
+  }
+  .quiz-mode-btn:hover, .quiz-mode-btn.active {
+    background: var(--blue);
+    color: white;
+    border-color: var(--blue);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+  }
+  .quiz-mode-btn .qm-icon { font-size: 1.8em; display: block; margin-bottom: 6px; }
+
+  .quiz-card {
+    background: linear-gradient(135deg, #f0f6ff, #e8f0ff);
+    border: 2px solid #c5d8ff;
+    border-radius: 20px;
+    padding: 28px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .quiz-progress {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .quiz-progress-bar {
+    flex: 1;
+    height: 10px;
+    background: #c5d8ff;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .quiz-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--blue), var(--lightblue));
+    border-radius: 10px;
+    transition: width 0.4s ease;
+  }
+  .quiz-score-badge {
+    background: var(--gold);
+    color: var(--blue);
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.95em;
+    padding: 4px 14px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .quiz-question {
+    font-size: 4em;
+    direction: rtl;
+    font-weight: 800;
+    color: var(--blue);
+    margin: 10px 0 8px;
+    text-shadow: 0 2px 8px rgba(26,58,107,0.1);
+    line-height: 1.2;
+  }
+  .quiz-sublabel {
+    font-size: 0.95em;
+    color: #777;
+    font-weight: 600;
+    margin-bottom: 24px;
+  }
+  .quiz-choices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+  .quiz-choice {
+    background: white;
+    border: 2px solid #c5d8ff;
+    border-radius: 16px;
+    padding: 14px 18px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 1em;
+    color: var(--blue);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+  .quiz-choice:hover {
+    border-color: var(--blue);
+    background: var(--sky);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+  .quiz-choice.correct {
+    background: #e8f8ee;
+    border-color: #2ecc71;
+    color: #1a6b3a;
+    animation: correctPop 0.4s ease;
+  }
+  .quiz-choice.wrong {
+    background: #fee;
+    border-color: var(--red);
+    color: #8b0000;
+    animation: wrongShake 0.4s ease;
+  }
+  @keyframes correctPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.07); }
+    100% { transform: scale(1); }
+  }
+  @keyframes wrongShake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-8px); }
+    75% { transform: translateX(8px); }
+  }
+  .quiz-feedback {
+    margin-top: 18px;
+    font-size: 1.1em;
+    font-weight: 700;
+    min-height: 28px;
+    color: var(--blue);
+  }
+  .quiz-feedback.correct { color: #2ecc71; }
+  .quiz-feedback.wrong { color: var(--red); }
+  .quiz-next-btn {
+    display: inline-block;
+    margin-top: 14px;
+    background: var(--blue);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 11px 32px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 14px rgba(26,58,107,0.25);
+  }
+  .quiz-next-btn:hover {
+    background: var(--lightblue);
+    transform: translateY(-2px);
+  }
+  .quiz-type-tag {
+    display: inline-block;
+    background: rgba(26,58,107,0.1);
+    color: var(--blue);
+    font-size: 0.8em;
+    font-weight: 700;
+    padding: 3px 12px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+  .quiz-results {
+    text-align: center;
+    padding: 20px;
+  }
+  .quiz-results .big-score {
+    font-family: 'Fredoka One', cursive;
+    font-size: 4em;
+    color: var(--blue);
+  }
+  .quiz-results .score-msg {
+    font-size: 1.2em;
+    font-weight: 700;
+    color: #555;
+    margin: 8px 0 20px;
+  }
+
+  /* Prayer text with per-syllable spans */
+  .prayer-text-heb .psyl-span {
+    display: inline;
+    transition: all 0.2s;
+  }
+  .prayer-text-heb .psyl-span.active {
+    text-shadow: 0 0 20px currentColor;
+  }
 </style>
 </head>
 <body>
@@ -553,6 +825,7 @@
   <button class="tab-btn" onclick="showTab('alphabet',this)">🔤 Aleph-Bet</button>
   <button class="tab-btn" onclick="showTab('vowels',this)">🎵 Vowels</button>
   <button class="tab-btn" onclick="showTab('prayers',this)">🕍 Prayers</button>
+  <button class="tab-btn" onclick="showTab('quiz',this)">🧠 Quiz</button>
 </div>
 
 <div class="container">
@@ -594,8 +867,15 @@
   <!-- PRAYERS TAB -->
   <div id="tab-prayers" class="card hidden">
     <div class="section-title">🕍 Common Prayers & Blessings</div>
-    <p style="margin-bottom:18px;color:#555;font-weight:600;">Click any prayer to see it broken into chunks you can practice!</p>
+    <p style="margin-bottom:14px;color:#555;font-weight:600;">Click any prayer to practice syllable by syllable!</p>
+    <div class="prayer-filters" id="prayerFilters"></div>
     <div class="prayer-list" id="prayerList"></div>
+  </div>
+
+  <!-- QUIZ TAB -->
+  <div id="tab-quiz" class="card hidden">
+    <div class="section-title">🧠 Quiz Time!</div>
+    <div id="quizContainer"></div>
   </div>
 
 </div>
@@ -1063,243 +1343,328 @@ const vowels = [
 ];
 
 const prayers = [
+  // ===== CATEGORY: Core Daily Prayers =====
   {
-    name: "Shema — said every service",
+    category: "Daily",
+    name: "Shema — declaration of faith",
     hebrewName: "שְׁמַע",
     text: "שְׁמַע יִשְׂרָאֵל יְהוָה אֱלֹהֵינוּ יְהוָה אֶחָד",
     translation: "Hear O Israel, the Lord is our God, the Lord is One.",
     chunks: [
-      { heb: "שְׁמַע", sound: "sh'MA" },
-      { heb: "יִשְׂרָאֵל", sound: "yis-ra-EL" },
-      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי" },
-      { heb: "אֱלֹהֵינוּ", sound: "e-lo-HEI-nu" },
-      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי" },
-      { heb: "אֶחָד", sound: "e-CHAD" }
+      { heb: "שְׁמַע", sound: "sh'MA", syllables: [{heb:"שְׁמַע",sound:"sh'MA"}] },
+      { heb: "יִשְׂרָאֵל", sound: "yis-ra-EL", syllables: [{heb:"יִשְׂ",sound:"yis"},{heb:"רָ",sound:"ra"},{heb:"אֵל",sound:"EL"}] },
+      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי", syllables: [{heb:"יְהוָה",sound:"Ado-NAI"}] },
+      { heb: "אֱלֹהֵינוּ", sound: "e-lo-HEI-nu", syllables: [{heb:"אֱ",sound:"e"},{heb:"לֹ",sound:"lo"},{heb:"הֵי",sound:"HEI"},{heb:"נוּ",sound:"nu"}] },
+      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי", syllables: [{heb:"יְהוָה",sound:"Ado-NAI"}] },
+      { heb: "אֶחָד", sound: "e-CHAD", syllables: [{heb:"אֶ",sound:"e"},{heb:"חָד",sound:"CHAD"}] }
     ]
   },
   {
-    name: "Blessing Formula — every bracha",
-    hebrewName: "בָּרוּךְ אַתָּה",
-    text: "בָּרוּךְ אַתָּה יְהוָה אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם",
-    translation: "Blessed are You, Lord our God, King of the universe.",
-    chunks: [
-      { heb: "בָּרוּךְ", sound: "ba-RUKH" },
-      { heb: "אַתָּה", sound: "a-TAH" },
-      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי" },
-      { heb: "אֱלֹהֵינוּ", sound: "e-lo-HEI-nu" },
-      { heb: "מֶלֶךְ", sound: "ME-lekh" },
-      { heb: "הָעוֹלָם", sound: "ha-o-LAM" }
-    ]
-  },
-  {
-    name: "Barchu — call to worship",
-    hebrewName: "בָּרְכוּ",
-    text: "בָּרְכוּ אֶת יְהוָה הַמְבֹרָךְ",
-    translation: "Bless the Lord who is blessed.",
-    chunks: [
-      { heb: "בָּרְכוּ", sound: "bar-KHU" },
-      { heb: "אֶת", sound: "et" },
-      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי" },
-      { heb: "הַמְבֹרָךְ", sound: "ha-m'vo-RAKH" }
-    ]
-  },
-  {
-    name: "Amidah Opening — 3x daily",
-    hebrewName: "עֲמִידָה",
-    text: "אֲדֹנָי שְׂפָתַי תִּפְתָּח וּפִי יַגִּיד תְּהִלָּתֶךָ",
-    translation: "Lord, open my lips, and my mouth will declare Your praise.",
-    chunks: [
-      { heb: "אֲדֹנָי", sound: "a-do-NAI" },
-      { heb: "שְׂפָתַי", sound: "s'fa-TAI" },
-      { heb: "תִּפְתָּח", sound: "tif-TACH" },
-      { heb: "וּפִי", sound: "u-FI" },
-      { heb: "יַגִּיד", sound: "ya-GID" },
-      { heb: "תְּהִלָּתֶךָ", sound: "t'hi-la-TE-kha" }
-    ]
-  },
-  {
-    name: "Kedushah — Amidah holiness prayer",
-    hebrewName: "קְדוּשָׁה",
-    text: "קָדוֹשׁ קָדוֹשׁ קָדוֹשׁ יְהוָה צְבָאוֹת מְלֹא כָל הָאָרֶץ כְּבוֹדוֹ",
-    translation: "Holy, holy, holy is the Lord of Hosts; the whole earth is full of His glory.",
-    chunks: [
-      { heb: "קָדוֹשׁ", sound: "ka-DOSH" },
-      { heb: "קָדוֹשׁ", sound: "ka-DOSH" },
-      { heb: "קָדוֹשׁ", sound: "ka-DOSH" },
-      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי" },
-      { heb: "צְבָאוֹת", sound: "tz'va-OT" },
-      { heb: "מְלֹא", sound: "m'LO" },
-      { heb: "כָל", sound: "kol" },
-      { heb: "הָאָרֶץ", sound: "ha-A-rets" },
-      { heb: "כְּבוֹדוֹ", sound: "k'vo-DO" }
-    ]
-  },
-  {
-    name: "Aleinu — closing prayer",
-    hebrewName: "עָלֵינוּ",
-    text: "עָלֵינוּ לְשַׁבֵּחַ לַאֲדוֹן הַכֹּל",
-    translation: "It is our duty to praise the Master of all.",
-    chunks: [
-      { heb: "עָלֵינוּ", sound: "a-LEI-nu" },
-      { heb: "לְשַׁבֵּחַ", sound: "l'sha-BEI-ach" },
-      { heb: "לַאֲדוֹן", sound: "la-a-DON" },
-      { heb: "הַכֹּל", sound: "ha-KOL" }
-    ]
-  },
-  {
-    name: "Kaddish Opening — mourner's prayer",
-    hebrewName: "קַדִּישׁ",
-    text: "יִתְגַּדַּל וְיִתְקַדַּשׁ שְׁמֵהּ רַבָּא",
-    translation: "May His great name be exalted and sanctified.",
-    chunks: [
-      { heb: "יִתְגַּדַּל", sound: "yit-ga-DAL" },
-      { heb: "וְיִתְקַדַּשׁ", sound: "v'yit-ka-DASH" },
-      { heb: "שְׁמֵהּ", sound: "sh'MEH" },
-      { heb: "רַבָּא", sound: "ra-BA" }
-    ]
-  },
-  {
+    category: "Daily",
     name: "Modeh Ani — morning thanks",
     hebrewName: "מוֹדֶה אֲנִי",
     text: "מוֹדֶה אֲנִי לְפָנֶיךָ מֶלֶךְ חַי וְקַיָּם",
     translation: "I give thanks before You, living and eternal King.",
     chunks: [
-      { heb: "מוֹדֶה", sound: "MO-deh" },
-      { heb: "אֲנִי", sound: "a-NI" },
-      { heb: "לְפָנֶיךָ", sound: "l'fa-NE-kha" },
-      { heb: "מֶלֶךְ", sound: "ME-lekh" },
-      { heb: "חַי", sound: "CHAI" },
-      { heb: "וְקַיָּם", sound: "v'ka-YAM" }
+      { heb: "מוֹדֶה", sound: "MO-deh", syllables: [{heb:"מוֹ",sound:"MO"},{heb:"דֶה",sound:"deh"}] },
+      { heb: "אֲנִי", sound: "a-NI", syllables: [{heb:"אֲ",sound:"a"},{heb:"נִי",sound:"NI"}] },
+      { heb: "לְפָנֶיךָ", sound: "l'fa-NE-kha", syllables: [{heb:"לְ",sound:"l'"},{heb:"פָ",sound:"fa"},{heb:"נֶי",sound:"NE"},{heb:"ךָ",sound:"kha"}] },
+      { heb: "מֶלֶךְ", sound: "ME-lekh", syllables: [{heb:"מֶ",sound:"ME"},{heb:"לֶךְ",sound:"lekh"}] },
+      { heb: "חַי", sound: "CHAI", syllables: [{heb:"חַי",sound:"CHAI"}] },
+      { heb: "וְקַיָּם", sound: "v'ka-YAM", syllables: [{heb:"וְ",sound:"v'"},{heb:"קַ",sound:"ka"},{heb:"יָּם",sound:"YAM"}] }
     ]
   },
   {
-    name: "Blessing over Tallit",
-    hebrewName: "טַלִּית",
-    text: "בָּרוּךְ אַתָּה יְהוָה אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם אֲשֶׁר קִדְּשָׁנוּ בְּמִצְוֹתָיו וְצִוָּנוּ לְהִתְעַטֵּף בַּצִּיצִית",
-    translation: "Blessed are You, Lord our God, King of the universe, who sanctified us with His commandments and commanded us to wrap ourselves in tzitzit.",
+    category: "Daily",
+    name: "Amidah Opening — 3x daily",
+    hebrewName: "עֲמִידָה",
+    text: "אֲדֹנָי שְׂפָתַי תִּפְתָּח וּפִי יַגִּיד תְּהִלָּתֶךָ",
+    translation: "Lord, open my lips, and my mouth will declare Your praise.",
     chunks: [
-      { heb: "בָּרוּךְ", sound: "ba-RUKH" },
-      { heb: "אַתָּה", sound: "a-TAH" },
-      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי" },
-      { heb: "אֱלֹהֵינוּ", sound: "e-lo-HEI-nu" },
-      { heb: "מֶלֶךְ", sound: "ME-lekh" },
-      { heb: "הָעוֹלָם", sound: "ha-o-LAM" },
-      { heb: "אֲשֶׁר", sound: "a-SHER" },
-      { heb: "קִדְּשָׁנוּ", sound: "ki-d'SHA-nu" },
-      { heb: "בְּמִצְוֹתָיו", sound: "b'mitz-vo-TAV" },
-      { heb: "וְצִוָּנוּ", sound: "v'tzi-VA-nu" },
-      { heb: "לְהִתְעַטֵּף", sound: "l'hit-a-TEF" },
-      { heb: "בַּצִּיצִית", sound: "ba-tzi-TZIT" }
+      { heb: "אֲדֹנָי", sound: "a-do-NAI", syllables: [{heb:"אֲ",sound:"a"},{heb:"דֹ",sound:"do"},{heb:"נָי",sound:"NAI"}] },
+      { heb: "שְׂפָתַי", sound: "s'fa-TAI", syllables: [{heb:"שְׂפָ",sound:"s'fa"},{heb:"תַי",sound:"TAI"}] },
+      { heb: "תִּפְתָּח", sound: "tif-TACH", syllables: [{heb:"תִּף",sound:"tif"},{heb:"תָּח",sound:"TACH"}] },
+      { heb: "וּפִי", sound: "u-FI", syllables: [{heb:"וּ",sound:"u"},{heb:"פִי",sound:"FI"}] },
+      { heb: "יַגִּיד", sound: "ya-GID", syllables: [{heb:"יַ",sound:"ya"},{heb:"גִּיד",sound:"GID"}] },
+      { heb: "תְּהִלָּתֶךָ", sound: "t'hi-la-TE-kha", syllables: [{heb:"תְּ",sound:"t'"},{heb:"הִ",sound:"hi"},{heb:"לָּ",sound:"la"},{heb:"תֶ",sound:"TE"},{heb:"ךָ",sound:"kha"}] }
     ]
   },
   {
-    name: "Blessing over Tzitzit",
-    hebrewName: "צִיצִית",
-    text: "בָּרוּךְ אַתָּה יְהוָה אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם אֲשֶׁר קִדְּשָׁנוּ בְּמִצְוֹתָיו וְצִוָּנוּ עַל מִצְוַת צִיצִית",
-    translation: "Blessed are You, Lord our God, King of the universe, who sanctified us with His commandments and commanded us regarding the mitzvah of tzitzit.",
+    category: "Daily",
+    name: "Aleinu — closing prayer",
+    hebrewName: "עָלֵינוּ",
+    text: "עָלֵינוּ לְשַׁבֵּחַ לַאֲדוֹן הַכֹּל",
+    translation: "It is our duty to praise the Master of all.",
     chunks: [
-      { heb: "בָּרוּךְ", sound: "ba-RUKH" },
-      { heb: "אַתָּה", sound: "a-TAH" },
-      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי" },
-      { heb: "אֱלֹהֵינוּ", sound: "e-lo-HEI-nu" },
-      { heb: "מֶלֶךְ", sound: "ME-lekh" },
-      { heb: "הָעוֹלָם", sound: "ha-o-LAM" },
-      { heb: "אֲשֶׁר", sound: "a-SHER" },
-      { heb: "קִדְּשָׁנוּ", sound: "ki-d'SHA-nu" },
-      { heb: "בְּמִצְוֹתָיו", sound: "b'mitz-vo-TAV" },
-      { heb: "וְצִוָּנוּ", sound: "v'tzi-VA-nu" },
-      { heb: "עַל", sound: "al" },
-      { heb: "מִצְוַת", sound: "mitz-VAT" },
-      { heb: "צִיצִית", sound: "tzi-TZIT" }
+      { heb: "עָלֵינוּ", sound: "a-LEI-nu", syllables: [{heb:"עָ",sound:"a"},{heb:"לֵי",sound:"LEI"},{heb:"נוּ",sound:"nu"}] },
+      { heb: "לְשַׁבֵּחַ", sound: "l'sha-BEI-ach", syllables: [{heb:"לְ",sound:"l'"},{heb:"שַׁ",sound:"sha"},{heb:"בֵּ",sound:"BEI"},{heb:"חַ",sound:"ach"}] },
+      { heb: "לַאֲדוֹן", sound: "la-a-DON", syllables: [{heb:"לַ",sound:"la"},{heb:"אֲ",sound:"a"},{heb:"דוֹן",sound:"DON"}] },
+      { heb: "הַכֹּל", sound: "ha-KOL", syllables: [{heb:"הַ",sound:"ha"},{heb:"כֹּל",sound:"KOL"}] }
     ]
   },
   {
-    name: "Torah Blessings — before reading",
-    hebrewName: "בִּרְכוֹת הַתּוֹרָה",
-    text: "בָּרְכוּ אֶת יְהוָה הַמְבֹרָךְ בָּרוּךְ יְהוָה הַמְבֹרָךְ לְעוֹלָם וָעֶד",
-    translation: "Bless the Lord who is blessed. Blessed is the Lord who is blessed forever and ever.",
+    category: "Daily",
+    name: "Kaddish Opening — mourner's prayer",
+    hebrewName: "קַדִּישׁ",
+    text: "יִתְגַּדַּל וְיִתְקַדַּשׁ שְׁמֵהּ רַבָּא",
+    translation: "May His great name be exalted and sanctified.",
     chunks: [
-      { heb: "בָּרְכוּ", sound: "bar-KHU" },
-      { heb: "אֶת", sound: "et" },
-      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי" },
-      { heb: "הַמְבֹרָךְ", sound: "ha-m'vo-RAKH" },
-      { heb: "בָּרוּךְ", sound: "ba-RUKH" },
-      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי" },
-      { heb: "הַמְבֹרָךְ", sound: "ha-m'vo-RAKH" },
-      { heb: "לְעוֹלָם", sound: "l'o-LAM" },
-      { heb: "וָעֶד", sound: "va-ED" }
+      { heb: "יִתְגַּדַּל", sound: "yit-ga-DAL", syllables: [{heb:"יִת",sound:"yit"},{heb:"גַּ",sound:"ga"},{heb:"דַּל",sound:"DAL"}] },
+      { heb: "וְיִתְקַדַּשׁ", sound: "v'yit-ka-DASH", syllables: [{heb:"וְ",sound:"v'"},{heb:"יִת",sound:"yit"},{heb:"קַ",sound:"ka"},{heb:"דַּשׁ",sound:"DASH"}] },
+      { heb: "שְׁמֵהּ", sound: "sh'MEH", syllables: [{heb:"שְׁ",sound:"sh'"},{heb:"מֵהּ",sound:"MEH"}] },
+      { heb: "רַבָּא", sound: "ra-BA", syllables: [{heb:"רַ",sound:"ra"},{heb:"בָּא",sound:"BA"}] }
     ]
   },
   {
-    name: "Haftarah Blessing — after Prophets",
-    hebrewName: "הַפְטָרָה",
-    text: "בָּרוּךְ אַתָּה יְהוָה אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם אֲשֶׁר בָּחַר בִּנְבִיאִים טוֹבִים",
-    translation: "Blessed are You, Lord our God, King of the universe, who chose good prophets.",
+    category: "Daily",
+    name: "Kedushah — Amidah holiness prayer",
+    hebrewName: "קְדוּשָׁה",
+    text: "קָדוֹשׁ קָדוֹשׁ קָדוֹשׁ יְהוָה צְבָאוֹת מְלֹא כָל הָאָרֶץ כְּבוֹדוֹ",
+    translation: "Holy, holy, holy is the Lord of Hosts; the whole earth is full of His glory.",
     chunks: [
-      { heb: "בָּרוּךְ", sound: "ba-RUKH" },
-      { heb: "אַתָּה", sound: "a-TAH" },
-      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי" },
-      { heb: "אֱלֹהֵינוּ", sound: "e-lo-HEI-nu" },
-      { heb: "מֶלֶךְ", sound: "ME-lekh" },
-      { heb: "הָעוֹלָם", sound: "ha-o-LAM" },
-      { heb: "אֲשֶׁר", sound: "a-SHER" },
-      { heb: "בָּחַר", sound: "ba-CHAR" },
-      { heb: "בִּנְבִיאִים", sound: "bin-vi-IM" },
-      { heb: "טוֹבִים", sound: "to-VIM" }
+      { heb: "קָדוֹשׁ", sound: "ka-DOSH", syllables: [{heb:"קָ",sound:"ka"},{heb:"דוֹשׁ",sound:"DOSH"}] },
+      { heb: "קָדוֹשׁ", sound: "ka-DOSH", syllables: [{heb:"קָ",sound:"ka"},{heb:"דוֹשׁ",sound:"DOSH"}] },
+      { heb: "קָדוֹשׁ", sound: "ka-DOSH", syllables: [{heb:"קָ",sound:"ka"},{heb:"דוֹשׁ",sound:"DOSH"}] },
+      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי", syllables: [{heb:"יְהוָה",sound:"Ado-NAI"}] },
+      { heb: "צְבָאוֹת", sound: "tz'va-OT", syllables: [{heb:"צְ",sound:"tz'"},{heb:"בָ",sound:"va"},{heb:"אוֹת",sound:"OT"}] },
+      { heb: "מְלֹא", sound: "m'LO", syllables: [{heb:"מְ",sound:"m'"},{heb:"לֹא",sound:"LO"}] },
+      { heb: "כָל", sound: "kol", syllables: [{heb:"כָל",sound:"kol"}] },
+      { heb: "הָאָרֶץ", sound: "ha-A-rets", syllables: [{heb:"הָ",sound:"ha"},{heb:"אָ",sound:"A"},{heb:"רֶץ",sound:"rets"}] },
+      { heb: "כְּבוֹדוֹ", sound: "k'vo-DO", syllables: [{heb:"כְּ",sound:"k'"},{heb:"בוֹ",sound:"vo"},{heb:"דוֹ",sound:"DO"}] }
     ]
   },
+
+  // ===== CATEGORY: Blessings =====
   {
-    name: "Tzitzit (Numbers 15:38-40)",
-    hebrewName: "צִיצִת",
-    text: "וְעָשׂוּ לָהֶם צִיצִת עַל כַּנְפֵי בִגְדֵיהֶם לְדֹרֹתָם",
-    translation: "They shall make for themselves fringes on the corners of their garments throughout their generations.",
+    category: "Blessings",
+    name: "Blessing Formula — every bracha",
+    hebrewName: "בָּרוּךְ אַתָּה",
+    text: "בָּרוּךְ אַתָּה יְהוָה אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם",
+    translation: "Blessed are You, Lord our God, King of the universe.",
     chunks: [
-      { heb: "וְעָשׂוּ", sound: "v'a-SU" },
-      { heb: "לָהֶם", sound: "la-HEM" },
-      { heb: "צִיצִת", sound: "tzi-TZIT" },
-      { heb: "עַל", sound: "al" },
-      { heb: "כַּנְפֵי", sound: "kan-FEI" },
-      { heb: "בִגְדֵיהֶם", sound: "big-dei-HEM" },
-      { heb: "לְדֹרֹתָם", sound: "l'do-ro-TAM" }
+      { heb: "בָּרוּךְ", sound: "ba-RUKH", syllables: [{heb:"בָּ",sound:"ba"},{heb:"רוּךְ",sound:"RUKH"}] },
+      { heb: "אַתָּה", sound: "a-TAH", syllables: [{heb:"אַ",sound:"a"},{heb:"תָּה",sound:"TAH"}] },
+      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי", syllables: [{heb:"יְהוָה",sound:"Ado-NAI"}] },
+      { heb: "אֱלֹהֵינוּ", sound: "e-lo-HEI-nu", syllables: [{heb:"אֱ",sound:"e"},{heb:"לֹ",sound:"lo"},{heb:"הֵי",sound:"HEI"},{heb:"נוּ",sound:"nu"}] },
+      { heb: "מֶלֶךְ", sound: "ME-lekh", syllables: [{heb:"מֶ",sound:"ME"},{heb:"לֶךְ",sound:"lekh"}] },
+      { heb: "הָעוֹלָם", sound: "ha-o-LAM", syllables: [{heb:"הָ",sound:"ha"},{heb:"עוֹ",sound:"o"},{heb:"לָם",sound:"LAM"}] }
     ]
   },
   {
+    category: "Blessings",
+    name: "Shehecheyanu — gratitude for new occasions",
+    hebrewName: "שֶׁהֶחֱיָנוּ",
+    text: "בָּרוּךְ אַתָּה יְהוָה אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם שֶׁהֶחֱיָנוּ וְקִיְּמָנוּ וְהִגִּיעָנוּ לַזְּמַן הַזֶּה",
+    translation: "Blessed are You, Lord our God, King of the universe, who has kept us alive, sustained us, and enabled us to reach this moment.",
+    chunks: [
+      { heb: "בָּרוּךְ", sound: "ba-RUKH", syllables: [{heb:"בָּ",sound:"ba"},{heb:"רוּךְ",sound:"RUKH"}] },
+      { heb: "אַתָּה", sound: "a-TAH", syllables: [{heb:"אַ",sound:"a"},{heb:"תָּה",sound:"TAH"}] },
+      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי", syllables: [{heb:"יְהוָה",sound:"Ado-NAI"}] },
+      { heb: "אֱלֹהֵינוּ", sound: "e-lo-HEI-nu", syllables: [{heb:"אֱ",sound:"e"},{heb:"לֹ",sound:"lo"},{heb:"הֵי",sound:"HEI"},{heb:"נוּ",sound:"nu"}] },
+      { heb: "מֶלֶךְ", sound: "ME-lekh", syllables: [{heb:"מֶ",sound:"ME"},{heb:"לֶךְ",sound:"lekh"}] },
+      { heb: "הָעוֹלָם", sound: "ha-o-LAM", syllables: [{heb:"הָ",sound:"ha"},{heb:"עוֹ",sound:"o"},{heb:"לָם",sound:"LAM"}] },
+      { heb: "שֶׁהֶחֱיָנוּ", sound: "she-he-che-YA-nu", syllables: [{heb:"שֶׁ",sound:"she"},{heb:"הֶ",sound:"he"},{heb:"חֱ",sound:"che"},{heb:"יָ",sound:"YA"},{heb:"נוּ",sound:"nu"}] },
+      { heb: "וְקִיְּמָנוּ", sound: "v'ki-y'MA-nu", syllables: [{heb:"וְ",sound:"v'"},{heb:"קִי",sound:"ki"},{heb:"יְ",sound:"y'"},{heb:"מָ",sound:"MA"},{heb:"נוּ",sound:"nu"}] },
+      { heb: "וְהִגִּיעָנוּ", sound: "v'hi-gi-A-nu", syllables: [{heb:"וְ",sound:"v'"},{heb:"הִ",sound:"hi"},{heb:"גִּי",sound:"gi"},{heb:"עָ",sound:"A"},{heb:"נוּ",sound:"nu"}] },
+      { heb: "לַזְּמַן", sound: "laz-MAN", syllables: [{heb:"לַזְּ",sound:"laz"},{heb:"מַן",sound:"MAN"}] },
+      { heb: "הַזֶּה", sound: "ha-ZEH", syllables: [{heb:"הַ",sound:"ha"},{heb:"זֶּה",sound:"ZEH"}] }
+    ]
+  },
+  {
+    category: "Blessings",
     name: "Kiddush — Shabbat blessing over wine",
     hebrewName: "קִדּוּשׁ",
     text: "בָּרוּךְ אַתָּה יְהוָה אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם בּוֹרֵא פְּרִי הַגָּפֶן",
     translation: "Blessed are You, Lord our God, King of the universe, who creates the fruit of the vine.",
     chunks: [
-      { heb: "בָּרוּךְ", sound: "ba-RUKH" },
-      { heb: "אַתָּה", sound: "a-TAH" },
-      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי" },
-      { heb: "אֱלֹהֵינוּ", sound: "e-lo-HEI-nu" },
-      { heb: "מֶלֶךְ", sound: "ME-lekh" },
-      { heb: "הָעוֹלָם", sound: "ha-o-LAM" },
-      { heb: "בּוֹרֵא", sound: "bo-REI" },
-      { heb: "פְּרִי", sound: "p'RI" },
-      { heb: "הַגָּפֶן", sound: "ha-GA-fen" }
+      { heb: "בָּרוּךְ", sound: "ba-RUKH", syllables: [{heb:"בָּ",sound:"ba"},{heb:"רוּךְ",sound:"RUKH"}] },
+      { heb: "אַתָּה", sound: "a-TAH", syllables: [{heb:"אַ",sound:"a"},{heb:"תָּה",sound:"TAH"}] },
+      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי", syllables: [{heb:"יְהוָה",sound:"Ado-NAI"}] },
+      { heb: "אֱלֹהֵינוּ", sound: "e-lo-HEI-nu", syllables: [{heb:"אֱ",sound:"e"},{heb:"לֹ",sound:"lo"},{heb:"הֵי",sound:"HEI"},{heb:"נוּ",sound:"nu"}] },
+      { heb: "מֶלֶךְ", sound: "ME-lekh", syllables: [{heb:"מֶ",sound:"ME"},{heb:"לֶךְ",sound:"lekh"}] },
+      { heb: "הָעוֹלָם", sound: "ha-o-LAM", syllables: [{heb:"הָ",sound:"ha"},{heb:"עוֹ",sound:"o"},{heb:"לָם",sound:"LAM"}] },
+      { heb: "בּוֹרֵא", sound: "bo-REI", syllables: [{heb:"בּוֹ",sound:"bo"},{heb:"רֵא",sound:"REI"}] },
+      { heb: "פְּרִי", sound: "p'RI", syllables: [{heb:"פְּ",sound:"p'"},{heb:"רִי",sound:"RI"}] },
+      { heb: "הַגָּפֶן", sound: "ha-GA-fen", syllables: [{heb:"הַ",sound:"ha"},{heb:"גָּ",sound:"GA"},{heb:"פֶן",sound:"fen"}] }
     ]
   },
   {
+    category: "Blessings",
     name: "HaMotzi — blessing over bread",
     hebrewName: "הַמּוֹצִיא",
     text: "בָּרוּךְ אַתָּה יְהוָה אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם הַמּוֹצִיא לֶחֶם מִן הָאָרֶץ",
     translation: "Blessed are You, Lord our God, King of the universe, who brings forth bread from the earth.",
     chunks: [
-      { heb: "בָּרוּךְ", sound: "ba-RUKH" },
-      { heb: "אַתָּה", sound: "a-TAH" },
-      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי" },
-      { heb: "אֱלֹהֵינוּ", sound: "e-lo-HEI-nu" },
-      { heb: "מֶלֶךְ", sound: "ME-lekh" },
-      { heb: "הָעוֹלָם", sound: "ha-o-LAM" },
-      { heb: "הַמּוֹצִיא", sound: "ha-mo-TZI" },
-      { heb: "לֶחֶם", sound: "LE-chem" },
-      { heb: "מִן", sound: "min" },
-      { heb: "הָאָרֶץ", sound: "ha-A-rets" }
+      { heb: "בָּרוּךְ", sound: "ba-RUKH", syllables: [{heb:"בָּ",sound:"ba"},{heb:"רוּךְ",sound:"RUKH"}] },
+      { heb: "אַתָּה", sound: "a-TAH", syllables: [{heb:"אַ",sound:"a"},{heb:"תָּה",sound:"TAH"}] },
+      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי", syllables: [{heb:"יְהוָה",sound:"Ado-NAI"}] },
+      { heb: "אֱלֹהֵינוּ", sound: "e-lo-HEI-nu", syllables: [{heb:"אֱ",sound:"e"},{heb:"לֹ",sound:"lo"},{heb:"הֵי",sound:"HEI"},{heb:"נוּ",sound:"nu"}] },
+      { heb: "מֶלֶךְ", sound: "ME-lekh", syllables: [{heb:"מֶ",sound:"ME"},{heb:"לֶךְ",sound:"lekh"}] },
+      { heb: "הָעוֹלָם", sound: "ha-o-LAM", syllables: [{heb:"הָ",sound:"ha"},{heb:"עוֹ",sound:"o"},{heb:"לָם",sound:"LAM"}] },
+      { heb: "הַמּוֹצִיא", sound: "ha-mo-TZI", syllables: [{heb:"הַ",sound:"ha"},{heb:"מּוֹ",sound:"mo"},{heb:"צִיא",sound:"TZI"}] },
+      { heb: "לֶחֶם", sound: "LE-chem", syllables: [{heb:"לֶ",sound:"LE"},{heb:"חֶם",sound:"chem"}] },
+      { heb: "מִן", sound: "min", syllables: [{heb:"מִן",sound:"min"}] },
+      { heb: "הָאָרֶץ", sound: "ha-A-rets", syllables: [{heb:"הָ",sound:"ha"},{heb:"אָ",sound:"A"},{heb:"רֶץ",sound:"rets"}] }
+    ]
+  },
+  {
+    category: "Blessings",
+    name: "Blessing over Tallit",
+    hebrewName: "טַלִּית",
+    text: "בָּרוּךְ אַתָּה יְהוָה אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם אֲשֶׁר קִדְּשָׁנוּ בְּמִצְוֹתָיו וְצִוָּנוּ לְהִתְעַטֵּף בַּצִּיצִית",
+    translation: "Blessed are You, Lord our God, King of the universe, who sanctified us with His commandments and commanded us to wrap ourselves in tzitzit.",
+    chunks: [
+      { heb: "בָּרוּךְ", sound: "ba-RUKH", syllables: [{heb:"בָּ",sound:"ba"},{heb:"רוּךְ",sound:"RUKH"}] },
+      { heb: "אַתָּה", sound: "a-TAH", syllables: [{heb:"אַ",sound:"a"},{heb:"תָּה",sound:"TAH"}] },
+      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי", syllables: [{heb:"יְהוָה",sound:"Ado-NAI"}] },
+      { heb: "אֱלֹהֵינוּ", sound: "e-lo-HEI-nu", syllables: [{heb:"אֱ",sound:"e"},{heb:"לֹ",sound:"lo"},{heb:"הֵי",sound:"HEI"},{heb:"נוּ",sound:"nu"}] },
+      { heb: "מֶלֶךְ", sound: "ME-lekh", syllables: [{heb:"מֶ",sound:"ME"},{heb:"לֶךְ",sound:"lekh"}] },
+      { heb: "הָעוֹלָם", sound: "ha-o-LAM", syllables: [{heb:"הָ",sound:"ha"},{heb:"עוֹ",sound:"o"},{heb:"לָם",sound:"LAM"}] },
+      { heb: "אֲשֶׁר", sound: "a-SHER", syllables: [{heb:"אֲ",sound:"a"},{heb:"שֶׁר",sound:"SHER"}] },
+      { heb: "קִדְּשָׁנוּ", sound: "ki-d'SHA-nu", syllables: [{heb:"קִד",sound:"kid"},{heb:"שָׁ",sound:"SHA"},{heb:"נוּ",sound:"nu"}] },
+      { heb: "בְּמִצְוֹתָיו", sound: "b'mitz-vo-TAV", syllables: [{heb:"בְּמִצ",sound:"b'mitz"},{heb:"וֹ",sound:"vo"},{heb:"תָיו",sound:"TAV"}] },
+      { heb: "וְצִוָּנוּ", sound: "v'tzi-VA-nu", syllables: [{heb:"וְ",sound:"v'"},{heb:"צִ",sound:"tzi"},{heb:"וָּ",sound:"VA"},{heb:"נוּ",sound:"nu"}] },
+      { heb: "לְהִתְעַטֵּף", sound: "l'hit-a-TEF", syllables: [{heb:"לְ",sound:"l'"},{heb:"הִת",sound:"hit"},{heb:"עַ",sound:"a"},{heb:"טֵּף",sound:"TEF"}] },
+      { heb: "בַּצִּיצִית", sound: "ba-tzi-TZIT", syllables: [{heb:"בַּ",sound:"ba"},{heb:"צִי",sound:"tzi"},{heb:"צִית",sound:"TZIT"}] }
+    ]
+  },
+
+  // ===== CATEGORY: Bar Mitzvah Service =====
+  {
+    category: "Bar Mitzvah",
+    name: "Barchu — call to worship",
+    hebrewName: "בָּרְכוּ",
+    text: "בָּרְכוּ אֶת יְהוָה הַמְבֹרָךְ",
+    translation: "Bless the Lord who is blessed.",
+    chunks: [
+      { heb: "בָּרְכוּ", sound: "bar-KHU", syllables: [{heb:"בָּר",sound:"bar"},{heb:"כוּ",sound:"KHU"}] },
+      { heb: "אֶת", sound: "et", syllables: [{heb:"אֶת",sound:"et"}] },
+      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי", syllables: [{heb:"יְהוָה",sound:"Ado-NAI"}] },
+      { heb: "הַמְבֹרָךְ", sound: "ha-m'vo-RAKH", syllables: [{heb:"הַמְ",sound:"ham"},{heb:"בֹ",sound:"vo"},{heb:"רָךְ",sound:"RAKH"}] }
+    ]
+  },
+  {
+    category: "Bar Mitzvah",
+    name: "Torah Blessings — before reading",
+    hebrewName: "בִּרְכוֹת הַתּוֹרָה",
+    text: "בָּרְכוּ אֶת יְהוָה הַמְבֹרָךְ בָּרוּךְ יְהוָה הַמְבֹרָךְ לְעוֹלָם וָעֶד",
+    translation: "Bless the Lord who is blessed. Blessed is the Lord who is blessed forever and ever.",
+    chunks: [
+      { heb: "בָּרְכוּ", sound: "bar-KHU", syllables: [{heb:"בָּר",sound:"bar"},{heb:"כוּ",sound:"KHU"}] },
+      { heb: "אֶת", sound: "et", syllables: [{heb:"אֶת",sound:"et"}] },
+      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי", syllables: [{heb:"יְהוָה",sound:"Ado-NAI"}] },
+      { heb: "הַמְבֹרָךְ", sound: "ha-m'vo-RAKH", syllables: [{heb:"הַמְ",sound:"ham"},{heb:"בֹ",sound:"vo"},{heb:"רָךְ",sound:"RAKH"}] },
+      { heb: "בָּרוּךְ", sound: "ba-RUKH", syllables: [{heb:"בָּ",sound:"ba"},{heb:"רוּךְ",sound:"RUKH"}] },
+      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי", syllables: [{heb:"יְהוָה",sound:"Ado-NAI"}] },
+      { heb: "הַמְבֹרָךְ", sound: "ha-m'vo-RAKH", syllables: [{heb:"הַמְ",sound:"ham"},{heb:"בֹ",sound:"vo"},{heb:"רָךְ",sound:"RAKH"}] },
+      { heb: "לְעוֹלָם", sound: "l'o-LAM", syllables: [{heb:"לְ",sound:"l'"},{heb:"עוֹ",sound:"o"},{heb:"לָם",sound:"LAM"}] },
+      { heb: "וָעֶד", sound: "va-ED", syllables: [{heb:"וָ",sound:"va"},{heb:"עֶד",sound:"ED"}] }
+    ]
+  },
+  {
+    category: "Bar Mitzvah",
+    name: "Haftarah Blessing — after Prophets",
+    hebrewName: "הַפְטָרָה",
+    text: "בָּרוּךְ אַתָּה יְהוָה אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם אֲשֶׁר בָּחַר בִּנְבִיאִים טוֹבִים",
+    translation: "Blessed are You, Lord our God, King of the universe, who chose good prophets.",
+    chunks: [
+      { heb: "בָּרוּךְ", sound: "ba-RUKH", syllables: [{heb:"בָּ",sound:"ba"},{heb:"רוּךְ",sound:"RUKH"}] },
+      { heb: "אַתָּה", sound: "a-TAH", syllables: [{heb:"אַ",sound:"a"},{heb:"תָּה",sound:"TAH"}] },
+      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי", syllables: [{heb:"יְהוָה",sound:"Ado-NAI"}] },
+      { heb: "אֱלֹהֵינוּ", sound: "e-lo-HEI-nu", syllables: [{heb:"אֱ",sound:"e"},{heb:"לֹ",sound:"lo"},{heb:"הֵי",sound:"HEI"},{heb:"נוּ",sound:"nu"}] },
+      { heb: "מֶלֶךְ", sound: "ME-lekh", syllables: [{heb:"מֶ",sound:"ME"},{heb:"לֶךְ",sound:"lekh"}] },
+      { heb: "הָעוֹלָם", sound: "ha-o-LAM", syllables: [{heb:"הָ",sound:"ha"},{heb:"עוֹ",sound:"o"},{heb:"לָם",sound:"LAM"}] },
+      { heb: "אֲשֶׁר", sound: "a-SHER", syllables: [{heb:"אֲ",sound:"a"},{heb:"שֶׁר",sound:"SHER"}] },
+      { heb: "בָּחַר", sound: "ba-CHAR", syllables: [{heb:"בָּ",sound:"ba"},{heb:"חַר",sound:"CHAR"}] },
+      { heb: "בִּנְבִיאִים", sound: "bin-vi-IM", syllables: [{heb:"בִּנְ",sound:"bin"},{heb:"בִי",sound:"vi"},{heb:"אִים",sound:"IM"}] },
+      { heb: "טוֹבִים", sound: "to-VIM", syllables: [{heb:"טוֹ",sound:"to"},{heb:"בִים",sound:"VIM"}] }
+    ]
+  },
+  {
+    category: "Bar Mitzvah",
+    name: "V'ahavta — after the Shema",
+    hebrewName: "וְאָהַבְתָּ",
+    text: "וְאָהַבְתָּ אֵת יְהוָה אֱלֹהֶיךָ בְּכָל לְבָבְךָ וּבְכָל נַפְשְׁךָ וּבְכָל מְאֹדֶךָ",
+    translation: "You shall love the Lord your God with all your heart, with all your soul, and with all your might.",
+    chunks: [
+      { heb: "וְאָהַבְתָּ", sound: "v'a-hav-TA", syllables: [{heb:"וְ",sound:"v'"},{heb:"אָ",sound:"a"},{heb:"הַב",sound:"hav"},{heb:"תָּ",sound:"TA"}] },
+      { heb: "אֵת", sound: "et", syllables: [{heb:"אֵת",sound:"et"}] },
+      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי", syllables: [{heb:"יְהוָה",sound:"Ado-NAI"}] },
+      { heb: "אֱלֹהֶיךָ", sound: "e-lo-HE-kha", syllables: [{heb:"אֱ",sound:"e"},{heb:"לֹ",sound:"lo"},{heb:"הֶי",sound:"HE"},{heb:"ךָ",sound:"kha"}] },
+      { heb: "בְּכָל", sound: "b'khol", syllables: [{heb:"בְּ",sound:"b'"},{heb:"כָל",sound:"khol"}] },
+      { heb: "לְבָבְךָ", sound: "l'va-V'KHA", syllables: [{heb:"לְ",sound:"l'"},{heb:"בָב",sound:"vav"},{heb:"ךָ",sound:"KHA"}] },
+      { heb: "וּבְכָל", sound: "uv'KHOL", syllables: [{heb:"וּ",sound:"u"},{heb:"בְ",sound:"v'"},{heb:"כָל",sound:"KHOL"}] },
+      { heb: "נַפְשְׁךָ", sound: "naf-SH'KHA", syllables: [{heb:"נַף",sound:"naf"},{heb:"שְׁ",sound:"sh'"},{heb:"ךָ",sound:"KHA"}] },
+      { heb: "וּבְכָל", sound: "uv'KHOL", syllables: [{heb:"וּ",sound:"u"},{heb:"בְ",sound:"v'"},{heb:"כָל",sound:"KHOL"}] },
+      { heb: "מְאֹדֶךָ", sound: "m'o-DE-kha", syllables: [{heb:"מְ",sound:"m'"},{heb:"אֹ",sound:"o"},{heb:"דֶ",sound:"DE"},{heb:"ךָ",sound:"kha"}] }
+    ]
+  },
+  {
+    category: "Bar Mitzvah",
+    name: "Mi Chamocha — Song of the Sea",
+    hebrewName: "מִי כָמֹכָה",
+    text: "מִי כָמֹכָה בָּאֵלִם יְהוָה מִי כָּמֹכָה נֶאְדָּר בַּקֹּדֶשׁ",
+    translation: "Who is like You among the mighty, O Lord? Who is like You, majestic in holiness?",
+    chunks: [
+      { heb: "מִי", sound: "mi", syllables: [{heb:"מִי",sound:"mi"}] },
+      { heb: "כָמֹכָה", sound: "kha-MO-kha", syllables: [{heb:"כָ",sound:"kha"},{heb:"מֹ",sound:"MO"},{heb:"כָה",sound:"kha"}] },
+      { heb: "בָּאֵלִם", sound: "ba-E-lim", syllables: [{heb:"בָּ",sound:"ba"},{heb:"אֵ",sound:"E"},{heb:"לִם",sound:"lim"}] },
+      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי", syllables: [{heb:"יְהוָה",sound:"Ado-NAI"}] },
+      { heb: "מִי", sound: "mi", syllables: [{heb:"מִי",sound:"mi"}] },
+      { heb: "כָּמֹכָה", sound: "kha-MO-kha", syllables: [{heb:"כָּ",sound:"kha"},{heb:"מֹ",sound:"MO"},{heb:"כָה",sound:"kha"}] },
+      { heb: "נֶאְדָּר", sound: "ne-DAR", syllables: [{heb:"נֶאְ",sound:"ne"},{heb:"דָּר",sound:"DAR"}] },
+      { heb: "בַּקֹּדֶשׁ", sound: "ba-KO-desh", syllables: [{heb:"בַּ",sound:"ba"},{heb:"קֹּ",sound:"KO"},{heb:"דֶשׁ",sound:"desh"}] }
+    ]
+  },
+
+  // ===== CATEGORY: Holidays =====
+  {
+    category: "Holidays",
+    name: "Hanukkah Candle Blessing",
+    hebrewName: "חֲנוּכָּה",
+    text: "בָּרוּךְ אַתָּה יְהוָה אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם אֲשֶׁר קִדְּשָׁנוּ בְּמִצְוֹתָיו וְצִוָּנוּ לְהַדְלִיק נֵר שֶׁל חֲנוּכָּה",
+    translation: "Blessed are You, Lord our God, King of the universe, who sanctified us and commanded us to light the Hanukkah candle.",
+    chunks: [
+      { heb: "בָּרוּךְ", sound: "ba-RUKH", syllables: [{heb:"בָּ",sound:"ba"},{heb:"רוּךְ",sound:"RUKH"}] },
+      { heb: "אַתָּה", sound: "a-TAH", syllables: [{heb:"אַ",sound:"a"},{heb:"תָּה",sound:"TAH"}] },
+      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי", syllables: [{heb:"יְהוָה",sound:"Ado-NAI"}] },
+      { heb: "אֱלֹהֵינוּ", sound: "e-lo-HEI-nu", syllables: [{heb:"אֱ",sound:"e"},{heb:"לֹ",sound:"lo"},{heb:"הֵי",sound:"HEI"},{heb:"נוּ",sound:"nu"}] },
+      { heb: "מֶלֶךְ", sound: "ME-lekh", syllables: [{heb:"מֶ",sound:"ME"},{heb:"לֶךְ",sound:"lekh"}] },
+      { heb: "הָעוֹלָם", sound: "ha-o-LAM", syllables: [{heb:"הָ",sound:"ha"},{heb:"עוֹ",sound:"o"},{heb:"לָם",sound:"LAM"}] },
+      { heb: "אֲשֶׁר", sound: "a-SHER", syllables: [{heb:"אֲ",sound:"a"},{heb:"שֶׁר",sound:"SHER"}] },
+      { heb: "קִדְּשָׁנוּ", sound: "ki-d'SHA-nu", syllables: [{heb:"קִד",sound:"kid"},{heb:"שָׁ",sound:"SHA"},{heb:"נוּ",sound:"nu"}] },
+      { heb: "בְּמִצְוֹתָיו", sound: "b'mitz-vo-TAV", syllables: [{heb:"בְּמִצ",sound:"b'mitz"},{heb:"וֹ",sound:"vo"},{heb:"תָיו",sound:"TAV"}] },
+      { heb: "וְצִוָּנוּ", sound: "v'tzi-VA-nu", syllables: [{heb:"וְ",sound:"v'"},{heb:"צִ",sound:"tzi"},{heb:"וָּ",sound:"VA"},{heb:"נוּ",sound:"nu"}] },
+      { heb: "לְהַדְלִיק", sound: "l'had-LIK", syllables: [{heb:"לְ",sound:"l'"},{heb:"הַד",sound:"had"},{heb:"לִיק",sound:"LIK"}] },
+      { heb: "נֵר", sound: "ner", syllables: [{heb:"נֵר",sound:"ner"}] },
+      { heb: "שֶׁל", sound: "shel", syllables: [{heb:"שֶׁל",sound:"shel"}] },
+      { heb: "חֲנוּכָּה", sound: "cha-nu-KAH", syllables: [{heb:"חֲ",sound:"cha"},{heb:"נוּ",sound:"nu"},{heb:"כָּה",sound:"KAH"}] }
+    ]
+  },
+  {
+    category: "Holidays",
+    name: "Shabbat Candle Blessing",
+    hebrewName: "נֵרוֹת שַׁבָּת",
+    text: "בָּרוּךְ אַתָּה יְהוָה אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם אֲשֶׁר קִדְּשָׁנוּ בְּמִצְוֹתָיו וְצִוָּנוּ לְהַדְלִיק נֵר שֶׁל שַׁבָּת",
+    translation: "Blessed are You, Lord our God, King of the universe, who sanctified us and commanded us to light the Shabbat candles.",
+    chunks: [
+      { heb: "בָּרוּךְ", sound: "ba-RUKH", syllables: [{heb:"בָּ",sound:"ba"},{heb:"רוּךְ",sound:"RUKH"}] },
+      { heb: "אַתָּה", sound: "a-TAH", syllables: [{heb:"אַ",sound:"a"},{heb:"תָּה",sound:"TAH"}] },
+      { heb: "יְהוָה", sound: "Ado-NAI", speak: "אֲדֹנָי", syllables: [{heb:"יְהוָה",sound:"Ado-NAI"}] },
+      { heb: "אֱלֹהֵינוּ", sound: "e-lo-HEI-nu", syllables: [{heb:"אֱ",sound:"e"},{heb:"לֹ",sound:"lo"},{heb:"הֵי",sound:"HEI"},{heb:"נוּ",sound:"nu"}] },
+      { heb: "מֶלֶךְ", sound: "ME-lekh", syllables: [{heb:"מֶ",sound:"ME"},{heb:"לֶךְ",sound:"lekh"}] },
+      { heb: "הָעוֹלָם", sound: "ha-o-LAM", syllables: [{heb:"הָ",sound:"ha"},{heb:"עוֹ",sound:"o"},{heb:"לָם",sound:"LAM"}] },
+      { heb: "אֲשֶׁר", sound: "a-SHER", syllables: [{heb:"אֲ",sound:"a"},{heb:"שֶׁר",sound:"SHER"}] },
+      { heb: "קִדְּשָׁנוּ", sound: "ki-d'SHA-nu", syllables: [{heb:"קִד",sound:"kid"},{heb:"שָׁ",sound:"SHA"},{heb:"נוּ",sound:"nu"}] },
+      { heb: "בְּמִצְוֹתָיו", sound: "b'mitz-vo-TAV", syllables: [{heb:"בְּמִצ",sound:"b'mitz"},{heb:"וֹ",sound:"vo"},{heb:"תָיו",sound:"TAV"}] },
+      { heb: "וְצִוָּנוּ", sound: "v'tzi-VA-nu", syllables: [{heb:"וְ",sound:"v'"},{heb:"צִ",sound:"tzi"},{heb:"וָּ",sound:"VA"},{heb:"נוּ",sound:"nu"}] },
+      { heb: "לְהַדְלִיק", sound: "l'had-LIK", syllables: [{heb:"לְ",sound:"l'"},{heb:"הַד",sound:"had"},{heb:"לִיק",sound:"LIK"}] },
+      { heb: "נֵר", sound: "ner", syllables: [{heb:"נֵר",sound:"ner"}] },
+      { heb: "שֶׁל", sound: "shel", syllables: [{heb:"שֶׁל",sound:"shel"}] },
+      { heb: "שַׁבָּת", sound: "sha-BAT", syllables: [{heb:"שַׁ",sound:"sha"},{heb:"בָּת",sound:"BAT"}] }
     ]
   }
 ];
-
 // ===== STATE =====
 let currentWord = 0;
 
@@ -1476,173 +1841,305 @@ function renderPrayerSpans(displayEl, chunks, activeIdx) {
 
 function buildPrayers() {
   const list = document.getElementById('prayerList');
-  prayers.forEach((p) => {
-    const card = document.createElement('div');
-    card.className = 'prayer-card';
+  const filtersDiv = document.getElementById('prayerFilters');
 
-    // Header (always visible, click to expand)
-    const header = document.createElement('div');
-    header.innerHTML = `
-      <div class="prayer-name">
-        <span>${p.name} <span style="font-size:0.8em;color:#888;">▼</span></span>
-        <span class="prayer-hebrew-name">${p.hebrewName}</span>
-      </div>
-    `;
+  // Build category filter pills
+  const categories = ['All', ...new Set(prayers.map(p => p.category))];
+  let activeCategory = 'All';
 
-    const body = document.createElement('div');
-    body.className = 'prayer-body hidden';
-
-    // BIG Hebrew display box (matches word breakdown style)
-    const display = document.createElement('div');
-    display.className = 'hebrew-display';
-    display.style.cssText = 'margin-bottom:16px;';
-
-    const bigText = document.createElement('div');
-    bigText.style.cssText = 'font-size:2.2em; direction:rtl; font-weight:800; line-height:1.6; letter-spacing:3px; padding:4px 0;';
-    renderPrayerSpans(bigText, p.chunks, -1);
-
-    const engLine = document.createElement('div');
-    engLine.className = 'english-meaning';
-    engLine.textContent = p.translation;
-
-    display.appendChild(bigText);
-    display.appendChild(engLine);
-
-    // Chunk blocks (RTL, colored, clickable — same style as syllable blocks)
-    const chunksDiv = document.createElement('div');
-    chunksDiv.className = 'syllable-row';  // reuse same RTL flex style
-
-    p.chunks.forEach((c, ci) => {
-      const col = SYL_COLORS[ci % SYL_COLORS.length];
-      const block = document.createElement('div');
-      block.className = 'syllable-block';
-      block.style.borderColor = col.bg;
-      block.style.minWidth = '80px';
-      block.innerHTML = `
-        <span class="syl-hebrew" style="color:${col.bg}; font-size:1.6em;">${c.heb}</span>
-        <span class="syl-sound" data-idx="${ci}" style="background:${col.bg}; color:#fff; transition: all 0.2s;">${c.sound}</span>
-      `;
-      block.addEventListener('click', e => {
-        e.stopPropagation();
-        // Light up in big display
-        renderPrayerSpans(bigText, p.chunks, ci);
-        setTimeout(() => renderPrayerSpans(bigText, p.chunks, -1), 1100);
-        // Speak it
-        speakText(c);
-      });
-      chunksDiv.appendChild(block);
-    });
-
-    // Button row + step counter
-    const btnRow = document.createElement('div');
-    btnRow.className = 'btn-row';
-
-    const pronounceBtn = document.createElement('button');
-    pronounceBtn.className = 'pronounce-btn';
-    pronounceBtn.style.cssText = 'font-size:1em; padding:10px 20px; margin:0;';
-    pronounceBtn.textContent = '🔊 Hear all';
-
-    const stepBtn = document.createElement('button');
-    stepBtn.className = 'step-btn';
-    stepBtn.textContent = '👆 Step: word 1';
-
-    const stepCounter = document.createElement('div');
-    stepCounter.className = 'step-counter';
-
-    // Per-prayer step state
-    let stepIdx = 0;
-    const totalWords = p.chunks.length;
-
-    function highlightStep(idx, speak) {
-      renderPrayerSpans(bigText, p.chunks, idx);
-      const blocks = Array.from(chunksDiv.querySelectorAll('.syllable-block'));
-      blocks.forEach((el, j) => {
-        const col = SYL_COLORS[j % SYL_COLORS.length];
-        const hebEl = el.querySelector('.syl-hebrew');
-        const sndEl = el.querySelector('.syl-sound');
-        if (j === idx) {
-          el.style.background = col.bg;
-          el.style.borderColor = col.bg;
-          el.style.transform = 'translateY(-5px) scale(1.08)';
-          el.style.boxShadow = `0 8px 24px ${col.bg}88`;
-          el.style.opacity = '1';
-          if (hebEl) hebEl.style.color = '#fff';
-          if (sndEl) { sndEl.style.background = 'rgba(255,255,255,0.3)'; sndEl.style.color = '#fff'; sndEl.style.transform = 'scale(1.2)'; sndEl.style.fontWeight = '900'; }
-        } else {
-          el.style.background = 'white';
-          el.style.borderColor = col.bg;
-          el.style.transform = '';
-          el.style.boxShadow = '';
-          el.style.opacity = j < idx ? '0.5' : '0.22';
-          if (hebEl) hebEl.style.color = col.bg;
-          if (sndEl) { sndEl.style.background = col.bg; sndEl.style.color = '#fff'; sndEl.style.transform = ''; sndEl.style.fontWeight = ''; }
-        }
-      });
-      stepCounter.textContent = `Word ${idx + 1} of ${totalWords}: ${p.chunks[idx].sound}`;
-      if (speak) speakText(p.chunks[idx]);
-    }
-
-    function resetStep() {
-      stepIdx = 0;
-      renderPrayerSpans(bigText, p.chunks, -1);
-      const blocks = Array.from(chunksDiv.querySelectorAll('.syllable-block'));
-      blocks.forEach((el, j) => {
-        const col = SYL_COLORS[j % SYL_COLORS.length];
-        el.style.background = 'white'; el.style.borderColor = col.bg;
-        el.style.transform = ''; el.style.boxShadow = ''; el.style.opacity = '1';
-        const hebEl = el.querySelector('.syl-hebrew');
-        const sndEl = el.querySelector('.syl-sound');
-        if (hebEl) hebEl.style.color = col.bg;
-        if (sndEl) { sndEl.style.background = col.bg; sndEl.style.color = '#fff'; sndEl.style.transform = ''; sndEl.style.fontWeight = ''; }
-      });
-      stepCounter.textContent = '';
-      stepBtn.textContent = '👆 Step: word 1';
-      stepBtn.classList.remove('reset');
-    }
-
-    stepBtn.addEventListener('click', e => {
-      e.stopPropagation();
-      if (stepBtn.classList.contains('reset')) { resetStep(); return; }
-      highlightStep(stepIdx, true);
-      stepIdx++;
-      if (stepIdx >= totalWords) {
-        stepBtn.textContent = '🔄 Reset';
-        stepBtn.classList.add('reset');
-      } else {
-        stepBtn.textContent = `👆 Step: word ${stepIdx + 1}`;
-      }
-    });
-
-    pronounceBtn.addEventListener('click', e => {
-      e.stopPropagation();
-      resetStep();
-      pronouncePrayer(pronounceBtn, bigText, chunksDiv, p.chunks);
-    });
-
-    btnRow.appendChild(pronounceBtn);
-    btnRow.appendChild(stepBtn);
-
-    body.appendChild(display);
-    body.appendChild(chunksDiv);
-    body.appendChild(btnRow);
-    body.appendChild(stepCounter);
-
-    header.addEventListener('click', () => {
-      const isOpen = card.classList.contains('open');
-      document.querySelectorAll('.prayer-card').forEach(c => {
-        c.classList.remove('open');
-        c.querySelector('.prayer-body').classList.add('hidden');
-      });
-      if (!isOpen) {
-        card.classList.add('open');
-        body.classList.remove('hidden');
-      }
-    });
-
-    card.appendChild(header);
-    card.appendChild(body);
-    list.appendChild(card);
+  categories.forEach(cat => {
+    const pill = document.createElement('button');
+    pill.className = 'filter-pill' + (cat === 'All' ? ' active' : '');
+    const icons = { All: '🌟', Daily: '🕍', Blessings: '🙏', 'Bar Mitzvah': '✡️', Holidays: '🕎' };
+    pill.textContent = (icons[cat] || '') + ' ' + cat;
+    pill.onclick = () => {
+      activeCategory = cat;
+      filtersDiv.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      renderPrayerList();
+    };
+    filtersDiv.appendChild(pill);
   });
+
+  function renderPrayerList() {
+    list.innerHTML = '';
+    const filtered = activeCategory === 'All' ? prayers : prayers.filter(p => p.category === activeCategory);
+    filtered.forEach(p => buildPrayerCard(p, list));
+  }
+
+  renderPrayerList();
+}
+
+function buildPrayerCard(p, list) {
+  const card = document.createElement('div');
+  card.className = 'prayer-card';
+
+  // Category badge
+  const catColors = { Daily: '#4a90e2', Blessings: '#2ecc71', 'Bar Mitzvah': '#9b59b6', Holidays: '#e67e22' };
+
+  const header = document.createElement('div');
+  header.innerHTML = `
+    <div class="prayer-name">
+      <span>
+        <span style="background:${catColors[p.category]||'#888'};color:white;font-size:0.65em;padding:2px 9px;border-radius:10px;font-family:Nunito,sans-serif;font-weight:700;margin-right:8px;vertical-align:middle;">${p.category}</span>
+        ${p.name} <span style="font-size:0.8em;color:#aaa;">▼</span>
+      </span>
+      <span class="prayer-hebrew-name">${p.hebrewName}</span>
+    </div>
+  `;
+
+  const body = document.createElement('div');
+  body.className = 'prayer-body hidden';
+
+  // Big Hebrew display
+  const display = document.createElement('div');
+  display.className = 'hebrew-display';
+  display.style.cssText = 'margin-bottom:16px;';
+
+  const bigText = document.createElement('div');
+  bigText.style.cssText = 'font-size:2.2em; direction:rtl; font-weight:800; line-height:1.6; letter-spacing:3px; padding:4px 0;';
+  renderPrayerSpans(bigText, p.chunks, -1);
+
+  const engLine = document.createElement('div');
+  engLine.className = 'english-meaning';
+  engLine.textContent = p.translation;
+
+  display.appendChild(bigText);
+  display.appendChild(engLine);
+
+  // Word chunk blocks (RTL, colored)
+  const chunksDiv = document.createElement('div');
+  chunksDiv.className = 'syllable-row';
+
+  p.chunks.forEach((c, ci) => {
+    const col = SYL_COLORS[ci % SYL_COLORS.length];
+    const block = document.createElement('div');
+    block.className = 'syllable-block';
+    block.style.borderColor = col.bg;
+    block.style.minWidth = '80px';
+
+    // Build syllable chips inside each word block
+    const sylChipsHtml = (c.syllables || []).map((s, si) => {
+      const sc = SYL_COLORS[si % SYL_COLORS.length];
+      return `<div class="chunk-syl-chip" data-syli="${si}" style="border-color:${sc.bg}">
+        <span class="cs-heb" style="color:${sc.bg}">${s.heb}</span>
+        <span class="cs-sound" style="color:${sc.bg}">${s.sound}</span>
+      </div>`;
+    }).join('');
+
+    block.innerHTML = `
+      <span class="syl-hebrew" style="color:${col.bg}; font-size:1.6em;">${c.heb}</span>
+      <span class="syl-sound" data-idx="${ci}" style="background:${col.bg}; color:#fff; transition: all 0.2s;">${c.sound}</span>
+      ${c.syllables && c.syllables.length > 1 ? `<div class="chunk-syl-chips">${sylChipsHtml}</div>` : ''}
+    `;
+    block.addEventListener('click', e => {
+      e.stopPropagation();
+      renderPrayerSpans(bigText, p.chunks, ci);
+      setTimeout(() => renderPrayerSpans(bigText, p.chunks, -1), 1100);
+      speakText(c);
+    });
+    chunksDiv.appendChild(block);
+  });
+
+  // Button row
+  const btnRow = document.createElement('div');
+  btnRow.className = 'btn-row';
+
+  const pronounceBtn = document.createElement('button');
+  pronounceBtn.className = 'pronounce-btn';
+  pronounceBtn.style.cssText = 'font-size:1em; padding:10px 20px; margin:0;';
+  pronounceBtn.textContent = '🔊 Hear all';
+
+  // Word-by-word step button
+  const stepWordBtn = document.createElement('button');
+  stepWordBtn.className = 'step-btn';
+  stepWordBtn.textContent = '👆 Word by word';
+
+  // Syllable-by-syllable step button
+  const stepSylBtn = document.createElement('button');
+  stepSylBtn.className = 'syl-step-btn';
+  stepSylBtn.textContent = '🔬 Syllable by syllable';
+
+  const stepCounter = document.createElement('div');
+  stepCounter.className = 'step-counter';
+
+  // Build flat syllable list for syllable-step mode
+  const flatSyllables = [];
+  p.chunks.forEach((c, ci) => {
+    if (c.syllables && c.syllables.length > 0) {
+      c.syllables.forEach((s, si) => flatSyllables.push({ chunkIdx: ci, sylIdx: si, heb: s.heb, sound: s.sound, speakHeb: s.heb }));
+    } else {
+      flatSyllables.push({ chunkIdx: ci, sylIdx: 0, heb: c.heb, sound: c.sound, speakHeb: c.speak || c.heb });
+    }
+  });
+
+  let stepWordIdx = 0;
+  let stepSylIdx = 0;
+  let stepMode = null; // 'word' or 'syl'
+  const totalWords = p.chunks.length;
+  const totalSyls = flatSyllables.length;
+
+  function resetAllSteps() {
+    stepWordIdx = 0; stepSylIdx = 0; stepMode = null;
+    renderPrayerSpans(bigText, p.chunks, -1);
+    stepWordBtn.textContent = '👆 Word by word';
+    stepWordBtn.classList.remove('reset');
+    stepSylBtn.textContent = '🔬 Syllable by syllable';
+    stepSylBtn.classList.remove('reset');
+    stepCounter.textContent = '';
+    // Reset chunk blocks
+    const blocks = Array.from(chunksDiv.querySelectorAll('.syllable-block'));
+    blocks.forEach((el, j) => {
+      const col = SYL_COLORS[j % SYL_COLORS.length];
+      el.style.background = 'white'; el.style.borderColor = col.bg;
+      el.style.transform = ''; el.style.boxShadow = ''; el.style.opacity = '1';
+      const hebEl = el.querySelector('.syl-hebrew');
+      const sndEl = el.querySelector('.syl-sound');
+      if (hebEl) hebEl.style.color = col.bg;
+      if (sndEl) { sndEl.style.background = col.bg; sndEl.style.color = '#fff'; sndEl.style.transform = ''; sndEl.style.fontWeight = ''; }
+      // Reset syl chips
+      el.querySelectorAll('.chunk-syl-chip').forEach(chip => {
+        chip.style.background = ''; chip.style.borderColor = ''; chip.style.transform = ''; chip.style.opacity = '0.7';
+        const si = parseInt(chip.dataset.syli);
+        const sc = SYL_COLORS[si % SYL_COLORS.length];
+        chip.querySelector('.cs-heb').style.color = sc.bg;
+        chip.querySelector('.cs-sound').style.color = sc.bg;
+      });
+    });
+  }
+
+  function highlightWordStep(idx, doSpeak) {
+    renderPrayerSpans(bigText, p.chunks, idx);
+    const blocks = Array.from(chunksDiv.querySelectorAll('.syllable-block'));
+    blocks.forEach((el, j) => {
+      const col = SYL_COLORS[j % SYL_COLORS.length];
+      if (j === idx) {
+        el.style.background = col.bg; el.style.borderColor = col.bg;
+        el.style.transform = 'translateY(-5px) scale(1.08)'; el.style.boxShadow = `0 8px 24px ${col.bg}88`; el.style.opacity = '1';
+        el.querySelector('.syl-hebrew').style.color = '#fff';
+        const snd = el.querySelector('.syl-sound');
+        if (snd) { snd.style.background = 'rgba(255,255,255,0.3)'; snd.style.color = '#fff'; snd.style.transform = 'scale(1.2)'; snd.style.fontWeight = '900'; }
+      } else {
+        el.style.background = 'white'; el.style.borderColor = col.bg; el.style.transform = ''; el.style.boxShadow = ''; el.style.opacity = j < idx ? '0.5' : '0.22';
+        el.querySelector('.syl-hebrew').style.color = col.bg;
+        const snd = el.querySelector('.syl-sound');
+        if (snd) { snd.style.background = col.bg; snd.style.color = '#fff'; snd.style.transform = ''; snd.style.fontWeight = ''; }
+      }
+    });
+    stepCounter.textContent = `Word ${idx + 1}/${totalWords}: ${p.chunks[idx].sound}`;
+    if (doSpeak) speakText(p.chunks[idx]);
+  }
+
+  function highlightSylStep(flatIdx) {
+    const fs = flatSyllables[flatIdx];
+    const { chunkIdx, sylIdx } = fs;
+    // Light up big prayer text at the chunk level
+    renderPrayerSpans(bigText, p.chunks, chunkIdx);
+    // Dim/highlight word blocks
+    const blocks = Array.from(chunksDiv.querySelectorAll('.syllable-block'));
+    blocks.forEach((el, j) => {
+      const col = SYL_COLORS[j % SYL_COLORS.length];
+      if (j === chunkIdx) {
+        el.style.background = col.bg + '22'; el.style.borderColor = col.bg;
+        el.style.transform = 'translateY(-3px)'; el.style.opacity = '1';
+        el.querySelector('.syl-hebrew').style.color = col.bg;
+        const snd = el.querySelector('.syl-sound');
+        if (snd) { snd.style.background = col.bg; snd.style.color = '#fff'; }
+        // Light up the specific syllable chip
+        el.querySelectorAll('.chunk-syl-chip').forEach(chip => {
+          const si = parseInt(chip.dataset.syli);
+          const sc = SYL_COLORS[si % SYL_COLORS.length];
+          if (si === sylIdx) {
+            chip.style.background = sc.bg; chip.style.borderColor = sc.bg;
+            chip.style.transform = 'translateY(-5px) scale(1.15)'; chip.style.opacity = '1';
+            chip.querySelector('.cs-heb').style.color = '#fff';
+            chip.querySelector('.cs-sound').style.color = '#fff';
+            chip.style.boxShadow = `0 6px 16px ${sc.bg}88`;
+          } else {
+            chip.style.background = ''; chip.style.borderColor = sc.bg;
+            chip.style.transform = ''; chip.style.opacity = '0.3';
+            chip.querySelector('.cs-heb').style.color = sc.bg;
+            chip.querySelector('.cs-sound').style.color = sc.bg;
+            chip.style.boxShadow = '';
+          }
+        });
+      } else {
+        el.style.background = 'white'; el.style.borderColor = col.bg;
+        el.style.transform = ''; el.style.opacity = j < chunkIdx ? '0.4' : '0.18';
+        el.querySelector('.syl-hebrew').style.color = col.bg;
+        const snd = el.querySelector('.syl-sound');
+        if (snd) { snd.style.background = col.bg; snd.style.color = '#fff'; }
+        el.querySelectorAll('.chunk-syl-chip').forEach(chip => {
+          const si = parseInt(chip.dataset.syli);
+          const sc = SYL_COLORS[si % SYL_COLORS.length];
+          chip.style.background = ''; chip.style.borderColor = ''; chip.style.opacity = '0.3';
+          chip.querySelector('.cs-heb').style.color = sc.bg;
+          chip.querySelector('.cs-sound').style.color = sc.bg;
+        });
+      }
+    });
+    stepCounter.textContent = `Syllable ${flatIdx + 1}/${totalSyls}: ${fs.sound} (from word: ${p.chunks[chunkIdx].sound})`;
+    // Speak the syllable
+    const u = new SpeechSynthesisUtterance();
+    u.lang = 'he-IL'; u.text = fs.speakHeb; u.rate = 0.7;
+    if (hebrewVoice) u.voice = hebrewVoice;
+    speechSynthesis.cancel();
+    setTimeout(() => { speechSynthesis.resume(); speechSynthesis.speak(u); }, 100);
+  }
+
+  stepWordBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    if (stepWordBtn.classList.contains('reset')) { resetAllSteps(); return; }
+    stepMode = 'word';
+    highlightWordStep(stepWordIdx, true);
+    stepWordIdx++;
+    if (stepWordIdx >= totalWords) {
+      stepWordBtn.textContent = '🔄 Reset'; stepWordBtn.classList.add('reset');
+    } else {
+      stepWordBtn.textContent = `👆 Word ${stepWordIdx + 1}`;
+    }
+  });
+
+  stepSylBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    if (stepSylBtn.classList.contains('reset')) { resetAllSteps(); return; }
+    stepMode = 'syl';
+    highlightSylStep(stepSylIdx);
+    stepSylIdx++;
+    if (stepSylIdx >= totalSyls) {
+      stepSylBtn.textContent = '🔄 Reset'; stepSylBtn.classList.add('reset');
+    } else {
+      stepSylBtn.textContent = `🔬 Syllable ${stepSylIdx + 1}`;
+    }
+  });
+
+  pronounceBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    resetAllSteps();
+    pronouncePrayer(pronounceBtn, bigText, chunksDiv, p.chunks);
+  });
+
+  btnRow.appendChild(pronounceBtn);
+  btnRow.appendChild(stepWordBtn);
+  btnRow.appendChild(stepSylBtn);
+
+  body.appendChild(display);
+  body.appendChild(chunksDiv);
+  body.appendChild(btnRow);
+  body.appendChild(stepCounter);
+
+  header.addEventListener('click', () => {
+    const isOpen = card.classList.contains('open');
+    document.querySelectorAll('.prayer-card').forEach(c => {
+      c.classList.remove('open');
+      c.querySelector('.prayer-body').classList.add('hidden');
+    });
+    if (!isOpen) { card.classList.add('open'); body.classList.remove('hidden'); }
+  });
+
+  card.appendChild(header);
+  card.appendChild(body);
+  list.appendChild(card);
 }
 
 // ===== TEXT-TO-SPEECH =====
@@ -1867,7 +2364,7 @@ async function pronouncePrayer(btn, prayerDisplay, chunksDiv, chunks) {
 }
 
 function showTab(tab, clickedBtn) {
-  ['words','alphabet','vowels','prayers'].forEach(t => {
+  ['words','alphabet','vowels','prayers','quiz'].forEach(t => {
     document.getElementById('tab-' + t).classList.add('hidden');
   });
   document.getElementById('tab-' + tab).classList.remove('hidden');
@@ -1875,11 +2372,208 @@ function showTab(tab, clickedBtn) {
   if (clickedBtn) clickedBtn.classList.add('active');
 }
 
+// ===== QUIZ SYSTEM =====
+const QUIZ_MODES = [
+  { id: 'heb2eng', icon: '📖', label: 'Hebrew → English', desc: 'See Hebrew, pick the meaning' },
+  { id: 'eng2heb', icon: '✍️', label: 'English → Hebrew', desc: 'See the meaning, pick the Hebrew' },
+  { id: 'prayer', icon: '🕍', label: 'Prayer Match', desc: 'Match the prayer to its name' },
+  { id: 'sound', icon: '🔊', label: 'Pronunciation', desc: 'See the pronunciation, pick the Hebrew' },
+];
+
+let quizState = {
+  mode: null,
+  questions: [],
+  current: 0,
+  score: 0,
+  answered: false,
+};
+
+function buildQuiz() {
+  const container = document.getElementById('quizContainer');
+  container.innerHTML = `
+    <p style="text-align:center;color:#555;font-weight:600;margin-bottom:20px;">Choose a quiz type to test your knowledge!</p>
+    <div class="quiz-mode-picker" id="quizModePicker"></div>
+    <div id="quizArea"></div>
+  `;
+
+  QUIZ_MODES.forEach(mode => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-mode-btn';
+    btn.innerHTML = `<span class="qm-icon">${mode.icon}</span>${mode.label}<div style="font-size:0.75em;opacity:0.75;margin-top:4px;font-weight:600;">${mode.desc}</div>`;
+    btn.onclick = () => startQuiz(mode.id);
+    document.getElementById('quizModePicker').appendChild(btn);
+  });
+}
+
+function generateQuestions(mode) {
+  const questions = [];
+  if (mode === 'heb2eng' || mode === 'eng2heb' || mode === 'sound') {
+    const pool = [...words].sort(() => Math.random() - 0.5).slice(0, Math.min(10, words.length));
+    pool.forEach(w => {
+      const wrongPool = words.filter(x => x.hebrew !== w.hebrew);
+      const wrongs = wrongPool.sort(() => Math.random() - 0.5).slice(0, 3);
+      if (mode === 'heb2eng') {
+        questions.push({
+          type: 'heb2eng',
+          prompt: w.hebrew,
+          promptLabel: 'What does this mean?',
+          answer: w.english,
+          choices: shuffle([w.english, ...wrongs.map(x => x.english)]),
+        });
+      } else if (mode === 'eng2heb') {
+        questions.push({
+          type: 'eng2heb',
+          prompt: w.english,
+          promptLabel: 'Which Hebrew word is this?',
+          answer: w.hebrew,
+          choices: shuffle([w.hebrew, ...wrongs.map(x => x.hebrew)]),
+          isHebrew: true,
+        });
+      } else {
+        questions.push({
+          type: 'sound',
+          prompt: w.pronounce,
+          promptLabel: 'Which Hebrew word has this pronunciation?',
+          answer: w.hebrew,
+          choices: shuffle([w.hebrew, ...wrongs.map(x => x.hebrew)]),
+          isHebrew: true,
+        });
+      }
+    });
+  } else if (mode === 'prayer') {
+    const pool = [...prayers].sort(() => Math.random() - 0.5).slice(0, Math.min(8, prayers.length));
+    pool.forEach(p => {
+      const wrongPool = prayers.filter(x => x.name !== p.name);
+      const wrongs = wrongPool.sort(() => Math.random() - 0.5).slice(0, 3);
+      questions.push({
+        type: 'prayer',
+        prompt: p.hebrewName,
+        promptLabel: 'What is this prayer called?',
+        answer: p.name,
+        choices: shuffle([p.name, ...wrongs.map(x => x.name)]),
+        hint: p.translation,
+      });
+    });
+  }
+  return questions;
+}
+
+function shuffle(arr) { return arr.sort(() => Math.random() - 0.5); }
+
+function startQuiz(mode) {
+  quizState = {
+    mode,
+    questions: generateQuestions(mode),
+    current: 0,
+    score: 0,
+    answered: false,
+  };
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const area = document.getElementById('quizArea');
+  const { questions, current, score } = quizState;
+
+  if (current >= questions.length) {
+    showResults();
+    return;
+  }
+
+  const q = questions[current];
+  const total = questions.length;
+  const pct = Math.round((current / total) * 100);
+
+  const isHebrewPrompt = !q.isHebrew && q.type !== 'eng2heb' && q.type !== 'sound';
+  const promptStyle = isHebrewPrompt ? 'direction:rtl;' : '';
+
+  area.innerHTML = `
+    <div class="quiz-card">
+      <div class="quiz-progress">
+        <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:${pct}%"></div></div>
+        <div class="quiz-score-badge">⭐ ${score}/${current}</div>
+      </div>
+      <div class="quiz-type-tag">${QUIZ_MODES.find(m=>m.id===quizState.mode)?.icon} ${QUIZ_MODES.find(m=>m.id===quizState.mode)?.label}</div>
+      <div class="quiz-question" style="${promptStyle}">${q.prompt}</div>
+      <div class="quiz-sublabel">${q.promptLabel}</div>
+      ${q.hint ? `<div style="font-size:0.85em;color:#888;font-style:italic;margin-bottom:12px;">"${q.hint}"</div>` : ''}
+      <div class="quiz-choices" id="quizChoices"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+    </div>
+  `;
+
+  const choicesDiv = document.getElementById('quizChoices');
+  q.choices.forEach(choice => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-choice';
+    btn.style.direction = q.isHebrew ? 'rtl' : 'ltr';
+    if (q.isHebrew) btn.style.fontSize = '1.5em';
+    btn.textContent = choice;
+    btn.onclick = () => handleAnswer(choice, q.answer);
+    choicesDiv.appendChild(btn);
+  });
+}
+
+function handleAnswer(chosen, correct) {
+  if (quizState.answered) return;
+  quizState.answered = true;
+
+  const isCorrect = chosen === correct;
+  if (isCorrect) quizState.score++;
+
+  // Color the buttons
+  document.querySelectorAll('.quiz-choice').forEach(btn => {
+    btn.style.pointerEvents = 'none';
+    if (btn.textContent === correct) btn.classList.add('correct');
+    else if (btn.textContent === chosen && !isCorrect) btn.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('quizFeedback');
+  if (isCorrect) {
+    const kudos = ['🎉 Mazel Tov!', '⭐ Excellent!', '🔥 Perfect!', '✨ You got it!', '🎊 Amazing!'];
+    fb.textContent = kudos[Math.floor(Math.random() * kudos.length)];
+    fb.className = 'quiz-feedback correct';
+  } else {
+    fb.textContent = `Not quite — the answer is: ${correct}`;
+    fb.className = 'quiz-feedback wrong';
+  }
+
+  // Auto-advance after a moment
+  setTimeout(() => {
+    quizState.current++;
+    quizState.answered = false;
+    renderQuestion();
+  }, 1600);
+}
+
+function showResults() {
+  const area = document.getElementById('quizArea');
+  const { score, questions } = quizState;
+  const total = questions.length;
+  const pct = Math.round((score / total) * 100);
+  const msg = pct >= 90 ? '🏆 Bar Mitzvah ready!' : pct >= 70 ? '🌟 Great work — keep practicing!' : pct >= 50 ? '💪 Good effort — review and try again!' : '📚 Keep studying — you\'ve got this!';
+  const stars = pct >= 90 ? '⭐⭐⭐' : pct >= 70 ? '⭐⭐' : '⭐';
+
+  area.innerHTML = `
+    <div class="quiz-card quiz-results">
+      <div class="big-score">${stars}</div>
+      <div class="big-score" style="font-size:3em;">${score}/${total}</div>
+      <div class="score-msg">${msg}</div>
+      <div style="font-size:1em;color:#888;margin-bottom:20px;">${pct}% correct</div>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <button class="quiz-next-btn" onclick="startQuiz('${quizState.mode}')">🔄 Try Again</button>
+        <button class="quiz-next-btn" style="background:var(--lightblue);" onclick="buildQuiz()">🎮 Pick New Mode</button>
+      </div>
+    </div>
+  `;
+}
+
 // ===== INIT =====
 buildWords();
 buildAlphabet();
 buildVowels();
 buildPrayers();
+buildQuiz();
 initTTS();
 </script>
 </body>
