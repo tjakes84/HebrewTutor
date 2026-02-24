@@ -1335,29 +1335,41 @@ function speakCurrent(){
 
 // ---- RECORDING ----
 function toggleRecord(){
-  const btn=document.getElementById('recBtn');
   if(mediaRecorder&&mediaRecorder.state==='recording'){
-    stopRecording(true);
+    manualStop();
   }else{
-    // Disable button briefly to prevent double-tap
-    if(btn){btn.disabled=true;setTimeout(()=>{if(btn)btn.disabled=false;},600);}
     startRecording();
   }
 }
 
+// Called when user hits Stop manually
+function manualStop(){
+  if(autoStopTimer){clearInterval(autoStopTimer);autoStopTimer=null;}
+  if(mediaRecorder&&mediaRecorder.state==='recording'){
+    mediaRecorder.stop(); // onstop handler does the rest
+  }
+}
+
+let autoStopTimer=null;
+
 async function startRecording(){
+  // Reset
+  if(autoStopTimer){clearInterval(autoStopTimer);autoStopTimer=null;}
+  audioChunks=[];
+
+  const btn=document.getElementById('recBtn');
+  const st=document.getElementById('recStatus');
+
   try{
     const stream=await navigator.mediaDevices.getUserMedia({audio:true});
-
-    // Brief warm-up delay — lets the mic settle before we start capturing
-    // This fixes the "cut off at the start" sync problem
-    await new Promise(r=>setTimeout(r,300));
-
-    audioChunks=[];
     const mimeType=['audio/webm;codecs=opus','audio/webm','audio/ogg;codecs=opus','audio/mp4','audio/ogg'].find(t=>MediaRecorder.isTypeSupported(t))||'';
     mediaRecorder=new MediaRecorder(stream, mimeType?{mimeType}:{});
+
     mediaRecorder.ondataavailable=e=>{if(e.data.size>0)audioChunks.push(e.data);};
+
     mediaRecorder.onstop=()=>{
+      // Always clear the auto-stop timer when recording ends
+      if(autoStopTimer){clearInterval(autoStopTimer);autoStopTimer=null;}
       const mime=mediaRecorder.mimeType||mimeType||'audio/webm';
       const blob=new Blob(audioChunks,{type:mime});
       console.log('Recorded format:', mime, 'Blob size:', blob.size);
@@ -1366,47 +1378,39 @@ async function startRecording(){
       if(QS.answers[idx].audioUrl)URL.revokeObjectURL(QS.answers[idx].audioUrl);
       const url=URL.createObjectURL(blob);
       QS.answers[idx].audioUrl=url;
-      QS.answers[idx].audioBlob=blob;
       const pb=document.getElementById('recPlayback');
-      if(pb){
-        pb.pause();
-        pb.removeAttribute('src');
-        pb.load();
-        pb.src=url;
-        pb.load();
-        pb.style.display='block';
-      }
-      const st=document.getElementById('recStatus');
-      if(st){st.textContent='✅ Saved! Press play to hear it.';st.style.color='#27ae60';}
-      const btn=document.getElementById('recBtn');
-      if(btn){btn.textContent='⏺ Re-record';btn.disabled=false;btn.classList.remove('rd');btn.classList.add('pu');}
+      if(pb){pb.pause();pb.removeAttribute('src');pb.load();pb.src=url;pb.load();pb.style.display='block';}
+      const s=document.getElementById('recStatus');
+      if(s){s.textContent='✅ Saved! Press play to hear it.';s.style.color='#27ae60';}
+      const b=document.getElementById('recBtn');
+      if(b){b.textContent='⏺ Re-record';b.disabled=false;b.classList.remove('rd');b.classList.add('pu');}
       stream.getTracks().forEach(t=>t.stop());
       stopRecordingPulse();
     };
 
-    // Start capturing — small timeslice for reliable chunking
-    mediaRecorder.start(200);
+    // Start recording immediately — no warmup delay (was causing short recordings)
+    mediaRecorder.start(100);
 
-    // 5-second countdown with clear visual tick
-    const DURATION=5;
-    let countdown=DURATION;
-    const btn=document.getElementById('recBtn');
+    // Update button right away
     if(btn){btn.textContent='⏹ Stop (5s)';btn.disabled=false;btn.classList.remove('pu');btn.classList.add('rd');}
-    const st=document.getElementById('recStatus');
     if(st){st.textContent='🔴 Recording... 5s';st.style.color='var(--red)';}
     startRecordingPulse();
 
-    const ticker=setInterval(()=>{
-      countdown--;
+    // Countdown timer — fires every 1s, stops at 0
+    const DURATION=5;
+    let remaining=DURATION;
+    autoStopTimer=setInterval(()=>{
+      remaining--;
       const b=document.getElementById('recBtn');
       const s=document.getElementById('recStatus');
-      if(countdown>0){
-        if(b)b.textContent='⏹ Stop ('+countdown+'s)';
-        if(s)s.textContent='🔴 Recording... '+countdown+'s';
+      if(remaining>0){
+        if(b&&b.classList.contains('rd'))b.textContent='⏹ Stop ('+remaining+'s)';
+        if(s)s.textContent='🔴 Recording... '+remaining+'s';
       }else{
-        clearInterval(ticker);
+        // Time's up — stop
+        clearInterval(autoStopTimer);
+        autoStopTimer=null;
         if(mediaRecorder&&mediaRecorder.state==='recording'){
-          if(b){b.textContent='⏹ Stop';b.disabled=true;}
           if(s){s.textContent='⏳ Saving...';s.style.color='#888';}
           mediaRecorder.stop();
         }
@@ -1414,23 +1418,24 @@ async function startRecording(){
     },1000);
 
   }catch(err){
-    const st=document.getElementById('recStatus');
     if(st){st.textContent='⚠️ Mic not available: '+err.name;st.style.color='#e67e22';}
     console.warn('Mic error:',err);
   }
 }
 
 function stopRecording(save){
+  if(autoStopTimer){clearInterval(autoStopTimer);autoStopTimer=null;}
   if(mediaRecorder&&mediaRecorder.state==='recording'){
-    if(save)mediaRecorder.stop();
-    else{
+    if(save){
+      mediaRecorder.stop();
+    }else{
       mediaRecorder.ondataavailable=null;
       mediaRecorder.onstop=null;
       try{mediaRecorder.stop();}catch(e){}
+      stopRecordingPulse();
     }
   }
   mediaRecorder=null;
-  stopRecordingPulse();
 }
 
 let pulseTimer=null;
