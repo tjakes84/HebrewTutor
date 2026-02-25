@@ -932,16 +932,33 @@ let tropeSources=[];
 let tropeLooping=false;
 let currentTropeIdx=null;
 
-function getTropeCtx(){
-  if(!tropeAudioCtx)tropeAudioCtx=new(window.AudioContext||window.webkitAudioContext)();
+async function getTropeCtx(){
+  if(!tropeAudioCtx){
+    tropeAudioCtx=new(window.AudioContext||window.webkitAudioContext)();
+  }
+  // Always resume — Safari starts suspended even after creation
+  if(tropeAudioCtx.state==='suspended'||tropeAudioCtx.state==='interrupted'){
+    await tropeAudioCtx.resume();
+  }
+  // iOS unlock: play a silent buffer to fully activate the context
+  if(tropeAudioCtx._unlocked!==true){
+    try{
+      const buf=tropeAudioCtx.createBuffer(1,1,22050);
+      const src=tropeAudioCtx.createBufferSource();
+      src.buffer=buf;src.connect(tropeAudioCtx.destination);
+      src.start(0);
+      tropeAudioCtx._unlocked=true;
+    }catch(e){}
+  }
   return tropeAudioCtx;
 }
 
-function playTropeNotes(notes, onEnd){
+async function playTropeNotes(notes, onEnd){
   stopTrope();
-  const ctx=getTropeCtx();
-  if(ctx.state==='suspended')ctx.resume();
-  let t=ctx.currentTime+0.05;
+  const ctx=await getTropeCtx();
+  // Small buffer after resume so Safari is ready
+  await new Promise(r=>setTimeout(r,30));
+  let t=ctx.currentTime+0.08;
   const dots=document.getElementById('tropeDots');
 
   notes.forEach((note,i)=>{
@@ -973,33 +990,35 @@ function playTropeNotes(notes, onEnd){
     t+=note.d+0.04;
   });
 
-  // Call onEnd after all notes
+  // Return a Promise that resolves when all notes finish — needed for await/loop
   const totalDur=(t-ctx.currentTime)*1000;
-  setTimeout(()=>{
-    if(dots)dots.querySelectorAll('.tdot').forEach(d=>d.classList.remove('active'));
-    if(onEnd)onEnd();
-  },totalDur+80);
+  return new Promise(resolve=>{
+    setTimeout(()=>{
+      if(dots)dots.querySelectorAll('.tdot').forEach(d=>d.classList.remove('active'));
+      if(onEnd)onEnd();
+      resolve();
+    },totalDur+80);
+  });
 }
 
-window.playTrope=function(){
+window.playTrope=async function(){
   if(currentTropeIdx===null)return;
   tropeLooping=false;
   const btn=document.getElementById('tropeLoopBtn');
   if(btn){btn.textContent='🔁 Loop';btn.classList.remove('rd');btn.classList.add('go');}
-  playTropeNotes(tropes[currentTropeIdx].notes, null);
+  await playTropeNotes(tropes[currentTropeIdx].notes, null);
 };
 
-window.playTropeLoop=function(){
+window.playTropeLoop=async function(){
   if(currentTropeIdx===null)return;
   tropeLooping=true;
   const btn=document.getElementById('tropeLoopBtn');
   if(btn){btn.textContent='⏹ Stop loop';btn.classList.remove('go');btn.classList.add('rd');}
   btn.onclick=()=>stopTrope();
-  function loop(){
+  async function loop(){
     if(!tropeLooping)return;
-    playTropeNotes(tropes[currentTropeIdx].notes, ()=>{
-      if(tropeLooping)setTimeout(loop,400);
-    });
+    await playTropeNotes(tropes[currentTropeIdx].notes, null);
+    if(tropeLooping)setTimeout(loop,400);
   }
   loop();
 };
@@ -1014,7 +1033,7 @@ window.stopTrope=function(){
   if(dots)dots.querySelectorAll('.tdot').forEach(d=>d.classList.remove('active'));
 };
 
-function selectTrope(i){
+async function selectTrope(i){
   currentTropeIdx=i;
   const t=tropes[i];
   // Highlight card
@@ -1041,8 +1060,8 @@ function selectTrope(i){
       return `<span class="tdot" style="background:${c};width:${size}px;height:${size}px;" title="${Math.round(n.f)}Hz"></span>`;
     }).join('');
   }
-  // Auto-play
-  playTropeNotes(t.notes, null);
+  // Auto-play — await so Safari unlocks context inside the tap handler
+  await playTropeNotes(t.notes, null);
 }
 
 function buildTrope(){
