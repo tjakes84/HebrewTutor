@@ -1,1601 +1,2504 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hebrew Reading Adventure 🌟</title>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-<style>
-:root{--blue:#1a3a6b;--gold:#f0c040;--lb:#4a7ec7;--sky:#e8f0ff;--green:#2ecc71;--red:#e74c3c;--sh:0 4px 18px rgba(26,58,107,0.13);}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#1a3a6b 0%,#2563c7 60%,#4a7ec7 100%);min-height:100vh;color:#1a3a6b;}
-header{text-align:center;padding:26px 20px 8px;color:white;}
-header h1{font-family:'Fredoka One',cursive;font-size:2.4em;letter-spacing:1px;text-shadow:0 3px 12px rgba(0,0,0,0.25);margin-bottom:4px;}
-header .sub{font-size:1em;opacity:0.85;font-weight:600;}
-.stars{font-size:1.4em;letter-spacing:4px;margin:4px 0;}
-.tabs{display:flex;justify-content:center;gap:8px;padding:14px 20px 0;flex-wrap:wrap;}
-.tab-btn{background:rgba(255,255,255,0.18);color:white;border:2px solid rgba(255,255,255,0.4);border-radius:30px;padding:8px 18px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.95em;cursor:pointer;transition:all .2s;}
-.tab-btn:hover,.tab-btn.active{background:var(--gold);color:var(--blue);border-color:var(--gold);transform:translateY(-2px);box-shadow:0 4px 14px rgba(240,192,64,0.4);}
-.container{max-width:900px;margin:18px auto 40px;padding:0 14px;}
-.card{background:white;border-radius:22px;padding:26px;box-shadow:var(--sh);margin-bottom:18px;}
-.sec-title{font-family:'Fredoka One',cursive;font-size:1.4em;color:var(--blue);margin-bottom:14px;}
-.hidden{display:none!important;}
-footer{text-align:center;padding:16px;color:rgba(255,255,255,0.6);font-size:.88em;font-weight:600;}
-/* LETTERS */
-.ab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:10px;}
-.lc{background:var(--sky);border:2px solid #c5d8ff;border-radius:14px;padding:12px 6px;text-align:center;cursor:pointer;transition:all .2s;}
-.lc:hover,.lc.sel{background:var(--blue);border-color:var(--blue);transform:translateY(-3px);box-shadow:var(--sh);}
-.lc:hover .lch,.lc.sel .lch{color:var(--gold);}
-.lc:hover .lcn,.lc:hover .lcs,.lc.sel .lcn,.lc.sel .lcs{color:white;}
-.lch{font-size:1.9em;font-weight:800;color:var(--blue);display:block;}
-.lcn{font-size:.68em;font-weight:700;color:var(--blue);display:block;margin-top:2px;}
-.lcs{font-size:.66em;color:var(--lb);display:block;font-weight:600;}
-.vg{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:12px;}
-.vc{background:var(--sky);border:2px solid #c5d8ff;border-radius:14px;padding:14px 8px;text-align:center;cursor:pointer;transition:all .2s;}
-.vc:hover{background:linear-gradient(135deg,#1a3a6b,#4a7ec7);transform:translateY(-3px);box-shadow:var(--sh);border-color:var(--blue);}
-.vc:hover .vch{color:var(--gold);}
-.vc:hover .vcn,.vc:hover .vcs{color:white;}
-.vch{font-size:2.2em;font-weight:800;color:var(--blue);display:block;direction:rtl;}
-.vcn{font-size:.75em;font-weight:700;color:var(--blue);display:block;margin-top:4px;}
-.vcs{font-size:.75em;color:var(--lb);font-weight:700;background:white;border-radius:10px;padding:2px 8px;margin-top:3px;display:inline-block;}
-.vc:hover .vcs{background:rgba(255,255,255,0.2);color:white;}
-.tip{background:linear-gradient(135deg,#fffbe6,#fff8cc);border:2px solid var(--gold);border-radius:14px;padding:12px 16px;margin-top:14px;font-size:.92em;color:#7a5700;font-weight:600;}
-.subsec{margin-top:26px;padding-top:22px;border-top:2px dashed #c5d8ff;}
-.trope-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;margin-bottom:14px;}
-.tc{background:var(--sky);border:2px solid #c5d8ff;border-radius:14px;padding:12px 8px;text-align:center;cursor:pointer;transition:all .2s;}
-.tc:hover,.tc.sel{background:var(--blue);border-color:var(--blue);transform:translateY(-3px);box-shadow:var(--sh);}
-.tc:hover .tch,.tc.sel .tch{color:var(--gold);}
-.tc:hover .tcn,.tc:hover .tct,.tc.sel .tcn,.tc.sel .tct{color:white;}
-.tch{font-size:1.9em;font-weight:800;color:var(--blue);display:block;direction:rtl;line-height:1.4;}
-.tcn{font-size:.72em;font-weight:800;color:var(--blue);display:block;margin-top:3px;}
-.tct{font-size:.65em;color:var(--lb);display:block;font-weight:600;}
-.tdot{width:14px;height:14px;border-radius:50%;display:inline-block;transition:transform .15s,opacity .15s;opacity:.25;}
-.tdot.active{transform:scale(1.5);opacity:1;}
-/* PRAYER FILTERS */
-.pfilters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
-.fpill{background:var(--sky);border:2px solid #c5d8ff;border-radius:30px;padding:6px 15px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.84em;color:var(--blue);cursor:pointer;transition:all .2s;}
-.fpill:hover,.fpill.active{background:var(--blue);color:white;border-color:var(--blue);transform:translateY(-1px);}
-.plist{display:flex;flex-direction:column;gap:10px;}
-.pcard{background:var(--sky);border:2px solid #c5d8ff;border-radius:16px;overflow:hidden;transition:border-color .2s;}
-.pcard:hover{border-color:var(--lb);}
-.pcard.open{border-color:var(--gold);background:#fffdf0;}
-.phdr{padding:13px 18px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;}
-.phdr-left{display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
-.pbadge{font-size:.66em;font-weight:700;padding:2px 9px;border-radius:10px;color:white;font-family:'Nunito',sans-serif;white-space:nowrap;}
-.pname{font-family:'Fredoka One',cursive;font-size:1.05em;color:var(--blue);}
-.phname{font-size:1.4em;font-weight:800;color:var(--lb);direction:rtl;flex-shrink:0;}
-.pbody{padding:0 18px 18px;}
-/* UNIFIED PLAYER */
-.hplayer{margin-top:14px;}
-.hstage{background:linear-gradient(135deg,#f0f6ff,#e8f0ff);border:2px solid #c5d8ff;border-radius:18px;padding:22px 16px 14px;text-align:center;margin-bottom:12px;min-height:80px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.hstage-text{font-size:2.6em;direction:rtl;font-weight:800;line-height:1.6;letter-spacing:3px;display:flex;flex-wrap:wrap;justify-content:center;gap:2px 12px;}
-.hstage-text.sw{font-size:4.5em;letter-spacing:4px;}
-.hsp{display:inline-block;transition:all .18s;cursor:pointer;border-radius:6px;padding:0 2px;}
-.hsp:hover{opacity:.75;}
-.hsp.sa{transform:scale(1.28);filter:drop-shadow(0 0 12px currentColor);z-index:2;}
-.hsp.wa{transform:scale(1.18);filter:drop-shadow(0 0 8px currentColor);}
-.hsp.dim{opacity:.16;}
-.hsp.done{opacity:.38;}
-.engline{font-size:.88em;color:#666;font-weight:600;margin-top:10px;font-style:italic;max-width:600px;text-align:center;}
-.pron-strip{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin-bottom:12px;direction:ltr;}
-.pchip{background:white;border:2px solid #c5d8ff;border-radius:10px;padding:4px 10px;font-size:.8em;font-weight:800;color:#aaa;cursor:pointer;transition:all .18s;}
-.pchip.sa{color:white;transform:translateY(-4px) scale(1.12);box-shadow:0 5px 14px rgba(0,0,0,0.22);}
-.pchip.wa{transform:translateY(-2px) scale(1.06);box-shadow:0 3px 10px rgba(0,0,0,0.14);}
-.pchip.done{opacity:.35;}
-.mtoggle{display:flex;gap:5px;background:#eef2ff;border-radius:30px;padding:4px;max-width:340px;margin:0 auto 12px;}
-.mtbtn{flex:1;border:none;border-radius:24px;padding:7px 10px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.82em;cursor:pointer;background:transparent;color:var(--lb);transition:all .2s;}
-.mtbtn.active{background:var(--blue);color:white;box-shadow:0 2px 8px rgba(26,58,107,0.25);}
-.pcontrols{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin-bottom:8px;}
-.cb{border:none;border-radius:24px;padding:9px 18px;font-family:'Fredoka One',cursive;font-size:.92em;cursor:pointer;transition:all .18s;}
-.cb:hover:not(:disabled){transform:translateY(-2px);}
-.cb.bl{background:var(--blue);color:white;box-shadow:0 3px 12px rgba(26,58,107,0.28);}
-.cb.bl:hover:not(:disabled){background:var(--lb);}
-.cb.pu{background:#9b59b6;color:white;box-shadow:0 3px 12px rgba(155,89,182,0.28);}
-.cb.pu:hover:not(:disabled){background:#7d3c98;}
-.cb.te{background:#00b894;color:white;box-shadow:0 3px 12px rgba(0,184,148,0.28);}
-.cb.te:hover:not(:disabled){background:#00997a;}
-.cb.rd{background:var(--red);color:white;}
-.cb.go{background:var(--gold);color:var(--blue);}
-.cb:disabled{opacity:.4;cursor:default;transform:none!important;}
-.pctr{text-align:center;font-size:.86em;font-weight:700;color:var(--lb);min-height:20px;}
-/* WORD PRACTICE */
-.wgrid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;}
-.wbtn{background:var(--sky);border:2px solid var(--lb);border-radius:12px;padding:6px 14px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.9em;color:var(--blue);cursor:pointer;transition:all .2s;}
-.wbtn:hover,.wbtn.active{background:var(--blue);color:white;border-color:var(--blue);transform:translateY(-2px);}
-.ttsnote{text-align:center;font-size:.76em;color:#999;margin-top:6px;}
-/* QUIZ */
-.qmpicker{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:20px;justify-content:center;}
-.qmbtn{background:var(--sky);border:2px solid #c5d8ff;border-radius:18px;padding:14px 18px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.9em;color:var(--blue);cursor:pointer;transition:all .2s;text-align:center;min-width:130px;}
-.qmbtn:hover{background:var(--blue);color:white;border-color:var(--blue);transform:translateY(-3px);box-shadow:var(--sh);}
-.qmi{font-size:1.6em;display:block;margin-bottom:4px;}
-.qcard{background:linear-gradient(135deg,#f0f6ff,#e8f0ff);border:2px solid #c5d8ff;border-radius:18px;padding:24px;text-align:center;}
-.qprog{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
-.qpbar{flex:1;height:9px;background:#c5d8ff;border-radius:9px;overflow:hidden;}
-.qpfill{height:100%;background:linear-gradient(90deg,var(--blue),var(--lb));border-radius:9px;transition:width .4s;}
-.qscore{background:var(--gold);color:var(--blue);font-family:'Fredoka One',cursive;font-size:.88em;padding:3px 12px;border-radius:18px;white-space:nowrap;}
-.qq{font-size:3.6em;direction:rtl;font-weight:800;color:var(--blue);margin:8px 0 6px;line-height:1.2;}
-.qsub{font-size:.88em;color:#777;font-weight:600;margin-bottom:18px;}
-.qchoices{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:500px;margin:0 auto;}
-.qch{background:white;border:2px solid #c5d8ff;border-radius:14px;padding:12px 14px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.92em;color:var(--blue);cursor:pointer;transition:all .2s;}
-.qch:hover{border-color:var(--blue);background:var(--sky);transform:translateY(-2px);}
-.qch.correct{background:#e8f8ee;border-color:#2ecc71;color:#1a6b3a;animation:cpop .4s ease;}
-.qch.wrong{background:#fee;border-color:var(--red);color:#8b0000;animation:cshake .4s ease;}
-@keyframes cpop{0%{transform:scale(1)}50%{transform:scale(1.07)}100%{transform:scale(1)}}
-@keyframes cshake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
-.qfb{margin-top:14px;font-size:1em;font-weight:700;min-height:24px;}
-.qfb.correct{color:#2ecc71;}.qfb.wrong{color:var(--red);}
-.qnext{display:inline-block;margin-top:12px;background:var(--blue);color:white;border:none;border-radius:26px;padding:9px 26px;font-family:'Fredoka One',cursive;font-size:1em;cursor:pointer;transition:all .2s;}
-.qnext:hover{background:var(--lb);transform:translateY(-2px);}
-.qtag{display:inline-block;background:rgba(26,58,107,0.1);color:var(--blue);font-size:.76em;font-weight:700;padding:2px 10px;border-radius:18px;margin-bottom:10px;}
-.bigscore{font-family:'Fredoka One',cursive;font-size:3.5em;color:var(--blue);}
-.scoremsg{font-size:1.1em;font-weight:700;color:#555;margin:6px 0 16px;}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Did We Win?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --yes:  #4ade80;
+      --no:   #f87171;
+      --live: #fbbf24;
+      --bg:   #111318;
+      --surface: #1a1d24;
+      --surface2: #22262f;
+      --border: rgba(255,255,255,0.07);
+      --text-dim: rgba(255,255,255,0.35);
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      font-family: 'DM Sans', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2.5rem 1rem 2rem;
+    }
+
+    /* ── HEADER ── */
+    header { text-align: center; margin-bottom: 2.4rem; }
+
+    h1 {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(2.8rem, 8vw, 5.5rem);
+      color: #fff;
+      letter-spacing: 0.03em;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+    h1 em { color: var(--live); font-style: normal; }
+
+    .subtitle {
+      margin-top: 0.55rem;
+      font-size: 0.7rem;
+      color: #444;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .refresh-info {
+      margin-top: 0.3rem;
+      font-size: 0.67rem;
+      color: #353535;
+      letter-spacing: 0.07em;
+    }
+    #last-updated { color: #4a4a4a; }
+
+    #refresh-btn {
+      background: none;
+      border: 1px solid #2a2a2a;
+      color: #4a4a4a;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.67rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      cursor: pointer;
+      margin-left: 0.5rem;
+      transition: border-color 0.2s, color 0.2s;
+      vertical-align: middle;
+    }
+    #refresh-btn:hover { border-color: #555; color: #888; }
+    #refresh-btn.spinning { animation: spin 0.6s linear; }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    /* ── GRID ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.4rem;
+      width: 100%;
+      max-width: 1080px;
+    }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--text-dim);
+    }
+    .empty-state .empty-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.4; }
+    .empty-state p { font-size: 0.9rem; letter-spacing: 0.08em; }
+
+    /* ── CARD SHELL ── */
+    .card {
+      border-radius: 18px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
+      cursor: pointer;
+      min-height: 360px;
+      transition: box-shadow 0.25s, transform 0.25s;
+    }
+    .card:hover { transform: translateY(-2px); }
+
+    .card-front,
+    .card-back {
+      position: absolute;
+      inset: 0;
+      padding: 1.5rem 1.6rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      transition: opacity 0.28s ease, transform 0.28s ease;
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    .card-back {
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+    }
+
+    @media (hover: hover) {
+      .card:not(.flipped):hover .card-front {
+        opacity: 0;
+        transform: translateY(-10px);
+        pointer-events: none;
+      }
+      .card:not(.flipped):hover .card-back {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: all;
+      }
+    }
+
+    .card.flipped .card-front {
+      opacity: 0;
+      transform: translateY(-10px);
+      pointer-events: none;
+    }
+    .card.flipped .card-back {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: all;
+    }
+
+    /* subtle texture */
+    .card-front::before, .card-back::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        -55deg,
+        rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px,
+        transparent 1px, transparent 22px
+      );
+      pointer-events: none;
+      border-radius: inherit;
+    }
+
+    /* shimmer */
+    .card.loading .card-front::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      border-radius: inherit;
+    }
+    @keyframes shimmer {
+      0%   { background-position: -200% 0; }
+      100% { background-position:  200% 0; }
+    }
+
+    /* ─── TEAM CARD THEMES ─── */
+    /* Love teams — refined gradients, softer glows */
+    .card.team-love .card-front,
+    .card.team-love .card-back {
+      /* Applied dynamically via JS */
+    }
+
+    /* Hate team — desaturated, ugly on purpose */
+    .card.hate-card .card-front,
+    .card.hate-card .card-back {
+      background: linear-gradient(160deg, #1c1800 0%, #2a2100 45%, #141100 100%);
+      filter: saturate(0.4) brightness(0.8);
+    }
+    .card.hate-card {
+      box-shadow: 0 8px 40px rgba(0,0,0,0.9), 0 0 0 1px rgba(80,60,0,0.15);
+      transform: rotate(-0.5deg);
+    }
+    .card.hate-card:hover { transform: rotate(-0.5deg) translateY(-2px); }
+    .card.hate-card .team-name {
+      color: #6a6040;
+      text-decoration: line-through;
+      text-decoration-color: rgba(255,80,80,0.4);
+    }
+    .card.hate-card .card-front::after {
+      content: '🤮 🤢 🤮';
+      position: absolute;
+      bottom: 0.5rem;
+      right: 0.6rem;
+      font-size: 2rem;
+      opacity: 0.18;
+      pointer-events: none;
+    }
+    .card.hate-card .answer.yes { color: #7a9966; text-shadow: none; }
+    .card.hate-card .answer.yes::after { content: ' 🤢 ugh'; font-size: 0.35em; color: rgba(255,255,255,0.25); vertical-align: middle; }
+    .card.hate-card .answer.no::after  { content: ' 😂🎉'; font-size: 0.5em; vertical-align: middle; }
+    .card.hate-card .hint { color: rgba(255,255,255,0.08); }
+
+    /* ── TEAM HEADER ── */
+    .team-header {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .team-emoji {
+      font-size: 1.3rem;
+      line-height: 1;
+      display: block;
+      margin-bottom: 0.22rem;
+    }
+
+    .team-name-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: nowrap;
+      line-height: 1;
+    }
+    .team-tag-row {
+      display: flex;
+      align-items: center;
+      margin-top: 0.28rem;
+    }
+
+    .team-name {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(1rem, 3.2vw, 1.4rem);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      line-height: 1;
+      white-space: nowrap;
+      color: #fff;
+    }
+
+    .team-sub {
+      font-size: 0.64rem;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-top: 0.25rem;
+    }
+
+    .love-tag, .hate-tag {
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.16rem 0.5rem;
+      border-radius: 20px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .love-tag { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.6); }
+    .hate-tag { background: rgba(255,50,50,0.12); color: rgba(255,120,120,0.6); }
+
+    /* ── FRONT GAME DETAILS ── */
+    .front-game {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+    .front-game-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+      font-weight: 500;
+    }
+    .front-game-line {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.4;
+    }
+    .front-game-line strong { color: rgba(255,255,255,0.9); }
+
+    .front-badge {
+      display: inline-block;
+      font-family: 'Anton', sans-serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.04em;
+      padding: 0.08rem 0.35rem;
+      border-radius: 4px;
+      margin-left: 0.3rem;
+      vertical-align: middle;
+      position: relative; top: -1px;
+    }
+    .front-badge.w    { background: rgba(74,222,128,0.15); color: var(--yes); }
+    .front-badge.l    { background: rgba(248,113,113,0.15); color: var(--no); }
+    .front-badge.live { background: rgba(251,191,36,0.15); color: var(--live); }
+    .front-badge.up   { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.38); font-family: 'DM Sans', sans-serif; font-size: 0.68rem; }
+
+    .answer {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(3.2rem, 9vw, 5rem);
+      line-height: 1;
+      letter-spacing: -0.01em;
+    }
+    .answer.yes  { color: var(--yes);  text-shadow: 0 0 30px rgba(74,222,128,0.35); }
+    .answer.no   { color: var(--no);   text-shadow: 0 0 30px rgba(248,113,113,0.35); }
+    .answer.live { color: var(--live); text-shadow: 0 0 30px rgba(251,191,36,0.4); animation: blink 1.2s ease-in-out infinite; }
+    .answer.tbd  { color: #333; font-size: clamp(2rem, 5vw, 3rem); }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.35; }
+    }
+
+    .live-details {
+      font-family: 'Anton', sans-serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.06em;
+      color: rgba(251,191,36,0.75);
+      margin-top: -0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .live-opponent {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.05em;
+      margin-top: -0.25rem;
+    }
+    .live-opponent strong { color: rgba(255,255,255,0.8); }
+
+    .winning-tag {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 0.09rem 0.38rem;
+      border-radius: 4px;
+    }
+    .winning-tag         { background: rgba(74,222,128,0.14); color: var(--yes); }
+    .winning-tag.losing  { background: rgba(248,113,113,0.14); color: var(--no); }
+    .winning-tag.tied    { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.45); }
+
+    /* hint */
+    .hint {
+      font-size: 0.6rem;
+      color: rgba(255,255,255,0.15);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-top: auto;
+      text-align: right;
+    }
+    .hint-hover { display: inline; }
+    .hint-tap   { display: none; }
+    @media (hover: none) {
+      .hint-hover { display: none; }
+      .hint-tap   { display: inline; }
+    }
+
+    /* ── STATS ROW ── */
+    .stats-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: -0.15rem;
+    }
+
+    .rank-badge {
+      font-family: 'Anton', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      background: rgba(251,191,36,0.16);
+      color: var(--live);
+      padding: 0.15rem 0.5rem;
+      border-radius: 5px;
+      border: 1px solid rgba(251,191,36,0.22);
+    }
+
+    .rec-item {
+      font-size: 0.67rem;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.05em;
+      background: rgba(255,255,255,0.07);
+      padding: 0.15rem 0.45rem;
+      border-radius: 5px;
+    }
+    .rec-item.conf { color: rgba(255,255,255,0.35); background: rgba(255,255,255,0.04); }
+
+    .opp-rank {
+      font-family: 'Anton', sans-serif;
+      font-size: 0.7rem;
+      color: rgba(251,191,36,0.7);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── BACK ── */
+    .back-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.1rem;
+    }
+
+    .back-title {
+      font-family: 'Anton', sans-serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+    }
+
+    .back-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      flex-wrap: wrap;
+    }
+
+    .back-rank {
+      font-family: 'Anton', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      background: rgba(251,191,36,0.16);
+      color: var(--live);
+      padding: 0.1rem 0.38rem;
+      border-radius: 4px;
+      border: 1px solid rgba(251,191,36,0.22);
+    }
+
+    .back-rec {
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.4);
+      background: rgba(255,255,255,0.06);
+      padding: 0.1rem 0.38rem;
+      border-radius: 4px;
+    }
+    .back-rec.conf { color: rgba(255,255,255,0.28); }
+
+    .schedule-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.42rem;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .sched-row {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.45rem 0.55rem;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.18);
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.85);
+    }
+    .sched-row.current {
+      background: rgba(255,255,255,0.09);
+      outline: 1px solid rgba(255,255,255,0.13);
+    }
+
+    .sched-date {
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.3);
+      min-width: 52px;
+      letter-spacing: 0.04em;
+    }
+
+    .sched-opp {
+      flex: 1;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sched-result {
+      font-family: 'Anton', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      padding: 0.08rem 0.38rem;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .sched-result.w    { background: rgba(74,222,128,0.14); color: var(--yes); }
+    .sched-result.l    { background: rgba(248,113,113,0.14); color: var(--no); }
+    .sched-result.live { background: rgba(251,191,36,0.14); color: var(--live); animation: blink 1.2s ease-in-out infinite; }
+    .sched-result.upcoming { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.35); font-family: 'DM Sans', sans-serif; font-size: 0.67rem; }
+
+    .sched-opp-rank {
+      font-family: 'Anton', sans-serif;
+      font-size: 0.68rem;
+      color: rgba(251,191,36,0.65);
+    }
+
+    .divider { height: 1px; background: rgba(255,255,255,0.08); margin: 0.2rem 0; }
+
+    .schedule-list::-webkit-scrollbar { width: 3px; }
+    .schedule-list::-webkit-scrollbar-track { background: transparent; }
+    .schedule-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 2px; }
+
+    footer {
+      margin-top: 2rem;
+      font-size: 0.62rem;
+      color: #252525;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    /* ═══════════════════════════════════════════════
+       TEAM SELECTOR PANEL
+    ═══════════════════════════════════════════════ */
+    .selector-wrapper {
+      width: 100%;
+      max-width: 1080px;
+      margin-top: 2.5rem;
+    }
+
+    .selector-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .selector-title {
+      font-family: 'Anton', sans-serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+
+    .selector-count {
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.1em;
+    }
+
+    .clear-all-btn {
+      font-size: 0.65rem;
+      font-family: inherit;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px;
+      padding: 0.2rem 0.55rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .clear-all-btn:hover {
+      color: rgba(255,80,80,0.9);
+      background: rgba(255,60,60,0.12);
+      border-color: rgba(255,60,60,0.25);
+    }
+
+    /* Search */
+    .selector-search-wrap {
+      position: relative;
+      margin-bottom: 0.75rem;
+    }
+    .selector-search {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: rgba(255,255,255,0.75);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      padding: 0.6rem 1rem 0.6rem 2.4rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .selector-search::placeholder { color: rgba(255,255,255,0.2); }
+    .selector-search:focus { border-color: rgba(255,255,255,0.18); }
+    .search-icon {
+      position: absolute;
+      left: 0.8rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255,255,255,0.2);
+      font-size: 0.85rem;
+      pointer-events: none;
+    }
+
+    /* Team list */
+    .team-browser {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 0.5rem;
+      max-height: 260px;
+      overflow-y: auto;
+      padding: 0.1rem;
+    }
+    .team-browser::-webkit-scrollbar { width: 4px; }
+    .team-browser::-webkit-scrollbar-track { background: transparent; }
+    .team-browser::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+
+    .team-option {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.55rem 0.75rem;
+      border-radius: 9px;
+      background: var(--surface);
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, opacity 0.15s;
+      user-select: none;
+    }
+    .team-option:hover { background: var(--surface2); border-color: rgba(255,255,255,0.08); }
+    .team-option.selected {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.15);
+    }
+    .team-option.disabled { opacity: 0.28; pointer-events: none; }
+    .team-option.hate-option {
+      background: rgba(40,20,20,0.7);
+      border-color: rgba(255,50,50,0.08);
+    }
+    .team-option.hate-option.selected { border-color: rgba(255,50,50,0.2); }
+
+    .option-check {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      border: 1.5px solid rgba(255,255,255,0.18);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .team-option.selected .option-check {
+      background: rgba(255,255,255,0.15);
+      border-color: rgba(255,255,255,0.3);
+    }
+    .option-emoji { font-size: 1rem; flex-shrink: 0; }
+    .option-info { min-width: 0; }
+    .option-name {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.8);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .option-conf {
+      font-size: 0.62rem;
+      color: rgba(255,255,255,0.28);
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Celebrity Packs */
+    .celeb-section {
+      margin-bottom: 1rem;
+    }
+    .celeb-row {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .celeb-chip {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.35rem 0.75rem 0.35rem 0.5rem;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      cursor: pointer;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.6);
+      transition: all 0.15s;
+      user-select: none;
+    }
+    .celeb-chip:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.25);
+      color: rgba(255,255,255,0.9);
+      transform: translateY(-1px);
+    }
+    .celeb-chip:active { transform: translateY(0); }
+    .celeb-avatar { font-size: 1.1rem; line-height: 1; }
+    .celeb-name { font-weight: 500; letter-spacing: 0.02em; }
+
+    /* Selected team chips (drag to reorder) */
+    .selected-section {
+      margin-bottom: 1rem;
+    }
+    .selected-label {
+      font-size: 0.62rem;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .selected-chips {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      min-height: 44px;
+      align-items: flex-start;
+    }
+    .chip {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.38rem 0.6rem 0.38rem 0.5rem;
+      border-radius: 8px;
+      background: var(--surface2);
+      border: 1px solid rgba(255,255,255,0.1);
+      cursor: grab;
+      user-select: none;
+      transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.75);
+    }
+    .chip:hover { background: #2c3040; border-color: rgba(255,255,255,0.18); }
+    .chip.dragging {
+      opacity: 0.4;
+      cursor: grabbing;
+    }
+    .chip.drag-over {
+      box-shadow: 2px 0 0 0 rgba(255,255,255,0.3);
+    }
+    .chip-emoji { font-size: 0.95rem; }
+    .chip-name { font-size: 0.75rem; font-weight: 500; white-space: nowrap; }
+    .chip-remove {
+      margin-left: 0.1rem;
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.3);
+      transition: color 0.15s, background 0.15s;
+    }
+    .chip-remove:hover { color: var(--no); background: rgba(248,113,113,0.12); }
+    .chip-drag-handle {
+      color: rgba(255,255,255,0.18);
+      font-size: 0.7rem;
+      cursor: grab;
+    }
+
+    .no-results {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 2rem 1rem;
+      color: rgba(255,255,255,0.2);
+      font-size: 0.8rem;
+    }
+
+    /* Separator */
+    .panel-sep {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      margin: 2rem 0;
+      width: 100%;
+      max-width: 1080px;
+    }
+    /* Category pills */
+    .category-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.75rem;
+    }
+    .cat-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 20px;
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.5);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+      user-select: none;
+    }
+    .cat-pill:hover { background: var(--surface2); color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.15); }
+    .cat-pill.active {
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.28);
+      color: #fff;
+    }
+    .cat-clear {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.3rem 0.65rem;
+      border-radius: 20px;
+      background: rgba(248,113,113,0.1);
+      border: 1px solid rgba(248,113,113,0.2);
+      color: rgba(248,113,113,0.7);
+      font-size: 0.68rem;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      letter-spacing: 0.04em;
+    }
+    .cat-clear:hover { background: rgba(248,113,113,0.18); color: var(--no); }
+    .cat-active-label {
+      font-size: 0.67rem;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.4rem;
+      display: none;
+    }
+    .cat-active-label.visible { display: block; }
+
+  </style>
 </head>
 <body>
+
 <header>
-  <div class="stars">✡️ ⭐ ✡️</div>
-  <h1>Hebrew Reading Adventure</h1>
-  <p class="sub">Learn to read Hebrew — one syllable at a time! 🎉</p>
+  <h1>Did We <em>Win?</em></h1>
+  <p class="subtitle">Men's Basketball · Live Scores</p>
+  <p class="refresh-info">Auto-refreshes every 60s · updated: <span id="last-updated">—</span><button id="refresh-btn" onclick="manualRefresh()">↻ now</button></p>
 </header>
-<div class="tabs">
-  <button class="tab-btn active" onclick="showTab('letters',this)">🔤 Letters &amp; Vowels</button>
-  <button class="tab-btn" onclick="showTab('words',this)">📖 Word Practice</button>
-  <button class="tab-btn" onclick="showTab('prayers',this)">🕍 Prayers</button>
-  <button class="tab-btn" onclick="showTab('quiz',this)">🧠 Quiz</button>
-</div>
-<div class="container">
-  <div id="tab-letters" class="card">
-    <div class="sec-title">🔤 The Aleph-Bet</div>
-    <p style="margin-bottom:14px;color:#555;font-weight:600;">Click any letter to hear it! Hebrew reads <strong>right to left</strong>.</p>
-    <div class="ab-grid" id="abGrid"></div>
-    <div class="tip">💡 Letters with a dot (dagesh) have a harder sound. Some have a different shape at the end of a word — the <strong>sofit</strong> form!</div>
-    <div class="subsec">
-      <div class="sec-title">🎵 Vowel Signs (Nikkud)</div>
-      <p style="margin-bottom:14px;color:#555;font-weight:600;">Dots and dashes under/over letters indicate the vowel sound. Click to hear!</p>
-      <div class="vg" id="vGrid"></div>
-      <div class="tip">💡 The vowel sound comes AFTER the consonant. So בָּ (Bet + Kamatz) = "BAH"!</div>
-    </div>
-    <div class="subsec">
-      <div class="sec-title">🎵 Trope (Cantillation)</div>
-      <p style="margin-bottom:6px;color:#555;font-weight:600;">These are the musical symbols used when chanting Torah and Haftarah. Click any trope to hear its melody!</p>
-      <p style="margin-bottom:14px;font-size:.84em;color:#888;font-weight:600;">Each mark tells the reader which melody to sing on that word. The tones are approximated using the Web Audio API.</p>
-      <div class="trope-grid" id="tropeGrid"></div>
-      <div class="tip">💡 Trope marks appear above or below Hebrew letters — they tell you both the melody AND where to put emphasis in the phrase!</div>
-      <div id="tropePlayer" style="display:none;margin-top:16px;background:linear-gradient(135deg,#f0f6ff,#e8f0ff);border:2px solid #c5d8ff;border-radius:16px;padding:16px;text-align:center;">
-        <div style="font-family:'Fredoka One',cursive;font-size:1.1em;color:var(--blue);margin-bottom:4px;" id="tropeName"></div>
-        <div style="font-size:3em;margin:6px 0;" id="tropeSymbol"></div>
-        <div style="font-size:.88em;color:#666;font-weight:600;margin-bottom:10px;" id="tropeDesc"></div>
-        <div id="tropeDots" style="display:flex;justify-content:center;gap:6px;margin-bottom:12px;min-height:28px;align-items:center;"></div>
-        <button class="cb bl" id="tropePlayBtn" onclick="playTrope()" style="padding:9px 28px;">▶ Play melody</button>
-        <button class="cb go" onclick="playTropeLoop()" style="padding:9px 20px;" id="tropeLoopBtn">🔁 Loop</button>
-        <button class="cb rd" onclick="stopTrope()" style="padding:9px 20px;">⏹ Stop</button>
-      </div>
-    </div>
-  </div>
-  <div id="tab-words" class="card hidden">
-    <div class="sec-title">📖 Word Practice</div>
-    <p style="margin-bottom:10px;color:#555;font-weight:600;">Pick a word — try to read it first, then reveal!</p>
-    <div style="margin-bottom:14px;">
-      <div style="font-size:.75em;font-weight:700;color:#aaa;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;">Choose a word:</div>
-      <div class="wgrid" id="wGrid"></div>
-    </div>
-    <div style="border-top:2px dashed #c5d8ff;padding-top:16px;">
-      <div id="wPlayerWrap"></div>
-    </div>
-    <div class="ttsnote" id="ttsNote"></div>
-  </div>
-  <div id="tab-prayers" class="card hidden">
-    <div class="sec-title">🕍 Prayers &amp; Blessings</div>
-    <p style="margin-bottom:12px;color:#555;font-weight:600;">Click any prayer — step through syllable by syllable, word by word, or play continuously!</p>
-    <div class="pfilters" id="pFilters"></div>
-    <div class="plist" id="pList"></div>
-  </div>
-  <div id="tab-quiz" class="card hidden">
-    <div class="sec-title">🧠 Quiz Time!</div>
-    <div id="qContainer"></div>
+
+<div class="grid" id="grid">
+  <div class="empty-state">
+    <div class="empty-icon">🏀</div>
+    <p>Select your favorite teams below to get started</p>
   </div>
 </div>
-<footer>Built with ❤️ for Bar Mitzvah preparation · Hebrew is a beautiful language!</footer>
+
+<hr class="panel-sep">
+
+<div class="selector-wrapper">
+  <div class="selector-header">
+    <span class="selector-title">Your Teams</span>
+    <span class="selector-count" id="sel-count">0 / 6 selected · drag chips to reorder</span>
+    <button class="clear-all-btn" id="clear-all-btn" onclick="clearAllTeams()" style="display:none">Clear all</button>
+  </div>
+
+  <!-- Selected chips -->
+  <div class="selected-section">
+    <div class="selected-label">Selected (drag to reorder)</div>
+    <div class="selected-chips" id="selected-chips"></div>
+  </div>
+
+  <!-- Celebrity Packs -->
+  <div class="celeb-section">
+    <div class="selected-label">Load a celebrity's picks</div>
+    <div class="celeb-row" id="celeb-row"></div>
+  </div>
+
+  <!-- Category pills -->
+  <div class="category-row" id="category-row"></div>
+  <div class="cat-active-label" id="cat-active-label"></div>
+
+  <!-- Search + browser -->
+  <div class="selector-search-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="selector-search" id="team-search" type="text" placeholder="Search teams…" autocomplete="off" />
+  </div>
+  <div class="team-browser" id="team-browser"></div>
+</div>
+
+<footer>Data via ESPN · hover or tap a card to see the full schedule</footer>
+
 <script>
-// ===== COLORS =====
-const SYL_COLORS=['#e74c3c','#3498db','#e67e22','#27ae60','#8e44ad','#e91e8c','#00b894','#f39c12','#16a085','#6c3483'];
+// ─── TEAM METADATA OVERLAY ────────────────────────────────────────────────────
+// IDs come entirely from ESPN's API at boot — we NEVER hardcode them.
+// This map provides display overrides, emojis, vibes, and search aliases,
+// keyed by ESPN's canonical "location" string (what ESPN uses as the school name).
+//
+// 'Duke' → display:'Dook' means: ESPN tells us the team is "Duke" (id=150),
+// and we override the display name in our UI to "Dook".
 
-// ===== ALPHABET =====
-const alphabet=[
-  {heb:"א",name:"Aleph",sound:"silent",speak:"אָ"},
-  {heb:"בּ",name:"Bet",sound:"B",speak:"בָּ"},
-  {heb:"ב",name:"Vet",sound:"V",speak:"וָ"},
-  {heb:"ג",name:"Gimel",sound:"G",speak:"גָּ"},
-  {heb:"ד",name:"Dalet",sound:"D",speak:"דָּ"},
-  {heb:"ה",name:"Heh",sound:"H",speak:"הָ"},
-  {heb:"ו",name:"Vav",sound:"V/OO/O",speak:"וָ"},
-  {heb:"ז",name:"Zayin",sound:"Z",speak:"זָ"},
-  {heb:"ח",name:"Chet",sound:"CH",speak:"חָ"},
-  {heb:"ט",name:"Tet",sound:"T",speak:"טָ"},
-  {heb:"י",name:"Yod",sound:"Y/EE",speak:"יָ"},
-  {heb:"כּ",name:"Kaf",sound:"K",speak:"כָּ"},
-  {heb:"כ",name:"Khaf",sound:"KH",speak:"כָ"},
-  {heb:"ל",name:"Lamed",sound:"L",speak:"לָ"},
-  {heb:"מ",name:"Mem",sound:"M",speak:"מָ"},
-  {heb:"נ",name:"Nun",sound:"N",speak:"נָ"},
-  {heb:"ס",name:"Samech",sound:"S",speak:"סָ"},
-  {heb:"ע",name:"Ayin",sound:"silent",speak:"עָ"},
-  {heb:"פּ",name:"Peh",sound:"P",speak:"פָּ"},
-  {heb:"פ",name:"Feh",sound:"F",speak:"פָ"},
-  {heb:"צ",name:"Tsadi",sound:"TZ",speak:"צָ"},
-  {heb:"ק",name:"Kuf",sound:"K",speak:"קָ"},
-  {heb:"ר",name:"Resh",sound:"R",speak:"רָ"},
-  {heb:"שׁ",name:"Shin",sound:"SH",speak:"שָׁ"},
-  {heb:"שׂ",name:"Sin",sound:"S",speak:"שָׂ"},
-  {heb:"ת",name:"Tav",sound:"T",speak:"תָּ"},
-];
-const vowels=[
-  {heb:"בָ",name:"Kamatz",sound:"AH"},{heb:"בַ",name:"Patach",sound:"AH"},{heb:"בֵ",name:"Tzere",sound:"AY"},
-  {heb:"בֶ",name:"Segol",sound:"EH"},{heb:"בִ",name:"Chirik",sound:"EE"},{heb:"בֹ",name:"Cholam",sound:"OH"},
-  {heb:"בוֹ",name:"Cholam Male",sound:"OH"},{heb:"בוּ",name:"Shuruk",sound:"OO"},{heb:"בֻ",name:"Kubutz",sound:"OO"},
-  {heb:"בְ",name:"Shva",sound:"short E"},{heb:"בֱ",name:"Chataf Segol",sound:"EH"},
-  {heb:"בֲ",name:"Chataf Patach",sound:"AH"},{heb:"בֳ",name:"Chataf Kamatz",sound:"OH"}
+const TEAM_META = {
+  // ── ACC ──
+  'Boston College':   { emoji: '🦅' },
+  'California':       { display: 'Cal',          short: 'Cal',        emoji: '🐻' },
+  'Clemson':          { emoji: '🐅' },
+  'Duke':             { display: 'Dook',          short: 'Dook',       emoji: '🤮', vibe: 'hate', aliases: ['duke','d00k','dook'] },
+  'Florida State':    { emoji: '🏹' },
+  'Georgia Tech':     { emoji: '🐝' },
+  'Louisville':       { emoji: '🃏' },
+  'Miami':            { emoji: '🌊' },
+  'North Carolina':   { emoji: '💙' },
+  'NC State':         { emoji: '🐺' },
+  'Notre Dame':       { emoji: '☘️' },
+  'Pittsburgh':       { short: 'Pitt',            emoji: '🐾' },
+  'SMU':              { emoji: '🐴' },
+  'Stanford':         { emoji: '🌲' },
+  'Syracuse':         { emoji: '🍊' },
+  'Virginia':         { emoji: '🟠' },
+  'Virginia Tech':    { emoji: '🦃' },
+  'Wake Forest':      { emoji: '😈' },
+
+  // ── Big Ten ──
+  'Illinois':         { emoji: '🦣' },
+  'Indiana':          { emoji: '⛰️' },
+  'Iowa':             { emoji: '🐻' },
+  'Maryland':         { emoji: '🐢' },
+  'Michigan':         { emoji: '〽️' },
+  'Michigan State':   { emoji: '💚' },
+  'Minnesota':        { emoji: '🐿️' },
+  'Nebraska':         { emoji: '🌽' },
+  'Northwestern':     { emoji: '🐱' },
+  'Ohio State':       { emoji: '🌰' },
+  'Oregon':           { emoji: '🦆' },
+  'Penn State':       { emoji: '🦁' },
+  'Purdue':           { emoji: '🚂' },
+  'Rutgers':          { emoji: '🦕' },
+  'UCLA':             { emoji: '🐻' },
+  'USC':              { emoji: '✌️' },
+  'Washington':       { emoji: '🐕' },
+  'Wisconsin':        { emoji: '🦡' },
+
+  // ── Big 12 ──
+  'Arizona':          { emoji: '🐻' },
+  'Arizona State':    { emoji: '😈' },
+  'Baylor':           { emoji: '🐻' },
+  'BYU':              { emoji: '🦁' },
+  'Cincinnati':       { emoji: '🐻' },
+  'Colorado':         { emoji: '🦬' },
+  'Houston':          { emoji: '🐾' },
+  'Iowa State':       { emoji: '🌪️' },
+  'Kansas':           { emoji: '🐦' },
+  'Kansas State':     { short: 'K-State',         emoji: '🐾' },
+  'Oklahoma State':   { short: 'Okla State',       emoji: '🤠' },
+  'TCU':              { emoji: '🐸' },
+  'Texas':            { emoji: '🤘' },
+  'Texas Tech':       { emoji: '🔴' },
+  'UCF':              { emoji: '⚔️' },
+  'Utah':             { emoji: '🦅' },
+  'West Virginia':    { emoji: '⛰️' },
+
+  // ── SEC ──
+  'Alabama':          { emoji: '🐘' },
+  'Arkansas':         { emoji: '🐗' },
+  'Auburn':           { emoji: '🐯' },
+  'Florida':          { emoji: '🐊' },
+  'Georgia':          { emoji: '🐾' },
+  'Kentucky':         { emoji: '🐱' },
+  'LSU':              { emoji: '🐯' },
+  'Mississippi':      { display: 'Ole Miss',       short: 'Ole Miss',   emoji: '🐻' },
+  'Mississippi State':{ short: 'Miss State',       emoji: '🐶' },
+  'Missouri':         { emoji: '🐯' },
+  'Oklahoma':         { emoji: '🏹' },
+  'South Carolina':   { short: 'South Car',        emoji: '🐓' },
+  'Tennessee':        { emoji: '🍊' },
+  'Texas A&M':        { emoji: '🐶' },
+  'Vanderbilt':       { emoji: '⭐' },
+
+  // ── Big East ──
+  'Butler':           { emoji: '🐶' },
+  'Connecticut':      { display: 'UConn',          short: 'UConn',      emoji: '🐕' },
+  'Creighton':        { emoji: '🔵' },
+  'DePaul':           { emoji: '💙' },
+  'Georgetown':       { emoji: '🐺' },
+  'Marquette':        { emoji: '🦅' },
+  'Providence':       { emoji: '🔥' },
+  'Seton Hall':       { emoji: '🔵' },
+  "St. John's":       { emoji: '🔴' },
+  'Villanova':        { emoji: '🐱' },
+  'Xavier':           { emoji: '🐉' },
+
+  // ── Atlantic 10 ──
+  'Dayton':           { emoji: '🔴' },
+  'Davidson':         { emoji: '🐾' },
+  'Duquesne':         { emoji: '🦅' },
+  'Fordham':          { emoji: '🐏' },
+  'George Mason':     { short: 'G. Mason',         emoji: '🟢' },
+  'George Washington':{ short: 'GW',               emoji: '🍒' },
+  'La Salle':         { emoji: '💙' },
+  'Loyola Chicago':   { short: 'Loyola Chi',       emoji: '⚓' },
+  'Massachusetts':    { display: 'UMass',           short: 'UMass',      emoji: '🔵' },
+  'Rhode Island':     { emoji: '🐏' },
+  'Richmond':         { emoji: '🕷️' },
+  'Saint Louis':      { emoji: '⚜️' },
+  "Saint Joseph's":   { short: "St. Joe's",        emoji: '🦅' },
+  'St. Bonaventure':  { short: 'St Bonav',         emoji: '🟤' },
+  'VCU':              { emoji: '🐏' },
+
+  // ── WCC ──
+  'Gonzaga':          { emoji: '🐶' },
+  'Loyola Marymount': { short: 'LMU',              emoji: '🦁' },
+  'Pacific':          { emoji: '🐯' },
+  'Pepperdine':       { emoji: '🌊' },
+  'Portland':         { emoji: '🌹' },
+  "Saint Mary's":     { short: "St Mary's",        emoji: '⚓' },
+  'San Diego':        { emoji: '⚓' },
+  'San Francisco':    { short: 'USF',              emoji: '🌉' },
+  'Santa Clara':      { emoji: '🌹' },
+
+  // ── Mountain West ──
+  'Air Force':        { emoji: '✈️' },
+  'Boise State':      { emoji: '🔵' },
+  'Colorado State':   { short: 'Colorado St',      emoji: '🐏' },
+  'Fresno State':     { emoji: '🐕' },
+  'Nevada':           { emoji: '⚡' },
+  'New Mexico':       { emoji: '🎈' },
+  'San Diego State':  { short: 'SDSU',             emoji: '🦅' },
+  'UNLV':             { emoji: '🎲' },
+  'Utah State':       { emoji: '🐴' },
+  'Wyoming':          { emoji: '🤠' },
+
+  // ── American Athletic ──
+  'Charlotte':        { emoji: '🐉' },
+  'East Carolina':    { short: 'ECU',              emoji: '🏴‍☠️' },
+  'Florida Atlantic': { short: 'FAU',              emoji: '🦉' },
+  'Louisiana Tech':   { short: 'LA Tech',          emoji: '🔵' },
+  'Memphis':          { emoji: '🎸' },
+  'Middle Tennessee': { short: 'MTSU',             emoji: '🔵' },
+  'North Texas':      { emoji: '🦅' },
+  'Rice':             { emoji: '🦉' },
+  'South Florida':    { short: 'USF',              emoji: '🐂' },
+  'Temple':           { emoji: '🦉' },
+  'Tulane':           { emoji: '🌊' },
+  'Tulsa':            { emoji: '🌪️' },
+  'UAB':              { emoji: '🐉' },
+  'UTEP':             { emoji: '🌵' },
+  'UTSA':             { emoji: '🐦' },
+  'Western Kentucky': { short: 'WKU',              emoji: '🔴' },
+  'Wichita State':    { emoji: '🌾' },
+  'FIU':              { emoji: '🐾' },
+
+  // ── Missouri Valley ──
+  'Bradley':          { emoji: '🐹' },
+  'Drake':            { emoji: '🐶' },
+  'Evansville':       { emoji: '🟣' },
+  'Illinois State':   { short: 'Illinois St',      emoji: '🔴' },
+  'Indiana State':    { emoji: '🌲' },
+  'Missouri State':   { short: 'Missouri St',      emoji: '🐻' },
+  'Murray State':     { emoji: '🏇' },
+  'Northern Iowa':    { emoji: '🐾' },
+  'Southern Illinois':{ short: 'SIU',              emoji: '🐾' },
+  'Valparaiso':       { short: 'Valpo',            emoji: '🏰' },
+  'Belmont':          { emoji: '🔵' },
+
+  // ── Mid-American ──
+  'Akron':            { emoji: '🦘' },
+  'Ball State':       { emoji: '🔴' },
+  'Bowling Green':    { short: 'BGSU',             emoji: '🟠' },
+  'Buffalo':          { emoji: '🦬' },
+  'Central Michigan': { short: 'Central Mich',     emoji: '🔥' },
+  'Eastern Michigan': { short: 'Eastern Mich',     emoji: '🦅' },
+  'Kent State':       { emoji: '🦅' },
+  'Miami (OH)':       { short: 'Miami OH',         emoji: '🔴' },
+  'Northern Illinois':{ short: 'N Illinois',       emoji: '🔴' },
+  'Ohio':             { emoji: '🟢' },
+  'Toledo':           { emoji: '🟡' },
+  'Western Michigan': { short: 'Western Mich',     emoji: '🤙' },
+
+  // ── Sun Belt ──
+  'Appalachian State':{ short: 'App State',        emoji: '⛰️' },
+  'Arkansas State':   { short: 'Ark State',        emoji: '🐺' },
+  'Coastal Carolina': { short: 'Coastal Car',      emoji: '⚓' },
+  'Georgia State':    { emoji: '🔵' },
+  'James Madison':    { short: 'JMU',              emoji: '🟣' },
+  'Louisiana':        { emoji: '⚜️' },
+  'Louisiana Monroe': { short: 'ULM',              emoji: '🔴' },
+  'Marshall':         { emoji: '🔢' },
+  'Old Dominion':     { emoji: '🦁' },
+  'South Alabama':    { emoji: '🦬' },
+  'Texas State':      { emoji: '🐱' },
+  'Troy':             { emoji: '🐴' },
+  'Arkansas-Little Rock':{ short: 'UALR',          emoji: '🔴' },
+  'Southern Miss':    { emoji: '🦅' },
+
+  // ── ASUN ──
+  'Bellarmine':       { emoji: '🔵' },
+  'Eastern Kentucky': { short: 'Eastern KY',       emoji: '🦅' },
+  'Florida Gulf Coast':{ short: 'FGCU',            emoji: '🦅' },
+  'Jacksonville':     { emoji: '🐬' },
+  'Kennesaw State':   { short: 'KSU',              emoji: '🦉' },
+  'Liberty':          { emoji: '🔥' },
+  'Lipscomb':         { emoji: '🦬' },
+  'North Alabama':    { emoji: '🦁' },
+  'North Florida':    { emoji: '🐊' },
+  'Queens':           { emoji: '👑' },
+  'Jacksonville State':{ short: 'Jax State',       emoji: '🐓' },
+
+  // ── CAA ──
+  'Campbell':         { emoji: '🐪' },
+  'Charleston':       { emoji: '⚓' },
+  'Delaware':         { emoji: '💙' },
+  'Drexel':           { emoji: '🐉' },
+  'Elon':             { emoji: '🕊️' },
+  'Hampton':          { emoji: '🐾' },
+  'Hofstra':          { emoji: '🦁' },
+  'Monmouth':         { emoji: '🦅' },
+  'NC A&T':           { emoji: '🐊' },
+  'Northeastern':     { emoji: '🐾' },
+  'Stony Brook':      { emoji: '🐺' },
+  'Towson':           { emoji: '🐯' },
+  'UNC Wilmington':   { short: 'UNCW',             emoji: '🌊' },
+  'William & Mary':   { short: 'W&M',              emoji: '👑' },
+
+  // ── Patriot ──
+  'American':         { emoji: '🦅' },
+  'Army':             { emoji: '🎖️' },
+  'Boston University':{ short: 'BU',               emoji: '🐾' },
+  'Bucknell':         { emoji: '🦬' },
+  'Colgate':          { emoji: '🟥' },
+  'Holy Cross':       { emoji: '✝️' },
+  'Lafayette':        { emoji: '🦁' },
+  'Lehigh':           { emoji: '🟤' },
+  'Loyola Maryland':  { short: 'Loyola MD',        emoji: '🐕' },
+  'Navy':             { emoji: '⚓' },
+
+  // ── Ivy League ──
+  'Columbia':         { emoji: '🦁' },
+  'Cornell':          { emoji: '🐻' },
+  'Dartmouth':        { emoji: '💚' },
+  'Harvard':          { emoji: '📚' },
+  'Penn':             { emoji: '🔴' },
+  'Princeton':        { emoji: '🐯' },
+  'Yale':             { emoji: '🐶' },
+
+  // ── Southern ──
+  'East Tennessee State':{ short: 'ETSU',          emoji: '🦬' },
+  'Furman':           { emoji: '🟣' },
+  'Mercer':           { emoji: '🐻' },
+  'Samford':          { emoji: '🐶' },
+  'The Citadel':      { emoji: '⚔️' },
+  'VMI':              { emoji: '⚔️' },
+  'Western Carolina': { short: 'Western Car',      emoji: '🐱' },
+  'Wofford':          { emoji: '🐕' },
+  'UNC Greensboro':   { emoji: '🌀' },
+
+  // ── Horizon ──
+  'Cleveland State':  { short: 'Cleveland St',     emoji: '⚔️' },
+  'Detroit Mercy':    { short: 'Detroit',          emoji: '⚙️' },
+  'IUPUI':            { emoji: '🔵' },
+  'Milwaukee':        { emoji: '🦅' },
+  'Northern Kentucky':{ short: 'NKU',              emoji: '🏹' },
+  'Oakland':          { emoji: '🦌' },
+  'Purdue Fort Wayne':{ short: 'Purdue FW',        emoji: '🔵' },
+  'Robert Morris':    { emoji: '🦅' },
+  'Wright State':     { emoji: '🦅' },
+  'Youngstown State': { short: 'Youngstown',       emoji: '🐧' },
+  'UIC':              { emoji: '🔵' },
+
+  // ── MAAC ──
+  'Canisius':         { emoji: '🦅' },
+  'Fairfield':        { emoji: '🦌' },
+  'Iona':             { emoji: '🏰' },
+  'Manhattan':        { emoji: '🗽' },
+  'Marist':           { emoji: '🦊' },
+  'Niagara':          { emoji: '💧' },
+  'Quinnipiac':       { emoji: '🐻' },
+  'Rider':            { emoji: '🦅' },
+  "Saint Peter's":    { short: "St Peter's",       emoji: '🦚' },
+  'Siena':            { emoji: '🟢' },
+
+  // ── Big Sky ──
+  'Eastern Washington':{ short: 'E Washington',    emoji: '🦅' },
+  'Gardner-Webb':     { emoji: '🔵' },
+  'High Point':       { emoji: '🔵' },
+  'Idaho':            { emoji: '🥔' },
+  'Idaho State':      { emoji: '🐻' },
+  'Longwood':         { emoji: '🌲' },
+  'Montana':          { emoji: '⛰️' },
+  'Montana State':    { short: 'Montana St',       emoji: '🐱' },
+  'Northern Arizona': { short: 'N Arizona',        emoji: '🐺' },
+  'Northern Colorado':{ short: 'N Colorado',       emoji: '🐻' },
+  'Portland State':   { short: 'Portland St',      emoji: '🌲' },
+  'Radford':          { emoji: '🔵' },
+  'Sacramento State': { short: 'Sac State',        emoji: '🐝' },
+  'Southern Utah':    { emoji: '🦦' },
+  'UNC Asheville':    { emoji: '🔵' },
+  'Weber State':      { emoji: '🐝' },
+  'Winthrop':         { emoji: '🦅' },
+
+  // ── Big West ──
+  'Cal Poly':         { emoji: '🐴' },
+  'Cal State Bakersfield':{ short: 'CSUB',         emoji: '🐕' },
+  'Cal State Fullerton':{ short: 'CS Fullerton',   emoji: '🐘' },
+  'Cal State Northridge':{ short: 'CSUN',          emoji: '🏔️' },
+  'Hawaii':           { short: 'Hawaiʻi',          emoji: '🌺' },
+  'Long Beach State': { short: 'Long Beach',       emoji: '🌊' },
+  'UC Davis':         { emoji: '🐄' },
+  'UC Irvine':        { emoji: '🐜' },
+  'UC Riverside':     { emoji: '🐻' },
+  'UC San Diego':     { emoji: '🌊' },
+  'UC Santa Barbara': { short: 'UCSB',             emoji: '🏄' },
+
+  // ── WAC ──
+  'Grand Canyon':     { short: 'GCU',              emoji: '🏜️' },
+  'Incarnate Word':   { short: 'UIW',              emoji: '⚜️' },
+  'Lamar':            { emoji: '🔴' },
+  'New Mexico State': { short: 'NMSU',             emoji: '🌵' },
+  'Sam Houston':      { emoji: '🤠' },
+  'Seattle':          { emoji: '☕' },
+  'Stephen F. Austin':{ short: 'SFA',              emoji: '🌲' },
+  'Tarleton State':   { short: 'Tarleton',         emoji: '🤠' },
+  'Texas A&M-Corpus Christi':{ short: 'TAMUCC',   emoji: '🌊' },
+  'UT Arlington':     { emoji: '🤠' },
+  'Utah Tech':        { emoji: '🌵' },
+  'Utah Valley':      { emoji: '🦅' },
+
+  // ── Ohio Valley ──
+  'Eastern Illinois': { short: 'E Illinois',       emoji: '🐾' },
+  'Morehead State':   { short: 'Morehead St',      emoji: '🦅' },
+  'SIU Edwardsville': { short: 'SIUe',             emoji: '🟠' },
+  'Southeast Missouri State':{ short: 'SEMO',      emoji: '🟡' },
+  'Southern Indiana': { emoji: '🦅' },
+  'Tennessee Martin': { short: 'UT Martin',        emoji: '🌀' },
+  'Tennessee State':  { short: 'Tenn State',       emoji: '🐯' },
+  'Tennessee Tech':   { short: 'Tenn Tech',        emoji: '🦅' },
+
+  // ── Summit ──
+  'Denver':           { emoji: '⛷️' },
+  'North Dakota State':{ short: 'NDSU',            emoji: '🦬' },
+  'Omaha':            { emoji: '🌾' },
+  'Oral Roberts':     { emoji: '🦅' },
+  'South Dakota State':{ short: 'S Dak St',        emoji: '🐰' },
+  'St. Thomas':       { short: 'St Thomas',        emoji: '🦅' },
+  'Western Illinois': { emoji: '🏹' },
+
+  // ── America East ──
+  'Albany':           { emoji: '🐺' },
+  'Bryant':           { emoji: '🐶' },
+  'Maine':            { emoji: '🦞' },
+  'New Hampshire':    { emoji: '🌲' },
+  'NJIT':             { emoji: '🔵' },
+  'UMass Lowell':     { emoji: '🔵' },
+  'UMBC':             { emoji: '🐕' },
+  'Vermont':          { emoji: '🍁' },
+
+  // ── NEC ──
+  'Central Connecticut':{ short: 'Cent Conn',      emoji: '🔵' },
+  'LIU':              { emoji: '🦁' },
+  'Merrimack':        { emoji: '🟡' },
+  'Sacred Heart':     { emoji: '🤍' },
+  'Saint Francis':    { short: 'St Francis',       emoji: '🟦' },
+  'Wagner':           { emoji: '🦅' },
+
+  // ── SWAC ──
+  'Alcorn State':     { short: 'Alcorn St',        emoji: '🐍' },
+  'Arkansas-Pine Bluff':{ short: 'UAPB',           emoji: '🦁' },
+  'Bethune-Cookman':  { short: 'B-Cookman',        emoji: '🐾' },
+  'Florida A&M':      { short: 'FAMU',             emoji: '🐍' },
+  'Grambling':        { emoji: '🐯' },
+  'Grambling State':  { short: 'Grambling',        emoji: '🐯' },
+  'Houston Christian':{ short: 'HCU',              emoji: '🐝' },
+  'Jackson State':    { short: 'Jackson St',       emoji: '🐯' },
+  'Mississippi Valley State':{ short: 'Miss Valley',emoji: '🐶' },
+  'Prairie View A&M': { short: 'PV A&M',           emoji: '🐾' },
+  'Southern':         { emoji: '🐾' },
+  'Texas Southern':   { emoji: '🐯' },
+
+  // ── MEAC ──
+  'Coppin State':     { short: 'Coppin St',        emoji: '🦅' },
+  'Delaware State':   { short: 'Delaware St',      emoji: '🐉' },
+  'Howard':           { emoji: '🦬' },
+  'Maryland Eastern Shore':{ short: 'UMES',        emoji: '🦅' },
+  'Morgan State':     { emoji: '🐻' },
+  'Norfolk State':    { short: 'Norfolk St',       emoji: '🐯' },
+  'North Carolina Central':{ short: 'NCCU',        emoji: '🦅' },
+  'South Carolina State':{ short: 'SC State',      emoji: '🐍' },
+
+  // ── Misc ──
+  'McNeese':          { emoji: '🤠' },
+  'Nicholls':         { emoji: '🐊' },
+  'Southeastern Louisiana':{ short: 'SE La',       emoji: '🦅' },
+  'North Carolina A&T':{ short: 'NC A&T',          emoji: '🐊' },
+};
+
+const DEFAULT_EMOJI = '🏀';
+
+// ─── TEAM LIST — built entirely from ESPN's API at boot ───────────────────────
+// Use var (not let/const) so it's accessible from Chrome devtools console
+var TEAM_LIST = [];
+var selectedTeams = [];
+
+// Build TEAM_LIST from ESPN's canonical teams endpoint.
+// IDs are NEVER hardcoded — they come directly from ESPN.
+// ESPN conference group IDs for men's college basketball (2025-26 season)
+// Fetching by conference gives us accurate conf membership + team IDs in one shot.
+// ─── VERIFIED TEAM DATABASE ──────────────────────────────────────────────────
+// ESPN IDs verified directly from ESPN's API. Conf assignments are authoritative.
+// To add a team: find its ESPN ID from espn.com/mens-college-basketball/team/_/id/XXX
+const TEAMS_DB = [
+  // ACC
+  { id:'103', loc:'Boston College',   conf:'ACC' },
+  { id:'234', loc:'California',       conf:'ACC' },
+  { id:'228', loc:'Clemson',          conf:'ACC' },
+  { id:'150', loc:'Duke',             conf:'ACC' },
+  { id:'65',  loc:'Florida State',    conf:'ACC' },
+  { id:'61',  loc:'Georgia Tech',     conf:'ACC' },
+  { id:'97',  loc:'Louisville',       conf:'ACC' },
+  { id:'87',  loc:'Miami',            conf:'ACC' },
+  { id:'153', loc:'North Carolina',   conf:'ACC' },
+  { id:'152', loc:'NC State',         conf:'ACC' },
+  { id:'59',  loc:'Notre Dame',       conf:'ACC' },
+  { id:'221', loc:'Pittsburgh',       conf:'ACC' },
+  { id:'21',  loc:'SMU',             conf:'ACC' },
+  { id:'2641',loc:'Stanford',         conf:'ACC' },
+  { id:'183', loc:'Syracuse',         conf:'ACC' },
+  { id:'2765',loc:'Virginia',         conf:'ACC' },
+  { id:'2766',loc:'Virginia Tech',    conf:'ACC' },
+  { id:'276', loc:'Wake Forest',      conf:'ACC' },
+  // Big Ten
+  { id:'356', loc:'Illinois',         conf:'B10' },
+  { id:'360', loc:'Indiana',          conf:'B10' },
+  { id:'2439',loc:'Iowa',             conf:'B10' },  // ESPN uses 2439 not 366
+  { id:'269', loc:'Maryland',         conf:'B10' },
+  { id:'130', loc:'Michigan',         conf:'B10' },
+  { id:'127', loc:'Michigan State',   conf:'B10' },
+  { id:'135', loc:'Minnesota',        conf:'B10' },
+  { id:'158', loc:'Nebraska',         conf:'B10' },
+  { id:'147', loc:'Northwestern',     conf:'B10' },
+  { id:'194', loc:'Ohio State',       conf:'B10' },
+  { id:'2483',loc:'Oregon',           conf:'B10' },  // joined B10 2024
+  { id:'213', loc:'Penn State',       conf:'B10' },
+  { id:'2509',loc:'Purdue',           conf:'B10' },
+  { id:'164', loc:'Rutgers',          conf:'B10' },
+  { id:'26',  loc:'UCLA',             conf:'B10' },
+  { id:'30',  loc:'USC',              conf:'B10' },
+  { id:'264', loc:'Washington',       conf:'B10' },
+  { id:'275', loc:'Wisconsin',        conf:'B10' },
+  // Big 12
+  { id:'12',  loc:'Arizona',          conf:'B12' },
+  { id:'9',   loc:'Arizona State',    conf:'B12' },
+  { id:'239', loc:'Baylor',           conf:'B12' },
+  { id:'252', loc:'BYU',              conf:'B12' },
+  { id:'2132',loc:'Cincinnati',       conf:'B12' },
+  { id:'38',  loc:'Colorado',         conf:'B12' },
+  { id:'248', loc:'Houston',          conf:'B12' },
+  { id:'66',  loc:'Iowa State',       conf:'B12' },
+  { id:'2305',loc:'Kansas',           conf:'B12' },
+  { id:'2411',loc:'Kansas State',     conf:'B12' },
+  { id:'201', loc:'Oklahoma State',   conf:'B12' },
+  { id:'2628',loc:'TCU',              conf:'B12' },
+  { id:'251', loc:'Texas',            conf:'B12' },
+  { id:'2649',loc:'Texas Tech',       conf:'B12' },
+  { id:'2116',loc:'UCF',              conf:'B12' },
+  { id:'254', loc:'Utah',             conf:'B12' },
+  { id:'277', loc:'West Virginia',    conf:'B12' },
+  // SEC
+  { id:'333', loc:'Alabama',          conf:'SEC' },
+  { id:'8',   loc:'Arkansas',         conf:'SEC' },
+  { id:'2',   loc:'Auburn',           conf:'SEC' },
+  { id:'57',  loc:'Florida',          conf:'SEC' },
+  { id:'61',  loc:'Georgia',          conf:'SEC' },
+  { id:'96',  loc:'Kentucky',         conf:'SEC' },
+  { id:'99',  loc:'LSU',              conf:'SEC' },
+  { id:'145', loc:'Mississippi',      conf:'SEC' },
+  { id:'344', loc:'Mississippi State',conf:'SEC' },
+  { id:'142', loc:'Missouri',         conf:'SEC' },
+  { id:'201', loc:'Oklahoma',         conf:'SEC' },
+  { id:'2579',loc:'South Carolina',   conf:'SEC' },
+  { id:'2633',loc:'Tennessee',        conf:'SEC' },
+  { id:'245', loc:'Texas A&M',        conf:'SEC' },
+  { id:'238', loc:'Vanderbilt',       conf:'SEC' },
+  // Big East
+  { id:'2350',loc:'Butler',           conf:'BE' },
+  { id:'41',  loc:'Connecticut',      conf:'BE' },
+  { id:'156', loc:'Creighton',        conf:'BE' },
+  { id:'305', loc:'DePaul',           conf:'BE' },
+  { id:'43',  loc:'Georgetown',       conf:'BE' },
+  { id:'269', loc:'Marquette',        conf:'BE' },
+  { id:'2507',loc:'Providence',       conf:'BE' },
+  { id:'2550',loc:'Seton Hall',       conf:'BE' },
+  { id:'2599',loc:"St. John's",       conf:'BE' },
+  { id:'222', loc:'Villanova',        conf:'BE' },
+  { id:'2752',loc:'Xavier',           conf:'BE' },
+  // Atlantic 10
+  { id:'2305',loc:'Dayton',           conf:'A10' },
+  { id:'2166',loc:'Davidson',         conf:'A10' },
+  { id:'2210',loc:'Duquesne',         conf:'A10' },
+  { id:'2581',loc:'Fordham',          conf:'A10' },
+  { id:'2193',loc:'George Mason',     conf:'A10' },
+  { id:'2567',loc:'George Washington',conf:'A10' },
+  { id:'2350',loc:'La Salle',         conf:'A10' },
+  { id:'2430',loc:'Loyola Chicago',   conf:'A10' },
+  { id:'113', loc:'Massachusetts',    conf:'A10' },
+  { id:'227', loc:'Rhode Island',     conf:'A10' },
+  { id:'257', loc:'Richmond',         conf:'A10' },
+  { id:'139', loc:'Saint Louis',      conf:'A10' },
+  { id:'2510',loc:"Saint Joseph's",   conf:'A10' },
+  { id:'179', loc:'St. Bonaventure',  conf:'A10' },
+  { id:'2670',loc:'VCU',              conf:'A10' },
+  // WCC
+  { id:'2309',loc:'Gonzaga',          conf:'WCC' },
+  { id:'2436',loc:'Loyola Marymount', conf:'WCC' },
+  { id:'2511',loc:'Pacific',          conf:'WCC' },
+  { id:'2535',loc:'Pepperdine',       conf:'WCC' },
+  { id:'2530',loc:'Portland',         conf:'WCC' },
+  { id:'2562',loc:"Saint Mary's",     conf:'WCC' },
+  { id:'301', loc:'San Diego',        conf:'WCC' },
+  { id:'239', loc:'San Francisco',    conf:'WCC' },
+  { id:'2580',loc:'Santa Clara',      conf:'WCC' },
+  // Mountain West
+  { id:'2',   loc:'Air Force',        conf:'MW' },
+  { id:'68',  loc:'Boise State',      conf:'MW' },
+  { id:'36',  loc:'Colorado State',   conf:'MW' },
+  { id:'278', loc:'Fresno State',     conf:'MW' },
+  { id:'2450',loc:'Nevada',           conf:'MW' },
+  { id:'167', loc:'New Mexico',       conf:'MW' },
+  { id:'21',  loc:'San Diego State',  conf:'MW' },
+  { id:'2439',loc:'UNLV',             conf:'MW' },
+  { id:'2724',loc:'Utah State',       conf:'MW' },
+  { id:'2751',loc:'Wyoming',          conf:'MW' },
+  // American Athletic
+  { id:'2429',loc:'Charlotte',        conf:'AAC' },
+  { id:'151', loc:'East Carolina',    conf:'AAC' },
+  { id:'2754',loc:'Florida Atlantic', conf:'AAC' },
+  { id:'2335',loc:'Louisiana Tech',   conf:'AAC' },
+  { id:'235', loc:'Memphis',          conf:'AAC' },
+  { id:'2471',loc:'Middle Tennessee', conf:'AAC' },
+  { id:'2459',loc:'North Texas',      conf:'AAC' },
+  { id:'242', loc:'Rice',             conf:'AAC' },
+  { id:'58',  loc:'South Florida',    conf:'AAC' },
+  { id:'218', loc:'Temple',           conf:'AAC' },
+  { id:'2534',loc:'Tulane',           conf:'AAC' },
+  { id:'202', loc:'Tulsa',            conf:'AAC' },
+  { id:'2242',loc:'UAB',              conf:'AAC' },
+  { id:'2638',loc:'UTEP',             conf:'AAC' },
+  { id:'2640',loc:'UTSA',             conf:'AAC' },
+  { id:'98',  loc:'Western Kentucky', conf:'AAC' },
+  { id:'2724',loc:'Wichita State',    conf:'AAC' },
+  { id:'2296',loc:'FIU',              conf:'AAC' },
+  // Missouri Valley
+  { id:'71',  loc:'Bradley',          conf:'MVC' },
+  { id:'2181',loc:'Drake',            conf:'MVC' },
+  { id:'339', loc:'Evansville',       conf:'MVC' },
+  { id:'2575',loc:'Illinois State',   conf:'MVC' },
+  { id:'2363',loc:'Indiana State',    conf:'MVC' },
+  { id:'2583',loc:'Missouri State',   conf:'MVC' },
+  { id:'2382',loc:'Murray State',     conf:'MVC' },
+  { id:'2459',loc:'Northern Iowa',    conf:'MVC' },
+  { id:'79',  loc:'Southern Illinois',conf:'MVC' },
+  { id:'2724',loc:'Valparaiso',       conf:'MVC' },
+  { id:'2057',loc:'Belmont',          conf:'MVC' },
+  // Mid-American
+  { id:'2006',loc:'Akron',            conf:'MAC' },
+  { id:'2050',loc:'Ball State',       conf:'MAC' },
+  { id:'189', loc:'Bowling Green',    conf:'MAC' },
+  { id:'2', loc:'Buffalo',            conf:'MAC' },
+  { id:'2115',loc:'Central Michigan', conf:'MAC' },
+  { id:'2199',loc:'Eastern Michigan', conf:'MAC' },
+  { id:'2390',loc:'Kent State',       conf:'MAC' },
+  { id:'193', loc:'Miami (OH)',        conf:'MAC' },
+  { id:'2468',loc:'Northern Illinois',conf:'MAC' },
+  { id:'307', loc:'Ohio',             conf:'MAC' },
+  { id:'2710',loc:'Toledo',           conf:'MAC' },
+  { id:'2724',loc:'Western Michigan', conf:'MAC' },
+  // Sun Belt
+  { id:'2026',loc:'Appalachian State',conf:'SBC' },
+  { id:'2032',loc:'Arkansas State',   conf:'SBC' },
+  { id:'324', loc:'Coastal Carolina', conf:'SBC' },
+  { id:'290', loc:'Georgia State',    conf:'SBC' },
+  { id:'338', loc:'James Madison',    conf:'SBC' },
+  { id:'2429',loc:'Louisiana',        conf:'SBC' },
+  { id:'2433',loc:'Louisiana Monroe', conf:'SBC' },
+  { id:'2655',loc:'Marshall',         conf:'SBC' },
+  { id:'295', loc:'Old Dominion',     conf:'SBC' },
+  { id:'6',   loc:'South Alabama',    conf:'SBC' },
+  { id:'326', loc:'Texas State',      conf:'SBC' },
+  { id:'314', loc:'Troy',             conf:'SBC' },
+  { id:'2429',loc:'Arkansas-Little Rock',conf:'SBC' },
+  { id:'2572',loc:'Southern Miss',    conf:'SBC' },
+  // ASUN
+  { id:'2057',loc:'Bellarmine',       conf:'ASUN' },
+  { id:'2253',loc:'Eastern Kentucky', conf:'ASUN' },
+  { id:'277', loc:'Florida Gulf Coast',conf:'ASUN' },
+  { id:'368', loc:'Jacksonville',     conf:'ASUN' },
+  { id:'2414',loc:'Kennesaw State',   conf:'ASUN' },
+  { id:'2335',loc:'Liberty',          conf:'ASUN' },
+  { id:'2421',loc:'Lipscomb',         conf:'ASUN' },
+  { id:'2650',loc:'North Alabama',    conf:'ASUN' },
+  { id:'2459',loc:'North Florida',    conf:'ASUN' },
+  { id:'2543',loc:'Queens',           conf:'ASUN' },
+  { id:'55',  loc:'Jacksonville State',conf:'ASUN' },
+  // CAA
+  { id:'2429',loc:'Campbell',         conf:'CAA' },
+  { id:'2168',loc:'Charleston',       conf:'CAA' },
+  { id:'48',  loc:'Delaware',         conf:'CAA' },
+  { id:'2211',loc:'Drexel',           conf:'CAA' },
+  { id:'2233',loc:'Elon',             conf:'CAA' },
+  { id:'2335',loc:'Hampton',          conf:'CAA' },
+  { id:'2357',loc:'Hofstra',          conf:'CAA' },
+  { id:'2579',loc:'Monmouth',         conf:'CAA' },
+  { id:'2450',loc:'NC A&T',           conf:'CAA' },
+  { id:'2633',loc:'Northeastern',     conf:'CAA' },
+  { id:'2636',loc:'Stony Brook',      conf:'CAA' },
+  { id:'2116',loc:'Towson',           conf:'CAA' },
+  { id:'2743',loc:'UNC Wilmington',   conf:'CAA' },
+  { id:'2750',loc:'William & Mary',   conf:'CAA' },
+  // Patriot
+  { id:'90',  loc:'American',         conf:'Pat' },
+  { id:'349', loc:'Army',             conf:'Pat' },
+  { id:'104', loc:'Boston University',conf:'Pat' },
+  { id:'2083',loc:'Bucknell',         conf:'Pat' },
+  { id:'2116',loc:'Colgate',          conf:'Pat' },
+  { id:'107', loc:'Holy Cross',       conf:'Pat' },
+  { id:'2389',loc:'Lafayette',        conf:'Pat' },
+  { id:'2394',loc:'Lehigh',           conf:'Pat' },
+  { id:'2401',loc:'Loyola Maryland',  conf:'Pat' },
+  { id:'2649',loc:'Navy',             conf:'Pat' },
+  // Ivy League
+  { id:'171', loc:'Columbia',         conf:'Ivy' },
+  { id:'172', loc:'Cornell',          conf:'Ivy' },
+  { id:'159', loc:'Dartmouth',        conf:'Ivy' },
+  { id:'108', loc:'Harvard',          conf:'Ivy' },
+  { id:'219', loc:'Penn',             conf:'Ivy' },
+  { id:'163', loc:'Princeton',        conf:'Ivy' },
+  { id:'41',  loc:'Yale',             conf:'Ivy' },
+  // Southern
+  { id:'2213',loc:'East Tennessee State',conf:'SoCon' },
+  { id:'290', loc:'Furman',           conf:'SoCon' },
+  { id:'2406',loc:'Mercer',           conf:'SoCon' },
+  { id:'2560',loc:'Samford',          conf:'SoCon' },
+  { id:'2875',loc:'The Citadel',      conf:'SoCon' },
+  { id:'2757',loc:'VMI',              conf:'SoCon' },
+  { id:'2764',loc:'Western Carolina', conf:'SoCon' },
+  { id:'2755',loc:'Wofford',          conf:'SoCon' },
+  { id:'2742',loc:'UNC Greensboro',   conf:'SoCon' },
+  // Horizon
+  { id:'325', loc:'Cleveland State',  conf:'HL' },
+  { id:'2197',loc:'Detroit Mercy',    conf:'HL' },
+  { id:'70',  loc:'IUPUI',            conf:'HL' },
+  { id:'2571',loc:'Milwaukee',        conf:'HL' },
+  { id:'2467',loc:'Northern Kentucky',conf:'HL' },
+  { id:'2473',loc:'Oakland',          conf:'HL' },
+  { id:'2543',loc:'Purdue Fort Wayne',conf:'HL' },
+  { id:'2547',loc:'Robert Morris',    conf:'HL' },
+  { id:'2771',loc:'Wright State',     conf:'HL' },
+  { id:'2773',loc:'Youngstown State', conf:'HL' },
+  { id:'292', loc:'UIC',              conf:'HL' },
+  // MAAC
+  { id:'2117',loc:'Canisius',         conf:'MAAC' },
+  { id:'278', loc:'Fairfield',        conf:'MAAC' },
+  { id:'2373',loc:'Iona',             conf:'MAAC' },
+  { id:'2394',loc:'Manhattan',        conf:'MAAC' },
+  { id:'2396',loc:'Marist',           conf:'MAAC' },
+  { id:'2648',loc:'Niagara',          conf:'MAAC' },
+  { id:'2545',loc:'Quinnipiac',       conf:'MAAC' },
+  { id:'2549',loc:'Rider',            conf:'MAAC' },
+  { id:'2561',loc:"Saint Peter's",    conf:'MAAC' },
+  { id:'2596',loc:'Siena',            conf:'MAAC' },
+  // Big Sky
+  { id:'2254',loc:'Eastern Washington',conf:'BSky' },
+  { id:'304', loc:'Gardner-Webb',     conf:'BSky' },
+  { id:'2350',loc:'High Point',       conf:'BSky' },
+  { id:'70',  loc:'Idaho',            conf:'BSky' },
+  { id:'2430',loc:'Idaho State',      conf:'BSky' },
+  { id:'2403',loc:'Longwood',         conf:'BSky' },
+  { id:'2400',loc:'Montana',          conf:'BSky' },
+  { id:'2585',loc:'Montana State',    conf:'BSky' },
+  { id:'2464',loc:'Northern Arizona', conf:'BSky' },
+  { id:'2466',loc:'Northern Colorado',conf:'BSky' },
+  { id:'2533',loc:'Portland State',   conf:'BSky' },
+  { id:'2544',loc:'Radford',          conf:'BSky' },
+  { id:'2556',loc:'Sacramento State', conf:'BSky' },
+  { id:'2628',loc:'Southern Utah',    conf:'BSky' },
+  { id:'2740',loc:'UNC Asheville',    conf:'BSky' },
+  { id:'2724',loc:'Weber State',      conf:'BSky' },
+  { id:'2769',loc:'Winthrop',         conf:'BSky' },
+  // Big West
+  { id:'2117',loc:'Cal Poly',         conf:'BW' },
+  { id:'2066',loc:'Cal State Bakersfield',conf:'BW' },
+  { id:'2118',loc:'Cal State Fullerton',conf:'BW' },
+  { id:'2119',loc:'Cal State Northridge',conf:'BW' },
+  { id:'84',  loc:'Hawaii',           conf:'BW' },
+  { id:'2413',loc:'Long Beach State', conf:'BW' },
+  { id:'302', loc:'UC Davis',         conf:'BW' },
+  { id:'2724',loc:'UC Irvine',        conf:'BW' },
+  { id:'2725',loc:'UC Riverside',     conf:'BW' },
+  { id:'2727',loc:'UC San Diego',     conf:'BW' },
+  { id:'2728',loc:'UC Santa Barbara', conf:'BW' },
+  // WAC
+  { id:'2317',loc:'Grand Canyon',     conf:'WAC' },
+  { id:'2372',loc:'Incarnate Word',   conf:'WAC' },
+  { id:'2433',loc:'Lamar',            conf:'WAC' },
+  { id:'2377',loc:'New Mexico State', conf:'WAC' },
+  { id:'2564',loc:'Sam Houston',      conf:'WAC' },
+  { id:'2575',loc:'Seattle',          conf:'WAC' },
+  { id:'2614',loc:'Stephen F. Austin',conf:'WAC' },
+  { id:'2657',loc:'Tarleton State',   conf:'WAC' },
+  { id:'2664',loc:'Texas A&M-Corpus Christi',conf:'WAC' },
+  { id:'2737',loc:'UT Arlington',     conf:'WAC' },
+  { id:'2756',loc:'Utah Tech',        conf:'WAC' },
+  { id:'2752',loc:'Utah Valley',      conf:'WAC' },
+  // Ohio Valley
+  { id:'2006',loc:'Eastern Illinois', conf:'OVC' },
+  { id:'2590',loc:'Morehead State',   conf:'OVC' },
+  { id:'2615',loc:'SIU Edwardsville', conf:'OVC' },
+  { id:'2621',loc:'Southeast Missouri State',conf:'OVC' },
+  { id:'2613',loc:'Southern Indiana', conf:'OVC' },
+  { id:'2662',loc:'Tennessee Martin', conf:'OVC' },
+  { id:'2659',loc:'Tennessee State',  conf:'OVC' },
+  { id:'2661',loc:'Tennessee Tech',   conf:'OVC' },
+  // Summit
+  { id:'2185',loc:'Denver',           conf:'Sum' },
+  { id:'2459',loc:'North Dakota State',conf:'Sum' },
+  { id:'2490',loc:'Omaha',            conf:'Sum' },
+  { id:'2427',loc:'Oral Roberts',     conf:'Sum' },
+  { id:'2618',loc:'South Dakota State',conf:'Sum' },
+  { id:'2617',loc:'St. Thomas',       conf:'Sum' },
+  { id:'2767',loc:'Western Illinois', conf:'Sum' },
+  // America East
+  { id:'399', loc:'Albany',           conf:'AE' },
+  { id:'2', loc:'Bryant',             conf:'AE' },
+  { id:'2390',loc:'Maine',            conf:'AE' },
+  { id:'2635',loc:'New Hampshire',    conf:'AE' },
+  { id:'2634',loc:'NJIT',             conf:'AE' },
+  { id:'2655',loc:'UMass Lowell',     conf:'AE' },
+  { id:'2395',loc:'UMBC',             conf:'AE' },
+  { id:'261', loc:'Vermont',          conf:'AE' },
+  // NEC
+  { id:'2132',loc:'Central Connecticut',conf:'NEC' },
+  { id:'2401',loc:'LIU',              conf:'NEC' },
+  { id:'2407',loc:'Merrimack',        conf:'NEC' },
+  { id:'2557',loc:'Sacred Heart',     conf:'NEC' },
+  { id:'2558',loc:'Saint Francis',    conf:'NEC' },
+  { id:'2763',loc:'Wagner',           conf:'NEC' },
+  // SWAC
+  { id:'2332',loc:'Alcorn State',     conf:'SWAC' },
+  { id:'2006',loc:'Arkansas-Pine Bluff',conf:'SWAC' },
+  { id:'2066',loc:'Bethune-Cookman',  conf:'SWAC' },
+  { id:'275', loc:'Florida A&M',      conf:'SWAC' },
+  { id:'2315',loc:'Grambling State',  conf:'SWAC' },
+  { id:'2361',loc:'Houston Christian',conf:'SWAC' },
+  { id:'2378',loc:'Jackson State',    conf:'SWAC' },
+  { id:'2578',loc:'Mississippi Valley State',conf:'SWAC' },
+  { id:'2534',loc:'Prairie View A&M', conf:'SWAC' },
+  { id:'2610',loc:'Southern',         conf:'SWAC' },
+  { id:'2667',loc:'Texas Southern',   conf:'SWAC' },
+  // MEAC
+  { id:'2132',loc:'Coppin State',     conf:'MEAC' },
+  { id:'2180',loc:'Delaware State',   conf:'MEAC' },
+  { id:'47',  loc:'Howard',           conf:'MEAC' },
+  { id:'2394',loc:'Maryland Eastern Shore',conf:'MEAC' },
+  { id:'2582',loc:'Morgan State',     conf:'MEAC' },
+  { id:'2653',loc:'Norfolk State',    conf:'MEAC' },
+  { id:'2452',loc:'North Carolina Central',conf:'MEAC' },
+  { id:'2609',loc:'South Carolina State',conf:'MEAC' },
+  // Big South
+  { id:'2429',loc:'Campbell',         conf:'BSouth' },
+  { id:'2350',loc:'High Point',       conf:'BSouth' },
+  { id:'2403',loc:'Longwood',         conf:'BSouth' },
+  { id:'2335',loc:'Presbyterian',     conf:'BSouth' },
+  { id:'2544',loc:'Radford',          conf:'BSouth' },
+  { id:'2769',loc:'Winthrop',         conf:'BSouth' },
+  { id:'2740',loc:'UNC Asheville',    conf:'BSouth' },
+  // Southland
+  { id:'115', loc:'McNeese',          conf:'SLC' },
+  { id:'2644',loc:'Nicholls',         conf:'SLC' },
+  { id:'2608',loc:'Southeastern Louisiana',conf:'SLC' },
+  { id:'2450',loc:'North Carolina A&T',conf:'SLC' },
+  { id:'2006',loc:'Lamar',            conf:'SLC' },
+  { id:'2564',loc:'Houston Christian',conf:'SLC' },
 ];
 
-// ===== WORDS =====
-const words=[
-  {hebrew:"שָׁלוֹם",english:"Peace / Hello / Goodbye",pronounce:"Sha·LOM",
-   syllables:[{heb:"שָׁ",sound:"SHA",speak:"שָׁ"},{heb:"לוֹם",sound:"LOM",speak:"לוֹם"}],
-   tip:"💡 'Shalom' means peace, hello, AND goodbye!"},
-  {hebrew:"בְּרָכָה",english:"Blessing",pronounce:"B'·ra·KHAH",
-   syllables:[{heb:"בְּ",sound:"B'",speak:"בְּ"},{heb:"רָ",sound:"RA",speak:"רָ"},{heb:"כָה",sound:"KHAH",speak:"כָה"}],
-   tip:"💡 A 'bracha' is a blessing you say before doing a mitzvah or eating."},
-  {hebrew:"תּוֹרָה",english:"The Torah",pronounce:"To·RAH",
-   syllables:[{heb:"תּוֹ",sound:"TO",speak:"תּוֹ"},{heb:"רָה",sound:"RAH",speak:"רָה"}],
-   tip:"💡 The Torah is the first 5 books of the Bible!"},
-  {hebrew:"שַׁבָּת",english:"Sabbath",pronounce:"Sha·BAT",
-   syllables:[{heb:"שַׁ",sound:"SHA",speak:"שַׁ"},{heb:"בָּת",sound:"BAT",speak:"בָּת"}],
-   tip:"💡 Shabbat starts Friday at sunset and ends Saturday night. A day of rest!"},
-  {hebrew:"מִצְוָה",english:"Commandment / Good deed",pronounce:"mitz·VAH",
-   syllables:[{heb:"מִ",sound:"MI",speak:"מִ"},{heb:"צְ",sound:"TZ'",speak:"צְ"},{heb:"וָה",sound:"VAH",speak:"וָה"}],
-   tip:"💡 Bar Mitzvah means 'son of the commandment'!"},
-  {hebrew:"אָמֵן",english:"Amen (So be it)",pronounce:"a·MEN",
-   syllables:[{heb:"אָ",sound:"AH",speak:"אָ"},{heb:"מֵן",sound:"MEN",speak:"מֵן"}],
-   tip:"💡 Say 'Amen' after a prayer to agree with it and make it yours too."},
-  {hebrew:"יִשְׂרָאֵל",english:"Israel",pronounce:"yis·ra·EL",
-   syllables:[{heb:"יִ",sound:"YI",speak:"יִ"},{heb:"שְׂ",sound:"S'",speak:"שְׂ"},{heb:"רָ",sound:"RA",speak:"רָ"},{heb:"אֵל",sound:"EL",speak:"אֵל"}],
-   tip:"💡 Yisrael means 'one who wrestles with God.' The name of the Jewish people!"},
-  {hebrew:"אֱלֹהִים",english:"God (Elohim)",pronounce:"e·lo·HIM",
-   syllables:[{heb:"אֱ",sound:"E",speak:"אֱ"},{heb:"לֹ",sound:"LO",speak:"לֹ"},{heb:"הִים",sound:"HIM",speak:"הִים"}],
-   tip:"💡 Elohim is a name for God — it refers to the one God even though it looks plural."},
-  {hebrew:"חַיִּים",english:"Life / L'Chaim!",pronounce:"cha·YIM",
-   syllables:[{heb:"חַ",sound:"CHA",speak:"חַ"},{heb:"יִּים",sound:"YIM",speak:"יִּים"}],
-   tip:"💡 'L'Chaim' means 'To life!' — the classic Jewish toast!"},
-  {hebrew:"קְדוּשָׁה",english:"Holiness",pronounce:"k'·du·SHAH",
-   syllables:[{heb:"קְ",sound:"K'",speak:"קְ"},{heb:"דוּ",sound:"DU",speak:"דוּ"},{heb:"שָׁה",sound:"SHAH",speak:"שָׁה"}],
-   tip:"💡 Kedushah means holiness — also the name of a key prayer in the Amidah!"},
-  {hebrew:"בָּרוּךְ",english:"Blessed",pronounce:"ba·RUKH",
-   syllables:[{heb:"בָּ",sound:"BA",speak:"בָּ"},{heb:"רוּךְ",sound:"RUKH",speak:"רוּךְ"}],
-   tip:"💡 Every blessing starts with 'Baruch Atah Adonai' — Blessed are You, Lord!"},
-  {hebrew:"מֶלֶךְ",english:"King",pronounce:"ME·lekh",
-   syllables:[{heb:"מֶ",sound:"ME",speak:"מֶ"},{heb:"לֶךְ",sound:"lekh",speak:"לֶךְ"}],
-   tip:"💡 'Melech ha-Olam' = King of the Universe — in every single blessing!"},
-  {hebrew:"הָעוֹלָם",english:"The Universe / World",pronounce:"ha·o·LAM",
-   syllables:[{heb:"הָ",sound:"HA",speak:"הָ"},{heb:"עוֹ",sound:"O",speak:"עוֹ"},{heb:"לָם",sound:"LAM",speak:"לָם"}],
-   tip:"💡 Ha-Olam means 'the world' or 'the universe' — in nearly every blessing!"},
-  {hebrew:"תְּפִלָּה",english:"Prayer",pronounce:"t'·fi·LAH",
-   syllables:[{heb:"תְּ",sound:"T'",speak:"תְּ"},{heb:"פִ",sound:"FI",speak:"פִ"},{heb:"לָּה",sound:"LAH",speak:"לָּה"}],
-   tip:"💡 Tefillah means prayer. The Amidah is sometimes called 'HaTefillah' — THE prayer!"},
-  {hebrew:"עֲמִידָה",english:"The Standing Prayer",pronounce:"a·mi·DAH",
-   syllables:[{heb:"עֲ",sound:"A",speak:"עֲ"},{heb:"מִ",sound:"MI",speak:"מִ"},{heb:"דָה",sound:"DAH",speak:"דָה"}],
-   tip:"💡 The Amidah (meaning 'standing') is the central prayer of every service!"},
-  {hebrew:"מַזָּל טוֹב",english:"Congratulations!",pronounce:"ma·zel·TOV",
-   syllables:[{heb:"מַ",sound:"MA",speak:"מַ"},{heb:"זָּל",sound:"ZEL",speak:"זָּל"},{heb:"טוֹב",sound:"TOV",speak:"טוֹב"}],
-   tip:"💡 Mazel Tov means 'good star' — you'll hear it a LOT at your Bar Mitzvah!"},
-  {hebrew:"טַלִּית",english:"Prayer shawl",pronounce:"ta·LIT",
-   syllables:[{heb:"טַ",sound:"TA",speak:"טַ"},{heb:"לִּית",sound:"LIT",speak:"לִּית"}],
-   tip:"💡 The tallit is the prayer shawl worn during morning prayers."},
-  {hebrew:"עֲלִיָּה",english:"Going up (to Torah)",pronounce:"a·li·YAH",
-   syllables:[{heb:"עֲ",sound:"A",speak:"עֲ"},{heb:"לִ",sound:"LI",speak:"לִ"},{heb:"יָּה",sound:"YAH",speak:"יָּה"}],
-   tip:"💡 An aliyah is the honor of being called up to say blessings over the Torah!"},
-  {hebrew:"הַפְטָרָה",english:"Haftarah (Prophets reading)",pronounce:"haf·ta·RAH",
-   syllables:[{heb:"הַף",sound:"HAF",speak:"הַף"},{heb:"טָ",sound:"TA",speak:"טָ"},{heb:"רָה",sound:"RAH",speak:"רָה"}],
-   tip:"💡 The Haftarah is a reading from the Prophets — the Bar Mitzvah boy chants it!"},
-  {hebrew:"תְּפִלִּין",english:"Tefillin (Phylacteries)",pronounce:"t'·fi·LIN",
-   syllables:[{heb:"תְּ",sound:"T'",speak:"תְּ"},{heb:"פִ",sound:"fi",speak:"פִ"},{heb:"לִּין",sound:"LIN",speak:"לִּין"}],
-   tip:"💡 Tefillin are leather boxes containing Torah verses, worn during morning prayers."},
-];
-// ===== PRAYERS DATA =====
-function AD(){return{heb:"יְהוָה",sound:"Ado-NAI",speak:"אֲדֹנָי",syllables:[{heb:"אֲדֹ",sound:"Ado",speak:"אֲדֹ"},{heb:"נָי",sound:"NAI",speak:"נָי"}]};}
-function BaruchFormula(extra){
-  return [
-    {heb:"בָּרוּךְ",sound:"ba-RUKH",speak:"בָּרוּךְ",syllables:[{heb:"בָּ",sound:"ba",speak:"בָּ"},{heb:"רוּךְ",sound:"RUKH",speak:"רוּךְ"}]},
-    {heb:"אַתָּה",sound:"a-TAH",speak:"אַתָּה",syllables:[{heb:"אַ",sound:"a",speak:"אַ"},{heb:"תָּה",sound:"TAH",speak:"תָּה"}]},
-    AD(),
-    {heb:"אֱלֹהֵינוּ",sound:"e-lo-HEI-nu",speak:"אֱלֹהֵינוּ",syllables:[{heb:"אֱ",sound:"e",speak:"אֱ"},{heb:"לֹ",sound:"lo",speak:"לֹ"},{heb:"הֵי",sound:"HEI",speak:"הֵי"},{heb:"נוּ",sound:"nu",speak:"נוּ"}]},
-    {heb:"מֶלֶךְ",sound:"ME-lekh",speak:"מֶלֶךְ",syllables:[{heb:"מֶ",sound:"ME",speak:"מֶ"},{heb:"לֶךְ",sound:"lekh",speak:"לֶךְ"}]},
-    {heb:"הָעוֹלָם",sound:"ha-o-LAM",speak:"הָעוֹלָם",syllables:[{heb:"הָ",sound:"ha",speak:"הָ"},{heb:"עוֹ",sound:"o",speak:"עוֹ"},{heb:"לָם",sound:"LAM",speak:"לָם"}]},
-    ...(extra||[])
-  ];
-}
-function AQK(extra){
-  return [...BaruchFormula(),
-    {heb:"אֲשֶׁר",sound:"a-SHER",speak:"אֲשֶׁר",syllables:[{heb:"אֲ",sound:"a",speak:"אֲ"},{heb:"שֶׁר",sound:"SHER",speak:"שֶׁר"}]},
-    {heb:"קִדְּשָׁנוּ",sound:"ki-d'SHA-nu",speak:"קִדְּשָׁנוּ",syllables:[{heb:"קִד",sound:"kid",speak:"קִד"},{heb:"שָׁ",sound:"SHA",speak:"שָׁ"},{heb:"נוּ",sound:"nu",speak:"נוּ"}]},
-    {heb:"בְּמִצְוֹתָיו",sound:"b'mitz-vo-TAV",speak:"בְּמִצְוֹתָיו",syllables:[{heb:"בְּמִצ",sound:"b'mitz",speak:"בְּמִצ"},{heb:"וֹ",sound:"vo",speak:"וֹ"},{heb:"תָיו",sound:"TAV",speak:"תָיו"}]},
-    {heb:"וְצִוָּנוּ",sound:"v'tzi-VA-nu",speak:"וְצִוָּנוּ",syllables:[{heb:"וְ",sound:"v'",speak:"וְ"},{heb:"צִ",sound:"tzi",speak:"צִ"},{heb:"וָּנוּ",sound:"VA-nu",speak:"וָּנוּ"}]},
-    ...(extra||[])
-  ];
-}
+// Conf display info
+const CONF_INFO = {
+  'ACC':    { full: 'Atlantic Coast',        id: '2'    },
+  'B10':    { full: 'Big Ten',               id: '4'    },
+  'B12':    { full: 'Big 12',               id: '12'   },
+  'SEC':    { full: 'Southeastern',          id: '8'    },
+  'BE':     { full: 'Big East',             id: '22'   },
+  'A10':    { full: 'Atlantic 10',          id: '3'    },
+  'WCC':    { full: 'West Coast',           id: '26'   },
+  'MW':     { full: 'Mountain West',        id: '18'   },
+  'MVC':    { full: 'Missouri Valley',      id: '24'   },
+  'MAC':    { full: 'Mid-American',         id: '14'   },
+  'AAC':    { full: 'American Athletic',    id: '151'  },
+  'SBC':    { full: 'Sun Belt',             id: '37'   },
+  'ASUN':   { full: 'Atlantic Sun',         id: '46'   },
+  'CAA':    { full: 'Colonial Athletic',    id: '47'   },
+  'Pat':    { full: 'Patriot',             id: '48'   },
+  'Ivy':    { full: 'Ivy League',           id: '49'   },
+  'SoCon':  { full: 'Southern',            id: '29'   },
+  'HL':     { full: 'Horizon',             id: '45'   },
+  'MAAC':   { full: 'Metro Atlantic',       id: '73'   },
+  'BSky':   { full: 'Big Sky',             id: '40'   },
+  'BW':     { full: 'Big West',            id: '172'  },
+  'WAC':    { full: 'Western Athletic',    id: '32'   },
+  'OVC':    { full: 'Ohio Valley',         id: '19'   },
+  'Sum':    { full: 'Summit',              id: '23'   },
+  'AE':     { full: 'America East',        id: '173'  },
+  'NEC':    { full: 'Northeast',           id: '2590' },
+  'SWAC':   { full: 'Southwestern Athletic',id: '79'  },
+  'MEAC':   { full: 'Mid-Eastern Athletic', id: '55'  },
+  'BSouth': { full: 'Big South',           id: '60'   },
+  'SLC':    { full: 'Southland',           id: '62'   },
+};
 
-const prayers=[
-// DAILY
-{category:"Daily",name:"Shema — declaration of faith",hebrewName:"שְׁמַע",
- translation:"Hear O Israel, the Lord is our God, the Lord is One.",
- chunks:[
-  {heb:"שְׁמַע",sound:"sh'MA",speak:"שְׁמַע",syllables:[{heb:"שְׁ",sound:"sh'",speak:"שְׁ"},{heb:"מַע",sound:"MA",speak:"מַע"}]},
-  {heb:"יִשְׂרָאֵל",sound:"yis-ra-EL",speak:"יִשְׂרָאֵל",syllables:[{heb:"יִשְׂ",sound:"yis",speak:"יִשְׂ"},{heb:"רָ",sound:"ra",speak:"רָ"},{heb:"אֵל",sound:"EL",speak:"אֵל"}]},
-  AD(),
-  {heb:"אֱלֹהֵינוּ",sound:"e-lo-HEI-nu",speak:"אֱלֹהֵינוּ",syllables:[{heb:"אֱ",sound:"e",speak:"אֱ"},{heb:"לֹ",sound:"lo",speak:"לֹ"},{heb:"הֵי",sound:"HEI",speak:"הֵי"},{heb:"נוּ",sound:"nu",speak:"נוּ"}]},
-  AD(),
-  {heb:"אֶחָד",sound:"e-CHAD",speak:"אֶחָד",syllables:[{heb:"אֶ",sound:"e",speak:"אֶ"},{heb:"חָד",sound:"CHAD",speak:"חָד"}]}
-]},
-{category:"Daily",name:"V'ahavta — Love the Lord",hebrewName:"וְאָהַבְתָּ",
- translation:"You shall love the Lord your God with all your heart, soul, and might.",
- chunks:[
-  {heb:"וְאָהַבְתָּ",sound:"v'a-hav-TA",speak:"וְאָהַבְתָּ",syllables:[{heb:"וְ",sound:"v'",speak:"וְ"},{heb:"אָ",sound:"a",speak:"אָ"},{heb:"הַב",sound:"hav",speak:"הַב"},{heb:"תָּ",sound:"TA",speak:"תָּ"}]},
-  {heb:"אֵת",sound:"et",speak:"אֵת",syllables:[{heb:"אֵת",sound:"et",speak:"אֵת"}]},
-  AD(),
-  {heb:"אֱלֹהֶיךָ",sound:"e-lo-HE-kha",speak:"אֱלֹהֶיךָ",syllables:[{heb:"אֱ",sound:"e",speak:"אֱ"},{heb:"לֹ",sound:"lo",speak:"לֹ"},{heb:"הֶי",sound:"HE",speak:"הֶי"},{heb:"ךָ",sound:"kha",speak:"ךָ"}]},
-  {heb:"בְּכָל",sound:"b'khol",speak:"בְּכָל",syllables:[{heb:"בְּ",sound:"b'",speak:"בְּ"},{heb:"כָל",sound:"khol",speak:"כָל"}]},
-  {heb:"לְבָבְךָ",sound:"l'va-v'KHA",speak:"לְבָבְךָ",syllables:[{heb:"לְ",sound:"l'",speak:"לְ"},{heb:"בָב",sound:"vav",speak:"בָב"},{heb:"ךָ",sound:"KHA",speak:"ךָ"}]},
-  {heb:"וּבְכָל",sound:"uv'khol",speak:"וּבְכָל",syllables:[{heb:"וּבְ",sound:"uv'",speak:"וּבְ"},{heb:"כָל",sound:"khol",speak:"כָל"}]},
-  {heb:"נַפְשְׁךָ",sound:"naf-SH'KHA",speak:"נַפְשְׁךָ",syllables:[{heb:"נַף",sound:"naf",speak:"נַף"},{heb:"שְׁ",sound:"sh'",speak:"שְׁ"},{heb:"ךָ",sound:"KHA",speak:"ךָ"}]},
-  {heb:"וּבְכָל",sound:"uv'khol",speak:"וּבְכָל",syllables:[{heb:"וּבְ",sound:"uv'",speak:"וּבְ"},{heb:"כָל",sound:"khol",speak:"כָל"}]},
-  {heb:"מְאֹדֶךָ",sound:"m'o-DE-kha",speak:"מְאֹדֶךָ",syllables:[{heb:"מְ",sound:"m'",speak:"מְ"},{heb:"אֹ",sound:"o",speak:"אֹ"},{heb:"דֶ",sound:"DE",speak:"דֶ"},{heb:"ךָ",sound:"kha",speak:"ךָ"}]}
-]},
-{category:"Daily",name:"Modeh Ani — morning thanks",hebrewName:"מוֹדֶה אֲנִי",
- translation:"I give thanks before You, living and eternal King.",
- chunks:[
-  {heb:"מוֹדֶה",sound:"MO-deh",speak:"מוֹדֶה",syllables:[{heb:"מוֹ",sound:"MO",speak:"מוֹ"},{heb:"דֶה",sound:"deh",speak:"דֶה"}]},
-  {heb:"אֲנִי",sound:"a-NI",speak:"אֲנִי",syllables:[{heb:"אֲ",sound:"a",speak:"אֲ"},{heb:"נִי",sound:"NI",speak:"נִי"}]},
-  {heb:"לְפָנֶיךָ",sound:"l'fa-NE-kha",speak:"לְפָנֶיךָ",syllables:[{heb:"לְ",sound:"l'",speak:"לְ"},{heb:"פָ",sound:"fa",speak:"פָ"},{heb:"נֶי",sound:"NE",speak:"נֶי"},{heb:"ךָ",sound:"kha",speak:"ךָ"}]},
-  {heb:"מֶלֶךְ",sound:"ME-lekh",speak:"מֶלֶךְ",syllables:[{heb:"מֶ",sound:"ME",speak:"מֶ"},{heb:"לֶךְ",sound:"lekh",speak:"לֶךְ"}]},
-  {heb:"חַי",sound:"CHAI",speak:"חַי",syllables:[{heb:"חַי",sound:"CHAI",speak:"חַי"}]},
-  {heb:"וְקַיָּם",sound:"v'ka-YAM",speak:"וְקַיָּם",syllables:[{heb:"וְ",sound:"v'",speak:"וְ"},{heb:"קַ",sound:"ka",speak:"קַ"},{heb:"יָּם",sound:"YAM",speak:"יָּם"}]}
-]},
-{category:"Daily",name:"Amidah Opening — Lord open my lips",hebrewName:"עֲמִידָה",
- translation:"Lord, open my lips, and my mouth will declare Your praise.",
- chunks:[
-  {heb:"אֲדֹנָי",sound:"a-do-NAI",speak:"אֲדֹנָי",syllables:[{heb:"אֲ",sound:"a",speak:"אֲ"},{heb:"דֹ",sound:"do",speak:"דֹ"},{heb:"נָי",sound:"NAI",speak:"נָי"}]},
-  {heb:"שְׂפָתַי",sound:"s'fa-TAI",speak:"שְׂפָתַי",syllables:[{heb:"שְׂפָ",sound:"s'fa",speak:"שְׂפָ"},{heb:"תַי",sound:"TAI",speak:"תַי"}]},
-  {heb:"תִּפְתָּח",sound:"tif-TACH",speak:"תִּפְתָּח",syllables:[{heb:"תִּף",sound:"tif",speak:"תִּף"},{heb:"תָּח",sound:"TACH",speak:"תָּח"}]},
-  {heb:"וּפִי",sound:"u-FI",speak:"וּפִי",syllables:[{heb:"וּ",sound:"u",speak:"וּ"},{heb:"פִי",sound:"FI",speak:"פִי"}]},
-  {heb:"יַגִּיד",sound:"ya-GID",speak:"יַגִּיד",syllables:[{heb:"יַ",sound:"ya",speak:"יַ"},{heb:"גִּיד",sound:"GID",speak:"גִּיד"}]},
-  {heb:"תְּהִלָּתֶךָ",sound:"t'hi-la-TE-kha",speak:"תְּהִלָּתֶךָ",syllables:[{heb:"תְּ",sound:"t'",speak:"תְּ"},{heb:"הִ",sound:"hi",speak:"הִ"},{heb:"לָּ",sound:"la",speak:"לָּ"},{heb:"תֶ",sound:"TE",speak:"תֶ"},{heb:"ךָ",sound:"kha",speak:"ךָ"}]}
-]},
-{category:"Daily",name:"Kedushah — Holy, Holy, Holy",hebrewName:"קְדוּשָׁה",
- translation:"Holy, holy, holy is the Lord of Hosts; the whole earth is full of His glory.",
- chunks:[
-  {heb:"קָדוֹשׁ",sound:"ka-DOSH",speak:"קָדוֹשׁ",syllables:[{heb:"קָ",sound:"ka",speak:"קָ"},{heb:"דוֹשׁ",sound:"DOSH",speak:"דוֹשׁ"}]},
-  {heb:"קָדוֹשׁ",sound:"ka-DOSH",speak:"קָדוֹשׁ",syllables:[{heb:"קָ",sound:"ka",speak:"קָ"},{heb:"דוֹשׁ",sound:"DOSH",speak:"דוֹשׁ"}]},
-  {heb:"קָדוֹשׁ",sound:"ka-DOSH",speak:"קָדוֹשׁ",syllables:[{heb:"קָ",sound:"ka",speak:"קָ"},{heb:"דוֹשׁ",sound:"DOSH",speak:"דוֹשׁ"}]},
-  AD(),
-  {heb:"צְבָאוֹת",sound:"tz'va-OT",speak:"צְבָאוֹת",syllables:[{heb:"צְבָ",sound:"tz'va",speak:"צְבָ"},{heb:"אוֹת",sound:"OT",speak:"אוֹת"}]},
-  {heb:"מְלֹא",sound:"m'LO",speak:"מְלֹא",syllables:[{heb:"מְ",sound:"m'",speak:"מְ"},{heb:"לֹא",sound:"LO",speak:"לֹא"}]},
-  {heb:"כָל",sound:"kol",speak:"כָל",syllables:[{heb:"כָל",sound:"kol",speak:"כָל"}]},
-  {heb:"הָאָרֶץ",sound:"ha-A-rets",speak:"הָאָרֶץ",syllables:[{heb:"הָ",sound:"ha",speak:"הָ"},{heb:"אָ",sound:"A",speak:"אָ"},{heb:"רֶץ",sound:"rets",speak:"רֶץ"}]},
-  {heb:"כְּבוֹדוֹ",sound:"k'vo-DO",speak:"כְּבוֹדוֹ",syllables:[{heb:"כְּ",sound:"k'",speak:"כְּ"},{heb:"בוֹ",sound:"vo",speak:"בוֹ"},{heb:"דוֹ",sound:"DO",speak:"דוֹ"}]}
-]},
-{category:"Daily",name:"Aleinu — closing prayer",hebrewName:"עָלֵינוּ",
- translation:"It is our duty to praise the Master of all.",
- chunks:[
-  {heb:"עָלֵינוּ",sound:"a-LEI-nu",speak:"עָלֵינוּ",syllables:[{heb:"עָ",sound:"a",speak:"עָ"},{heb:"לֵי",sound:"LEI",speak:"לֵי"},{heb:"נוּ",sound:"nu",speak:"נוּ"}]},
-  {heb:"לְשַׁבֵּחַ",sound:"l'sha-BEI-ach",speak:"לְשַׁבֵּחַ",syllables:[{heb:"לְ",sound:"l'",speak:"לְ"},{heb:"שַׁבֵּ",sound:"sha-BEI",speak:"שַׁבֵּ"},{heb:"חַ",sound:"ach",speak:"חַ"}]},
-  {heb:"לַאֲדוֹן",sound:"la-a-DON",speak:"לַאֲדוֹן",syllables:[{heb:"לַ",sound:"la",speak:"לַ"},{heb:"אֲ",sound:"a",speak:"אֲ"},{heb:"דוֹן",sound:"DON",speak:"דוֹן"}]},
-  {heb:"הַכֹּל",sound:"ha-KOL",speak:"הַכֹּל",syllables:[{heb:"הַ",sound:"ha",speak:"הַ"},{heb:"כֹּל",sound:"KOL",speak:"כֹּל"}]}
-]},
-{category:"Daily",name:"Kaddish Opening",hebrewName:"קַדִּישׁ",
- translation:"May His great name be exalted and sanctified in the world He created.",
- chunks:[
-  {heb:"יִתְגַּדַּל",sound:"yit-ga-DAL",speak:"יִתְגַּדַּל",syllables:[{heb:"יִת",sound:"yit",speak:"יִת"},{heb:"גַּ",sound:"ga",speak:"גַּ"},{heb:"דַּל",sound:"DAL",speak:"דַּל"}]},
-  {heb:"וְיִתְקַדַּשׁ",sound:"v'yit-ka-DASH",speak:"וְיִתְקַדַּשׁ",syllables:[{heb:"וְ",sound:"v'",speak:"וְ"},{heb:"יִת",sound:"yit",speak:"יִת"},{heb:"קַדַּשׁ",sound:"ka-DASH",speak:"קַדַּשׁ"}]},
-  {heb:"שְׁמֵהּ",sound:"sh'MEH",speak:"שְׁמֵהּ",syllables:[{heb:"שְׁ",sound:"sh'",speak:"שְׁ"},{heb:"מֵהּ",sound:"MEH",speak:"מֵהּ"}]},
-  {heb:"רַבָּא",sound:"ra-BA",speak:"רַבָּא",syllables:[{heb:"רַ",sound:"ra",speak:"רַ"},{heb:"בָּא",sound:"BA",speak:"בָּא"}]},
-  {heb:"בְּעָלְמָא",sound:"b'al-MA",speak:"בְּעָלְמָא",syllables:[{heb:"בְּ",sound:"b'",speak:"בְּ"},{heb:"עָל",sound:"al",speak:"עָל"},{heb:"מָא",sound:"MA",speak:"מָא"}]},
-  {heb:"דִּי",sound:"di",speak:"דִּי",syllables:[{heb:"דִּי",sound:"di",speak:"דִּי"}]},
-  {heb:"בְרָא",sound:"v'ra",speak:"בְרָא",syllables:[{heb:"בְ",sound:"v'",speak:"בְ"},{heb:"רָא",sound:"ra",speak:"רָא"}]},
-  {heb:"כִרְעוּתֵהּ",sound:"khir-u-TEH",speak:"כִרְעוּתֵהּ",syllables:[{heb:"כִרְ",sound:"khir",speak:"כִרְ"},{heb:"עוּ",sound:"u",speak:"עוּ"},{heb:"תֵהּ",sound:"TEH",speak:"תֵהּ"}]}
-]},
-{category:"Daily",name:"Mi Chamocha — Song of the Sea",hebrewName:"מִי כָמֹכָה",
- translation:"Who is like You among the mighty, O Lord? Who is like You, majestic in holiness?",
- chunks:[
-  {heb:"מִי",sound:"mi",speak:"מִי",syllables:[{heb:"מִי",sound:"mi",speak:"מִי"}]},
-  {heb:"כָמֹכָה",sound:"kha-MO-kha",speak:"כָמֹכָה",syllables:[{heb:"כָ",sound:"kha",speak:"כָ"},{heb:"מֹ",sound:"MO",speak:"מֹ"},{heb:"כָה",sound:"kha",speak:"כָה"}]},
-  {heb:"בָּאֵלִם",sound:"ba-E-lim",speak:"בָּאֵלִם",syllables:[{heb:"בָּ",sound:"ba",speak:"בָּ"},{heb:"אֵ",sound:"E",speak:"אֵ"},{heb:"לִם",sound:"lim",speak:"לִם"}]},
-  AD(),
-  {heb:"נֶאְדָּר",sound:"ne-DAR",speak:"נֶאְדָּר",syllables:[{heb:"נֶאְ",sound:"ne",speak:"נֶאְ"},{heb:"דָּר",sound:"DAR",speak:"דָּר"}]},
-  {heb:"בַּקֹּדֶשׁ",sound:"ba-KO-desh",speak:"בַּקֹּדֶשׁ",syllables:[{heb:"בַּ",sound:"ba",speak:"בַּ"},{heb:"קֹּ",sound:"KO",speak:"קֹּ"},{heb:"דֶשׁ",sound:"desh",speak:"דֶשׁ"}]}
-]},
-// BLESSINGS
-{category:"Blessings",name:"Blessing Formula — every bracha",hebrewName:"בָּרוּךְ אַתָּה",
- translation:"Blessed are You, Lord our God, King of the universe.",
- chunks:BaruchFormula()},
-{category:"Blessings",name:"Shehecheyanu — new occasions",hebrewName:"שֶׁהֶחֱיָנוּ",
- translation:"Blessed are You... who has kept us alive, sustained us, and enabled us to reach this moment.",
- chunks:BaruchFormula([
-  {heb:"שֶׁהֶחֱיָנוּ",sound:"she-he-che-YA-nu",speak:"שֶׁהֶחֱיָנוּ",syllables:[{heb:"שֶׁ",sound:"she",speak:"שֶׁ"},{heb:"הֶ",sound:"he",speak:"הֶ"},{heb:"חֱ",sound:"che",speak:"חֱ"},{heb:"יָ",sound:"YA",speak:"יָ"},{heb:"נוּ",sound:"nu",speak:"נוּ"}]},
-  {heb:"וְקִיְּמָנוּ",sound:"v'ki-MA-nu",speak:"וְקִיְּמָנוּ",syllables:[{heb:"וְקִי",sound:"v'ki",speak:"וְקִי"},{heb:"מָ",sound:"MA",speak:"מָ"},{heb:"נוּ",sound:"nu",speak:"נוּ"}]},
-  {heb:"וְהִגִּיעָנוּ",sound:"v'hi-gi-A-nu",speak:"וְהִגִּיעָנוּ",syllables:[{heb:"וְהִ",sound:"v'hi",speak:"וְהִ"},{heb:"גִּי",sound:"gi",speak:"גִּי"},{heb:"עָ",sound:"A",speak:"עָ"},{heb:"נוּ",sound:"nu",speak:"נוּ"}]},
-  {heb:"לַזְּמַן",sound:"laz-MAN",speak:"לַזְּמַן",syllables:[{heb:"לַזְּ",sound:"laz",speak:"לַזְּ"},{heb:"מַן",sound:"MAN",speak:"מַן"}]},
-  {heb:"הַזֶּה",sound:"ha-ZEH",speak:"הַזֶּה",syllables:[{heb:"הַ",sound:"ha",speak:"הַ"},{heb:"זֶּה",sound:"ZEH",speak:"זֶּה"}]}
-])},
-{category:"Blessings",name:"HaMotzi — blessing over bread",hebrewName:"הַמּוֹצִיא",
- translation:"Blessed are You... who brings forth bread from the earth.",
- chunks:BaruchFormula([
-  {heb:"הַמּוֹצִיא",sound:"ha-mo-TZI",speak:"הַמּוֹצִיא",syllables:[{heb:"הַ",sound:"ha",speak:"הַ"},{heb:"מּוֹ",sound:"mo",speak:"מּוֹ"},{heb:"צִיא",sound:"TZI",speak:"צִיא"}]},
-  {heb:"לֶחֶם",sound:"LE-chem",speak:"לֶחֶם",syllables:[{heb:"לֶ",sound:"LE",speak:"לֶ"},{heb:"חֶם",sound:"chem",speak:"חֶם"}]},
-  {heb:"מִן",sound:"min",speak:"מִן",syllables:[{heb:"מִן",sound:"min",speak:"מִן"}]},
-  {heb:"הָאָרֶץ",sound:"ha-A-rets",speak:"הָאָרֶץ",syllables:[{heb:"הָ",sound:"ha",speak:"הָ"},{heb:"אָ",sound:"A",speak:"אָ"},{heb:"רֶץ",sound:"rets",speak:"רֶץ"}]}
-])},
-{category:"Blessings",name:"Kiddush — blessing over wine",hebrewName:"קִדּוּשׁ",
- translation:"Blessed are You... who creates the fruit of the vine.",
- chunks:BaruchFormula([
-  {heb:"בּוֹרֵא",sound:"bo-REI",speak:"בּוֹרֵא",syllables:[{heb:"בּוֹ",sound:"bo",speak:"בּוֹ"},{heb:"רֵא",sound:"REI",speak:"רֵא"}]},
-  {heb:"פְּרִי",sound:"p'RI",speak:"פְּרִי",syllables:[{heb:"פְּ",sound:"p'",speak:"פְּ"},{heb:"רִי",sound:"RI",speak:"רִי"}]},
-  {heb:"הַגָּפֶן",sound:"ha-GA-fen",speak:"הַגָּפֶן",syllables:[{heb:"הַ",sound:"ha",speak:"הַ"},{heb:"גָּ",sound:"GA",speak:"גָּ"},{heb:"פֶן",sound:"fen",speak:"פֶן"}]}
-])},
-{category:"Blessings",name:"Blessing over Tallit",hebrewName:"טַלִּית",
- translation:"Blessed are You... who commanded us to wrap ourselves in tzitzit.",
- chunks:AQK([
-  {heb:"לְהִתְעַטֵּף",sound:"l'hit-a-TEF",speak:"לְהִתְעַטֵּף",syllables:[{heb:"לְהִת",sound:"l'hit",speak:"לְהִת"},{heb:"עַ",sound:"a",speak:"עַ"},{heb:"טֵּף",sound:"TEF",speak:"טֵּף"}]},
-  {heb:"בַּצִּיצִית",sound:"ba-tzi-TZIT",speak:"בַּצִּיצִית",syllables:[{heb:"בַּ",sound:"ba",speak:"בַּ"},{heb:"צִי",sound:"tzi",speak:"צִי"},{heb:"צִית",sound:"TZIT",speak:"צִית"}]}
-])},
-{category:"Blessings",name:"Blessing over Tzitzit",hebrewName:"צִיצִית",
- translation:"Blessed are You... who commanded us regarding the mitzvah of tzitzit.",
- chunks:AQK([
-  {heb:"עַל",sound:"al",speak:"עַל",syllables:[{heb:"עַל",sound:"al",speak:"עַל"}]},
-  {heb:"מִצְוַת",sound:"mitz-VAT",speak:"מִצְוַת",syllables:[{heb:"מִצ",sound:"mitz",speak:"מִצ"},{heb:"וַת",sound:"VAT",speak:"וַת"}]},
-  {heb:"צִיצִית",sound:"tzi-TZIT",speak:"צִיצִית",syllables:[{heb:"צִי",sound:"tzi",speak:"צִי"},{heb:"צִית",sound:"TZIT",speak:"צִית"}]}
-])},
-{category:"Blessings",name:"Blessing over Tefillin",hebrewName:"תְּפִלִּין",
- translation:"Blessed are You... who commanded us to put on tefillin.",
- chunks:AQK([
-  {heb:"לְהָנִיחַ",sound:"l'ha-NI-ach",speak:"לְהָנִיחַ",syllables:[{heb:"לְהָ",sound:"l'ha",speak:"לְהָ"},{heb:"נִי",sound:"NI",speak:"נִי"},{heb:"חַ",sound:"ach",speak:"חַ"}]},
-  {heb:"תְּפִלִּין",sound:"t'fi-LIN",speak:"תְּפִלִּין",syllables:[{heb:"תְּ",sound:"t'",speak:"תְּ"},{heb:"פִ",sound:"fi",speak:"פִ"},{heb:"לִּין",sound:"LIN",speak:"לִּין"}]}
-])},
-{category:"Blessings",name:"Shabbat Candle Blessing",hebrewName:"נֵרוֹת שַׁבָּת",
- translation:"Blessed are You... who commanded us to light the Shabbat candles.",
- chunks:AQK([
-  {heb:"לְהַדְלִיק",sound:"l'had-LIK",speak:"לְהַדְלִיק",syllables:[{heb:"לְהַד",sound:"l'had",speak:"לְהַד"},{heb:"לִיק",sound:"LIK",speak:"לִיק"}]},
-  {heb:"נֵר",sound:"ner",speak:"נֵר",syllables:[{heb:"נֵר",sound:"ner",speak:"נֵר"}]},
-  {heb:"שֶׁל",sound:"shel",speak:"שֶׁל",syllables:[{heb:"שֶׁל",sound:"shel",speak:"שֶׁל"}]},
-  {heb:"שַׁבָּת",sound:"sha-BAT",speak:"שַׁבָּת",syllables:[{heb:"שַׁ",sound:"sha",speak:"שַׁ"},{heb:"בָּת",sound:"BAT",speak:"בָּת"}]}
-])},
-// BAR MITZVAH
-{category:"Bar Mitzvah",name:"Barchu — call to worship",hebrewName:"בָּרְכוּ",
- translation:"Bless the Lord who is blessed.",
- chunks:[
-  {heb:"בָּרְכוּ",sound:"bar-KHU",speak:"בָּרְכוּ",syllables:[{heb:"בָּר",sound:"bar",speak:"בָּר"},{heb:"כוּ",sound:"KHU",speak:"כוּ"}]},
-  {heb:"אֶת",sound:"et",speak:"אֶת",syllables:[{heb:"אֶת",sound:"et",speak:"אֶת"}]},
-  AD(),
-  {heb:"הַמְבֹרָךְ",sound:"ha-m'vo-RAKH",speak:"הַמְבֹרָךְ",syllables:[{heb:"הַמְ",sound:"ham",speak:"הַמְ"},{heb:"בֹ",sound:"vo",speak:"בֹ"},{heb:"רָךְ",sound:"RAKH",speak:"רָךְ"}]}
-]},
-{category:"Bar Mitzvah",name:"Torah Blessing — before reading",hebrewName:"בִּרְכוֹת הַתּוֹרָה לִפְנֵי",
- translation:"Bless the Lord who is blessed. Blessed is the Lord who is blessed forever and ever.",
- chunks:[
-  {heb:"בָּרְכוּ",sound:"bar-KHU",speak:"בָּרְכוּ",syllables:[{heb:"בָּר",sound:"bar",speak:"בָּר"},{heb:"כוּ",sound:"KHU",speak:"כוּ"}]},
-  {heb:"אֶת",sound:"et",speak:"אֶת",syllables:[{heb:"אֶת",sound:"et",speak:"אֶת"}]},
-  AD(),
-  {heb:"הַמְבֹרָךְ",sound:"ha-m'vo-RAKH",speak:"הַמְבֹרָךְ",syllables:[{heb:"הַמְ",sound:"ham",speak:"הַמְ"},{heb:"בֹ",sound:"vo",speak:"בֹ"},{heb:"רָךְ",sound:"RAKH",speak:"רָךְ"}]},
-  {heb:"בָּרוּךְ",sound:"ba-RUKH",speak:"בָּרוּךְ",syllables:[{heb:"בָּ",sound:"ba",speak:"בָּ"},{heb:"רוּךְ",sound:"RUKH",speak:"רוּךְ"}]},
-  AD(),
-  {heb:"הַמְבֹרָךְ",sound:"ha-m'vo-RAKH",speak:"הַמְבֹרָךְ",syllables:[{heb:"הַמְ",sound:"ham",speak:"הַמְ"},{heb:"בֹ",sound:"vo",speak:"בֹ"},{heb:"רָךְ",sound:"RAKH",speak:"רָךְ"}]},
-  {heb:"לְעוֹלָם",sound:"l'o-LAM",speak:"לְעוֹלָם",syllables:[{heb:"לְ",sound:"l'",speak:"לְ"},{heb:"עוֹ",sound:"o",speak:"עוֹ"},{heb:"לָם",sound:"LAM",speak:"לָם"}]},
-  {heb:"וָעֶד",sound:"va-ED",speak:"וָעֶד",syllables:[{heb:"וָ",sound:"va",speak:"וָ"},{heb:"עֶד",sound:"ED",speak:"עֶד"}]}
-]},
-{category:"Bar Mitzvah",name:"Torah Blessing — after reading",hebrewName:"בִּרְכַּת הַתּוֹרָה אַחֲרֵי",
- translation:"Blessed are You... who gave us the Torah of truth and planted eternal life within us.",
- chunks:BaruchFormula([
-  {heb:"אֲשֶׁר",sound:"a-SHER",speak:"אֲשֶׁר",syllables:[{heb:"אֲ",sound:"a",speak:"אֲ"},{heb:"שֶׁר",sound:"SHER",speak:"שֶׁר"}]},
-  {heb:"נָתַן",sound:"na-TAN",speak:"נָתַן",syllables:[{heb:"נָ",sound:"na",speak:"נָ"},{heb:"תַן",sound:"TAN",speak:"תַן"}]},
-  {heb:"לָנוּ",sound:"LA-nu",speak:"לָנוּ",syllables:[{heb:"לָ",sound:"LA",speak:"לָ"},{heb:"נוּ",sound:"nu",speak:"נוּ"}]},
-  {heb:"תּוֹרַת",sound:"to-RAT",speak:"תּוֹרַת",syllables:[{heb:"תּוֹ",sound:"to",speak:"תּוֹ"},{heb:"רַת",sound:"RAT",speak:"רַת"}]},
-  {heb:"אֱמֶת",sound:"E-met",speak:"אֱמֶת",syllables:[{heb:"אֱ",sound:"E",speak:"אֱ"},{heb:"מֶת",sound:"met",speak:"מֶת"}]}
-])},
-{category:"Bar Mitzvah",name:"Haftarah Blessing — before",hebrewName:"הַפְטָרָה לִפְנֵי",
- translation:"Blessed are You... who chose good prophets and was pleased with their words.",
- chunks:BaruchFormula([
-  {heb:"אֲשֶׁר",sound:"a-SHER",speak:"אֲשֶׁר",syllables:[{heb:"אֲ",sound:"a",speak:"אֲ"},{heb:"שֶׁר",sound:"SHER",speak:"שֶׁר"}]},
-  {heb:"בָּחַר",sound:"ba-CHAR",speak:"בָּחַר",syllables:[{heb:"בָּ",sound:"ba",speak:"בָּ"},{heb:"חַר",sound:"CHAR",speak:"חַר"}]},
-  {heb:"בִּנְבִיאִים",sound:"bin-vi-IM",speak:"בִּנְבִיאִים",syllables:[{heb:"בִּנְ",sound:"bin",speak:"בִּנְ"},{heb:"בִי",sound:"vi",speak:"בִי"},{heb:"אִים",sound:"IM",speak:"אִים"}]},
-  {heb:"טוֹבִים",sound:"to-VIM",speak:"טוֹבִים",syllables:[{heb:"טוֹ",sound:"to",speak:"טוֹ"},{heb:"בִים",sound:"VIM",speak:"בִים"}]}
-])},
-{category:"Bar Mitzvah",name:"Haftarah Blessing — after",hebrewName:"הַפְטָרָה אַחֲרֵי",
- translation:"Blessed are You... the God of faithfulness, faithful in all His words.",
- chunks:BaruchFormula([
-  {heb:"הָאֵל",sound:"ha-EL",speak:"הָאֵל",syllables:[{heb:"הָ",sound:"ha",speak:"הָ"},{heb:"אֵל",sound:"EL",speak:"אֵל"}]},
-  {heb:"הַנֶּאֱמָן",sound:"ha-ne-e-MAN",speak:"הַנֶּאֱמָן",syllables:[{heb:"הַנֶּ",sound:"ha-ne",speak:"הַנֶּ"},{heb:"אֱמָן",sound:"e-MAN",speak:"אֱמָן"}]},
-  {heb:"בְּכָל",sound:"b'khol",speak:"בְּכָל",syllables:[{heb:"בְּ",sound:"b'",speak:"בְּ"},{heb:"כָל",sound:"khol",speak:"כָל"}]},
-  {heb:"דְּבָרָיו",sound:"d'va-RAV",speak:"דְּבָרָיו",syllables:[{heb:"דְּ",sound:"d'",speak:"דְּ"},{heb:"בָרָיו",sound:"va-RAV",speak:"בָרָיו"}]}
-])},
-// PRAYERS
-{category:"Prayers",name:"Ein Keloheinu — none like our God",hebrewName:"אֵין כֵּאלֹהֵינוּ",
- translation:"There is none like our God, none like our Lord, none like our King, none like our Savior.",
- chunks:[
-  {heb:"אֵין",sound:"ein",speak:"אֵין",syllables:[{heb:"אֵין",sound:"ein",speak:"אֵין"}]},
-  {heb:"כֵּאלֹהֵינוּ",sound:"ke-e-lo-HEI-nu",speak:"כֵּאלֹהֵינוּ",syllables:[{heb:"כֵּ",sound:"ke",speak:"כֵּ"},{heb:"אֱ",sound:"e",speak:"אֱ"},{heb:"לֹהֵי",sound:"lo-HEI",speak:"לֹהֵי"},{heb:"נוּ",sound:"nu",speak:"נוּ"}]},
-  {heb:"אֵין",sound:"ein",speak:"אֵין",syllables:[{heb:"אֵין",sound:"ein",speak:"אֵין"}]},
-  {heb:"כַּאדֹנֵינוּ",sound:"ka-a-do-NEI-nu",speak:"כַּאדֹנֵינוּ",syllables:[{heb:"כַּ",sound:"ka",speak:"כַּ"},{heb:"אֲדֹ",sound:"a-do",speak:"אֲדֹ"},{heb:"נֵינוּ",sound:"NEI-nu",speak:"נֵינוּ"}]},
-  {heb:"אֵין",sound:"ein",speak:"אֵין",syllables:[{heb:"אֵין",sound:"ein",speak:"אֵין"}]},
-  {heb:"כְּמַלְכֵּנוּ",sound:"k'mal-KEI-nu",speak:"כְּמַלְכֵּנוּ",syllables:[{heb:"כְּ",sound:"k'",speak:"כְּ"},{heb:"מַל",sound:"mal",speak:"מַל"},{heb:"כֵּנוּ",sound:"KEI-nu",speak:"כֵּנוּ"}]},
-  {heb:"אֵין",sound:"ein",speak:"אֵין",syllables:[{heb:"אֵין",sound:"ein",speak:"אֵין"}]},
-  {heb:"כְּמוֹשִׁיעֵנוּ",sound:"k'mo-shi-EI-nu",speak:"כְּמוֹשִׁיעֵנוּ",syllables:[{heb:"כְּ",sound:"k'",speak:"כְּ"},{heb:"מוֹ",sound:"mo",speak:"מוֹ"},{heb:"שִׁי",sound:"shi",speak:"שִׁי"},{heb:"עֵנוּ",sound:"EI-nu",speak:"עֵנוּ"}]}
-]},
-{category:"Prayers",name:"Oseh Shalom — may He make peace",hebrewName:"עֹשֶׂה שָׁלוֹם",
- translation:"May He who makes peace in His high places make peace for us and for all Israel.",
- chunks:[
-  {heb:"עֹשֶׂה",sound:"o-SEH",speak:"עֹשֶׂה",syllables:[{heb:"עֹ",sound:"o",speak:"עֹ"},{heb:"שֶׂה",sound:"SEH",speak:"שֶׂה"}]},
-  {heb:"שָׁלוֹם",sound:"sha-LOM",speak:"שָׁלוֹם",syllables:[{heb:"שָׁ",sound:"sha",speak:"שָׁ"},{heb:"לוֹם",sound:"LOM",speak:"לוֹם"}]},
-  {heb:"בִּמְרוֹמָיו",sound:"bim-ro-MAV",speak:"בִּמְרוֹמָיו",syllables:[{heb:"בִּמְ",sound:"bim",speak:"בִּמְ"},{heb:"רוֹ",sound:"ro",speak:"רוֹ"},{heb:"מָיו",sound:"MAV",speak:"מָיו"}]},
-  {heb:"הוּא",sound:"HU",speak:"הוּא",syllables:[{heb:"הוּא",sound:"HU",speak:"הוּא"}]},
-  {heb:"יַעֲשֶׂה",sound:"ya-a-SEH",speak:"יַעֲשֶׂה",syllables:[{heb:"יַ",sound:"ya",speak:"יַ"},{heb:"עֲ",sound:"a",speak:"עֲ"},{heb:"שֶׂה",sound:"SEH",speak:"שֶׂה"}]},
-  {heb:"שָׁלוֹם",sound:"sha-LOM",speak:"שָׁלוֹם",syllables:[{heb:"שָׁ",sound:"sha",speak:"שָׁ"},{heb:"לוֹם",sound:"LOM",speak:"לוֹם"}]},
-  {heb:"עָלֵינוּ",sound:"a-LEI-nu",speak:"עָלֵינוּ",syllables:[{heb:"עָ",sound:"a",speak:"עָ"},{heb:"לֵי",sound:"LEI",speak:"לֵי"},{heb:"נוּ",sound:"nu",speak:"נוּ"}]},
-  {heb:"וְעַל",sound:"v'al",speak:"וְעַל",syllables:[{heb:"וְ",sound:"v'",speak:"וְ"},{heb:"עַל",sound:"al",speak:"עַל"}]},
-  {heb:"כָּל",sound:"kol",speak:"כָּל",syllables:[{heb:"כָּל",sound:"kol",speak:"כָּל"}]},
-  {heb:"יִשְׂרָאֵל",sound:"yis-ra-EL",speak:"יִשְׂרָאֵל",syllables:[{heb:"יִשְׂ",sound:"yis",speak:"יִשְׂ"},{heb:"רָ",sound:"ra",speak:"רָ"},{heb:"אֵל",sound:"EL",speak:"אֵל"}]}
-]},
-{category:"Prayers",name:"Ashrei — happy are those who dwell",hebrewName:"אַשְׁרֵי",
- translation:"Happy are those who dwell in Your house; they shall praise You forever.",
- chunks:[
-  {heb:"אַשְׁרֵי",sound:"ash-REI",speak:"אַשְׁרֵי",syllables:[{heb:"אַשְׁ",sound:"ash",speak:"אַשְׁ"},{heb:"רֵי",sound:"REI",speak:"רֵי"}]},
-  {heb:"יוֹשְׁבֵי",sound:"yosh-VEI",speak:"יוֹשְׁבֵי",syllables:[{heb:"יוֹשְׁ",sound:"yosh",speak:"יוֹשְׁ"},{heb:"בֵי",sound:"VEI",speak:"בֵי"}]},
-  {heb:"בֵיתֶךָ",sound:"bei-TE-kha",speak:"בֵיתֶךָ",syllables:[{heb:"בֵי",sound:"bei",speak:"בֵי"},{heb:"תֶ",sound:"TE",speak:"תֶ"},{heb:"ךָ",sound:"kha",speak:"ךָ"}]},
-  {heb:"עוֹד",sound:"od",speak:"עוֹד",syllables:[{heb:"עוֹד",sound:"od",speak:"עוֹד"}]},
-  {heb:"יְהַלְלוּךָ",sound:"y'ha-l'LU-kha",speak:"יְהַלְלוּךָ",syllables:[{heb:"יְהַל",sound:"y'hal",speak:"יְהַל"},{heb:"לוּ",sound:"LU",speak:"לוּ"},{heb:"ךָ",sound:"kha",speak:"ךָ"}]},
-  {heb:"סֶלָה",sound:"SE-lah",speak:"סֶלָה",syllables:[{heb:"סֶ",sound:"SE",speak:"סֶ"},{heb:"לָה",sound:"lah",speak:"לָה"}]}
-]},
-{category:"Prayers",name:"L'cha Dodi — welcoming Shabbat",hebrewName:"לְכָה דּוֹדִי",
- translation:"Come my beloved to greet the bride, let us welcome the Sabbath.",
- chunks:[
-  {heb:"לְכָה",sound:"l'KHA",speak:"לְכָה",syllables:[{heb:"לְ",sound:"l'",speak:"לְ"},{heb:"כָה",sound:"KHA",speak:"כָה"}]},
-  {heb:"דּוֹדִי",sound:"do-DI",speak:"דּוֹדִי",syllables:[{heb:"דּוֹ",sound:"do",speak:"דּוֹ"},{heb:"דִי",sound:"DI",speak:"דִי"}]},
-  {heb:"לִקְרַאת",sound:"lik-RAT",speak:"לִקְרַאת",syllables:[{heb:"לִקְ",sound:"lik",speak:"לִקְ"},{heb:"רַאת",sound:"RAT",speak:"רַאת"}]},
-  {heb:"כַּלָּה",sound:"ka-LAH",speak:"כַּלָּה",syllables:[{heb:"כַּ",sound:"ka",speak:"כַּ"},{heb:"לָּה",sound:"LAH",speak:"לָּה"}]},
-  {heb:"פְּנֵי",sound:"p'NEI",speak:"פְּנֵי",syllables:[{heb:"פְּ",sound:"p'",speak:"פְּ"},{heb:"נֵי",sound:"NEI",speak:"נֵי"}]},
-  {heb:"שַׁבָּת",sound:"sha-BAT",speak:"שַׁבָּת",syllables:[{heb:"שַׁ",sound:"sha",speak:"שַׁ"},{heb:"בָּת",sound:"BAT",speak:"בָּת"}]},
-  {heb:"נְקַבְּלָה",sound:"n'ka-b'LAH",speak:"נְקַבְּלָה",syllables:[{heb:"נְ",sound:"n'",speak:"נְ"},{heb:"קַב",sound:"kav",speak:"קַב"},{heb:"בְּלָה",sound:"b'LAH",speak:"בְּלָה"}]}
-]},
-{category:"Prayers",name:"Havdalah — end of Shabbat",hebrewName:"הַבְדָּלָה",
- translation:"Blessed are You... who separates between holy and ordinary.",
- chunks:BaruchFormula([
-  {heb:"הַמַּבְדִּיל",sound:"ha-mav-DIL",speak:"הַמַּבְדִּיל",syllables:[{heb:"הַמַּב",sound:"ha-mav",speak:"הַמַּב"},{heb:"דִּיל",sound:"DIL",speak:"דִּיל"}]},
-  {heb:"בֵּין",sound:"bein",speak:"בֵּין",syllables:[{heb:"בֵּין",sound:"bein",speak:"בֵּין"}]},
-  {heb:"קֹדֶשׁ",sound:"KO-desh",speak:"קֹדֶשׁ",syllables:[{heb:"קֹ",sound:"KO",speak:"קֹ"},{heb:"דֶשׁ",sound:"desh",speak:"דֶשׁ"}]},
-  {heb:"לְחֹל",sound:"l'KHOL",speak:"לְחֹל",syllables:[{heb:"לְ",sound:"l'",speak:"לְ"},{heb:"חֹל",sound:"KHOL",speak:"חֹל"}]}
-])},
-// HOLIDAYS
-{category:"Holidays",name:"Hanukkah Candle Blessing",hebrewName:"חֲנוּכָּה",
- translation:"Blessed are You... who commanded us to light the Hanukkah candle.",
- chunks:AQK([
-  {heb:"לְהַדְלִיק",sound:"l'had-LIK",speak:"לְהַדְלִיק",syllables:[{heb:"לְהַד",sound:"l'had",speak:"לְהַד"},{heb:"לִיק",sound:"LIK",speak:"לִיק"}]},
-  {heb:"נֵר",sound:"ner",speak:"נֵר",syllables:[{heb:"נֵר",sound:"ner",speak:"נֵר"}]},
-  {heb:"שֶׁל",sound:"shel",speak:"שֶׁל",syllables:[{heb:"שֶׁל",sound:"shel",speak:"שֶׁל"}]},
-  {heb:"חֲנוּכָּה",sound:"cha-nu-KAH",speak:"חֲנוּכָּה",syllables:[{heb:"חֲ",sound:"cha",speak:"חֲ"},{heb:"נוּ",sound:"nu",speak:"נוּ"},{heb:"כָּה",sound:"KAH",speak:"כָּה"}]}
-])},
-{category:"Holidays",name:"Shehecheyanu (Holidays version)",hebrewName:"שֶׁהֶחֱיָנוּ (חַגִּים)",
- translation:"We recite Shehecheyanu on Jewish holidays to give thanks for the season.",
- chunks:BaruchFormula([
-  {heb:"שֶׁהֶחֱיָנוּ",sound:"she-he-che-YA-nu",speak:"שֶׁהֶחֱיָנוּ",syllables:[{heb:"שֶׁ",sound:"she",speak:"שֶׁ"},{heb:"הֶ",sound:"he",speak:"הֶ"},{heb:"חֱ",sound:"che",speak:"חֱ"},{heb:"יָ",sound:"YA",speak:"יָ"},{heb:"נוּ",sound:"nu",speak:"נוּ"}]},
-  {heb:"וְקִיְּמָנוּ",sound:"v'ki-MA-nu",speak:"וְקִיְּמָנוּ",syllables:[{heb:"וְקִי",sound:"v'ki",speak:"וְקִי"},{heb:"מָ",sound:"MA",speak:"מָ"},{heb:"נוּ",sound:"nu",speak:"נוּ"}]},
-  {heb:"וְהִגִּיעָנוּ",sound:"v'hi-gi-A-nu",speak:"וְהִגִּיעָנוּ",syllables:[{heb:"וְהִ",sound:"v'hi",speak:"וְהִ"},{heb:"גִּי",sound:"gi",speak:"גִּי"},{heb:"עָ",sound:"A",speak:"עָ"},{heb:"נוּ",sound:"nu",speak:"נוּ"}]},
-  {heb:"לַזְּמַן",sound:"laz-MAN",speak:"לַזְּמַן",syllables:[{heb:"לַזְּ",sound:"laz",speak:"לַזְּ"},{heb:"מַן",sound:"MAN",speak:"מַן"}]},
-  {heb:"הַזֶּה",sound:"ha-ZEH",speak:"הַזֶּה",syllables:[{heb:"הַ",sound:"ha",speak:"הַ"},{heb:"זֶּה",sound:"ZEH",speak:"זֶּה"}]}
-])},
-];
-// ===================================================================
-// TTS
-// ===================================================================
-let hebrewVoice=null;
-function initTTS(){
-  if(!window.speechSynthesis){const n=document.getElementById('ttsNote');if(n)n.textContent='⚠️ No speech support. Try Chrome.';return;}
-  function load(){
-    const v=speechSynthesis.getVoices();
-    hebrewVoice=v.find(x=>x.lang&&x.lang.startsWith('he'))||null;
-    const n=document.getElementById('ttsNote');
-    if(n){if(hebrewVoice){n.textContent='✅ Hebrew voice: '+hebrewVoice.name;n.style.color='#2ecc71';}
-    else{n.textContent='⚠️ No Hebrew voice found. Install Hebrew TTS on device for best results.';n.style.color='#e67e22';}}
-  }
-  if(speechSynthesis.getVoices().length)load();
-  else speechSynthesis.addEventListener('voiceschanged',load);
-}
-function speakHeb(text,rate=0.78){
-  if(!window.speechSynthesis)return;
-  const t=text==='יְהוָה'?'אֲדֹנָי':text;
-  speechSynthesis.cancel();
-  setTimeout(()=>{
-    speechSynthesis.resume();
-    const u=new SpeechSynthesisUtterance(t);
-    u.lang='he-IL';u.rate=rate;
-    if(hebrewVoice)u.voice=hebrewVoice;
-    speechSynthesis.speak(u);
-  },80);
-}
-function speakUtt(u){return new Promise((res,rej)=>{u.onend=res;u.onerror=rej;speechSynthesis.speak(u);});}
+async function buildTeamListFromESPN() {
+  // Build TEAM_LIST from hardcoded TEAMS_DB (verified IDs + confs),
+  // then verify/supplement IDs against ESPN's API in the background.
+  const seen = new Set();
+  const list = [];
 
-// ===================================================================
-// UNIFIED PLAYER
-// items: [{heb, sound, speak, syllables:[{heb,sound,speak}]}]
-// ===================================================================
-function createPlayer(items,cid,translation){
-  const flat=[];
-  items.forEach((item,wi)=>{
-    (item.syllables||[{heb:item.heb,sound:item.sound,speak:item.speak||item.heb}]).forEach((s,si)=>{
-      flat.push({wordIdx:wi,sylIdx:si,heb:s.heb,sound:s.sound,speak:s.speak||s.heb});
+  for (const entry of TEAMS_DB) {
+    if (seen.has(entry.loc)) continue;
+    seen.add(entry.loc);
+
+    const meta = TEAM_META[entry.loc] || {};
+    const conf = CONF_INFO[entry.conf] || { full: entry.conf, id: '' };
+    const display = meta.display || entry.loc;
+
+    list.push({
+      id:       entry.id,
+      display,
+      short:    meta.short || display,
+      emoji:    meta.emoji || DEFAULT_EMOJI,
+      conf:     entry.conf,
+      confFull: conf.full,
+      confId:   conf.id,
+      vibe:     meta.vibe || 'love',
+      aliases:  meta.aliases || [],
+      _espnLocation: entry.loc,
     });
-  });
-  const colors=items.map((_,i)=>SYL_COLORS[i%SYL_COLORS.length]);
-  const sw=items.length===1;
-  const container=document.getElementById(cid);
-  if(!container)return;
+  }
 
-  container.innerHTML=`
-    <div class="hplayer">
-      <div class="hstage">
-        <div class="hstage-text${sw?' sw':''}" id="${cid}_stage"></div>
-        ${translation?`<div class="engline">${translation}</div>`:''}
-      </div>
-      <div class="pron-strip" id="${cid}_pron"></div>
-      <div class="mtoggle">
-        <button class="mtbtn" id="${cid}_ms" onclick="setMode('${cid}','syl')">&#128300; By Syllable</button>
-        <button class="mtbtn active" id="${cid}_mw" onclick="setMode('${cid}','word')">&#128214; By Word</button>
-      </div>
-      <div class="pcontrols">
-        <button class="cb te" onclick="pStep('${cid}',-1)">&#9198; Back</button>
-        <button class="cb bl" id="${cid}_pp" onclick="pPlayPause('${cid}')">&#9654; Play</button>
-        <button class="cb pu" onclick="pStep('${cid}',1)">Next &#9197;</button>
-        <button class="cb go" onclick="pReset('${cid}')">&#8635; Reset</button>
-      </div>
-      <div class="pctr" id="${cid}_ctr"></div>
+  list.sort((a, b) => a.display.localeCompare(b.display));
+  TEAM_LIST = list;
+  window.TEAM_LIST = TEAM_LIST;
+
+  const confCounts = {};
+  list.forEach(t => confCounts[t.conf] = (confCounts[t.conf]||0)+1);
+  console.log(`✅ TEAM_LIST: ${list.length} teams`, confCounts);
+
+  // Background: verify IDs from ESPN and fix any that are wrong
+  verifyIdsFromESPN();
+}
+
+// Verify our hardcoded IDs against ESPN's live data and fix mismatches silently
+async function verifyIdsFromESPN() {
+  try {
+    const r = await fetch(
+      'https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams?limit=700',
+      { cache: 'no-store' }
+    );
+    if (!r.ok) return;
+    const data = await r.json();
+    const espnTeams = data.sports?.[0]?.leagues?.[0]?.teams?.map(t => t.team) || [];
+    const byLocation = new Map(espnTeams.map(t => [t.location?.toLowerCase(), t.id]));
+
+    let fixes = 0;
+    for (const team of TEAM_LIST) {
+      const espnId = byLocation.get(team._espnLocation?.toLowerCase());
+      if (espnId && String(espnId) !== String(team.id)) {
+        console.log(`ID fix: ${team.display} ${team.id} → ${espnId}`);
+        team.id = String(espnId);
+        fixes++;
+      }
+    }
+    if (fixes > 0) console.log(`Fixed ${fixes} team IDs from ESPN`);
+  } catch(e) {}
+}
+
+
+// Build conference filter categories from live TEAM_LIST
+function buildConferenceCategories() {
+  const seen = new Map();
+  for (const t of TEAM_LIST) {
+    if (t.conf && t.conf !== '—' && !seen.has(t.conf)) seen.set(t.conf, t.conf);
+  }
+  return Array.from(seen.keys())
+    .sort((a, b) => a.localeCompare(b))
+    .map(c => ({ id: c, label: c }));
+}
+
+// ─── CELEBRITY PACKS ──────────────────────────────────────────────────────────
+const CELEB_PACKS = [
+  {
+    name: 'MJ', fullName: 'Michael Jordan', avatar: '🐐',
+    teams: ['North Carolina', 'Illinois', 'NC State', 'Marquette', 'Georgetown', 'Kansas'],
+  },
+  {
+    name: 'LeBron', fullName: 'LeBron James', avatar: '👑',
+    // 'UConn' resolves via display override; 'Dook' via alias on Duke's entry
+    teams: ['Ohio State', 'Kentucky', 'Akron', 'UCLA', 'Michigan', 'Dook'],
+  },
+  {
+    name: 'Brady', fullName: 'Tom Brady', avatar: '🏈',
+    teams: ['Michigan', 'Michigan State', 'UCLA', 'Notre Dame', 'Stanford', 'UConn'],
+  },
+  {
+    name: 'Obama', fullName: 'Barack Obama', avatar: '🇺🇸',
+    teams: ['Illinois', 'Kansas', 'North Carolina', 'Oregon', 'Harvard', 'Michigan State'],
+  },
+  {
+    name: 'Barkley', fullName: 'Charles Barkley', avatar: '🍑',
+    teams: ['Auburn', 'Alabama', 'LSU', 'Gonzaga', 'Kansas', 'Kentucky'],
+  },
+];
+
+function findTeamByName(name) {
+  const lower = name.toLowerCase();
+  return TEAM_LIST.find(t =>
+    t.display === name ||
+    t.display.toLowerCase() === lower ||
+    t._espnLocation?.toLowerCase() === lower ||
+    t.aliases.includes(lower)
+  );
+}
+
+function loadCelebPack(pack) {
+  const resolved = pack.teams.map(findTeamByName).filter(Boolean).slice(0, 6);
+  selectedTeams = resolved;
+  saveSaved(selectedTeams);
+  renderSelector();
+  loadAll();
+}
+
+function renderCelebRow() {
+  const row = document.getElementById('celeb-row');
+  row.innerHTML = CELEB_PACKS.map(pack => `
+    <div class="celeb-chip" onclick="loadCelebPack(CELEB_PACKS.find(p=>p.name==='${pack.name}'))"
+         title="${pack.fullName}'s picks">
+      <span class="celeb-avatar">${pack.avatar}</span>
+      <span class="celeb-name">${pack.name}</span>
+    </div>`).join('');
+}
+
+// ─── AP RANKINGS ──────────────────────────────────────────────────────────────
+let cachedTop25Ids = null;
+
+async function fetchTop25Ids() {
+  if (cachedTop25Ids) return cachedTop25Ids;
+  try {
+    const r = await fetch(
+      'https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/rankings',
+      { cache: 'no-store' }
+    );
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const data = await r.json();
+    const ap = (data.rankings || []).find(p =>
+      p.type === 'ap' || (p.name || '').includes('AP')
+    ) || data.rankings?.[0];
+    if (!ap?.ranks?.length) throw new Error('No ranks found');
+    cachedTop25Ids = ap.ranks
+      .sort((a, b) => a.current - b.current)
+      .map(rk => String(rk.team?.id))
+      .filter(Boolean);
+    return cachedTop25Ids;
+  } catch(e) {
+    console.warn('Rankings fetch failed:', e);
+    return null;
+  }
+}
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+// v3 key — avoids loading corrupt old hardcoded-ID data
+const STORAGE_KEY = 'dww_selected_teams_v3';
+
+function loadSavedNames() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch { return []; }
+}
+
+function resolveFromSaved(names) {
+  return names.map(name => TEAM_LIST.find(t => t.display === name)).filter(Boolean);
+}
+
+function saveSaved(teams) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(teams.map(t => t.display))); } catch {}
+}
+
+// selectedTeams declared above as var
+
+// ─── UTILS ───────────────────────────────────────────────────────────────────
+const fmtTime = d => new Date(d).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/New_York' }) + ' ET';
+const fmtDateShort = d => new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'America/New_York' });
+
+function smartDate(dateStr) {
+  const now   = new Date();
+  const game  = new Date(dateStr);
+  const etNow  = new Date(now.toLocaleString('en-US',  { timeZone: 'America/New_York' }));
+  const etGame = new Date(game.toLocaleString('en-US', { timeZone: 'America/New_York' }));
+  const diffDays = Math.round((new Date(etGame).setHours(0,0,0,0) - new Date(etNow).setHours(0,0,0,0)) / 86400000);
+  const gameHour = new Date(game.toLocaleString('en-US', { timeZone: 'America/New_York' })).getHours();
+  const eve = gameHour >= 19;
+  if (diffDays === 0)  return eve ? 'Tonight' : 'Today';
+  if (diffDays === 1)  return eve ? 'Tomorrow night' : 'Tomorrow';
+  if (diffDays === -1) return eve ? 'Last night' : 'Yesterday';
+  if (diffDays === 2)  return 'In 2 days';
+  return fmtDateShort(dateStr);
+}
+
+function teamMatches(c, teamId) {
+  return c.team?.id === teamId || c.team?.id === String(teamId) ||
+         c.id === teamId || c.id === String(teamId);
+}
+function getMe(comp, teamId)  { return comp.competitors?.find(c => teamMatches(c, teamId)); }
+function getOpp(comp, teamId) { return comp.competitors?.find(c => !teamMatches(c, teamId)); }
+
+function extractScore(c) {
+  if (!c) return '?';
+  const s = c.score;
+  if (s == null) return '?';
+  if (typeof s === 'object') return s.displayValue ?? s.value ?? '?';
+  return s;
+}
+
+function periodLabel(comp) {
+  const s = comp.status;
+  if (!s) return '';
+  const p = s.period || 0;
+  const half = p === 1 ? '1st Half' : p === 2 ? '2nd Half' : 'OT';
+  const clock = s.displayClock;
+  return (clock && clock !== '0:00') ? `${half} · ${clock}` : half;
+}
+
+// ─── FETCH ───────────────────────────────────────────────────────────────────
+async function fetchTeam(team) {
+  const [schedRes, summaryRes] = await Promise.all([
+    fetch(`https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/${team.id}/schedule`, { cache: 'no-store' }),
+    fetch(`https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/${team.id}`, { cache: 'no-store' }),
+  ]);
+  if (!schedRes.ok) throw new Error(`HTTP ${schedRes.status}`);
+  const data        = await schedRes.json();
+  const summaryData = summaryRes.ok ? await summaryRes.json() : null;
+
+  const events = (data.events || []).sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  let lastCompleted = null, liveGame = null, nextGame = null;
+  const allGames = [];
+
+  for (const ev of events) {
+    const comp = ev.competitions?.[0];
+    if (!comp) continue;
+    const state = comp.status?.type?.state;
+    allGames.push({ ev, comp, state });
+    if      (state === 'post')               lastCompleted = { ev, comp };
+    else if (state === 'in')                 liveGame      = { ev, comp };
+    else if (state === 'pre' && !nextGame)   nextGame      = { ev, comp };
+  }
+
+  const teamInfo  = summaryData?.team || data.team || {};
+  const recItems  = teamInfo?.record?.items || data.team?.record?.items || [];
+  const totalRec  = recItems.find(r => r.type === 'total') || recItems[0];
+  const recordStr = totalRec?.summary || '';
+
+  let confRecordStr = '';
+  try {
+    if (team.confId) {
+      const confRes = await fetch(
+        `https://sports.core.api.espn.com/v2/sports/basketball/leagues/mens-college-basketball/seasons/2026/types/2/groups/${team.confId}/teams/${team.id}/records/9`,
+        { cache: 'no-store' }
+      );
+      if (confRes.ok) {
+        const confData = await confRes.json();
+        confRecordStr = confData.summary || confData.displayValue || '';
+      }
+    }
+  } catch(e) {
+    confRecordStr = data.team?.standingSummary || '';
+  }
+
+  let apRank = null;
+  const top25 = cachedTop25Ids || [];
+  const rankIdx = top25.indexOf(String(team.id));
+  if (rankIdx !== -1) apRank = rankIdx + 1;
+
+  if (liveGame) {
+    try {
+      const liveRes = await fetch(
+        `https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/summary?event=${liveGame.ev.id}`,
+        { cache: 'no-store' }
+      );
+      if (liveRes.ok) {
+        const liveData = await liveRes.json();
+        const liveComp = liveData.header?.competitions?.[0];
+        if (liveComp) liveGame.comp = liveComp;
+      }
+    } catch(e) {}
+  }
+
+  return { team, lastCompleted, liveGame, nextGame, allGames, recordStr, confRecordStr, apRank };
+}
+
+function getOppRank(comp, teamId) {
+  const opp = getOpp(comp, teamId);
+  if (!opp) return null;
+  const oppId = String(opp.team?.id || opp.id || '');
+  if (!oppId || !cachedTop25Ids) return null;
+  const idx = cachedTop25Ids.indexOf(oppId);
+  return idx !== -1 ? idx + 1 : null;
+}
+
+// ─── CARD THEMES ─────────────────────────────────────────────────────────────
+const LOVE_THEMES = [
+  { bg: 'linear-gradient(145deg, #1a3a6b 0%, #2355a0 55%, #3470c8 100%)', shadow: 'rgba(35,85,160,0.4)' },
+  { bg: 'linear-gradient(145deg, #1a5c2e 0%, #237a3d 55%, #2e9e50 100%)', shadow: 'rgba(35,122,61,0.4)' },
+  { bg: 'linear-gradient(145deg, #6b1a1a 0%, #a02323 55%, #c83434 100%)', shadow: 'rgba(160,35,35,0.4)' },
+  { bg: 'linear-gradient(145deg, #4a1a6b 0%, #6c23a0 55%, #8a34c8 100%)', shadow: 'rgba(108,35,160,0.4)' },
+  { bg: 'linear-gradient(145deg, #1a4a5c 0%, #237a8e 55%, #2e9eb8 100%)', shadow: 'rgba(35,122,142,0.4)' },
+  { bg: 'linear-gradient(145deg, #5c3d1a 0%, #8e6123 55%, #b87c2e 100%)', shadow: 'rgba(142,97,35,0.4)' },
+];
+
+function getCardTheme(team, idx) {
+  if (team.vibe === 'hate') return { cls: 'hate-card', style: '' };
+  const theme = LOVE_THEMES[idx % LOVE_THEMES.length];
+  return { cls: 'love-card', style: `--card-bg:${theme.bg};--card-shadow:${theme.shadow};` };
+}
+
+// ─── RENDER FRONT ─────────────────────────────────────────────────────────────
+function renderFront({ team, lastCompleted, liveGame, nextGame, recordStr, confRecordStr, apRank }) {
+  const tid = team.id;
+  const isDook = team.display === 'Dook';
+  const isHate = team.vibe === 'hate';
+
+  let answerHTML = '', liveDetailsHTML = '';
+
+  if (liveGame) {
+    const me  = getMe(liveGame.comp, tid);
+    const opp = getOpp(liveGame.comp, tid);
+    const myS  = extractScore(me), oppS = extractScore(opp);
+    const oppName = opp?.team?.shortDisplayName || opp?.team?.displayName || 'Opp';
+    const oppRank = getOppRank(liveGame.comp, tid);
+    const atStr  = me?.homeAway === 'home' ? 'vs' : '@';
+    const rankBit = oppRank ? ` <span class="opp-rank">#${oppRank}</span>` : '';
+    const myScoreN = parseInt(myS) || 0, oppScoreN = parseInt(oppS) || 0;
+    const winBit = (myScoreN > 0 || oppScoreN > 0)
+      ? (myScoreN > oppScoreN ? ' <span class="winning-tag">▲ Winning</span>'
+       : myScoreN < oppScoreN ? ' <span class="winning-tag losing">▼ Losing</span>'
+       : ' <span class="winning-tag tied">Tied</span>') : '';
+    answerHTML      = `<div class="answer live">LIVE</div>`;
+    liveDetailsHTML = `
+      <div class="live-details">${myS} – ${oppS} · ${periodLabel(liveGame.comp)}${winBit}</div>
+      <div class="live-opponent">${atStr}${rankBit} <strong>${oppName}</strong></div>`;
+  } else if (lastCompleted) {
+    const me  = getMe(lastCompleted.comp, tid);
+    const won = me?.winner === true;
+    const yesEmoji = isDook ? '🤢' : isHate ? '😒' : '🎉';
+    const noEmoji  = isDook ? '🎉🎊🙌' : isHate ? '😂' : '😬';
+    answerHTML = `<div class="answer ${won ? 'yes' : 'no'}">${won ? 'YES ' + yesEmoji : 'NO ' + noEmoji}</div>`;
+  } else {
+    answerHTML = `<div class="answer tbd">—</div>`;
+  }
+
+  const rankHTML = apRank ? `<span class="rank-badge">#${apRank} AP</span>` : '';
+  const recParts = [];
+  if (recordStr)     recParts.push(`<span class="rec-item">${recordStr} overall</span>`);
+  if (confRecordStr) recParts.push(`<span class="rec-item conf">${confRecordStr}</span>`);
+  const statsHTML = (rankHTML || recParts.length) ? `<div class="stats-row">${rankHTML}${recParts.join('')}</div>` : '';
+
+  let lastGameHTML = '';
+  if (lastCompleted) {
+    const { ev, comp } = lastCompleted;
+    const me  = getMe(comp, tid), opp = getOpp(comp, tid);
+    const won = me?.winner === true;
+    const myS = extractScore(me), oppS = extractScore(opp);
+    const oppName = opp?.team?.shortDisplayName || opp?.team?.displayName || 'Opp';
+    const oppRank = getOppRank(comp, tid);
+    const atStr = me?.homeAway === 'home' ? 'vs' : '@';
+    const when  = smartDate(ev.date);
+    lastGameHTML = `
+      <div class="front-game">
+        <div class="front-game-label">Last game</div>
+        <div class="front-game-line">
+          ${when} · ${atStr}${oppRank ? ` <span class="opp-rank">#${oppRank}</span>` : ''} <strong>${oppName}</strong>
+          <span class="front-badge ${won ? 'w' : 'l'}">${won ? 'W' : 'L'} ${myS}–${oppS}</span>
+        </div>
+      </div>`;
+  }
+
+  let nextGameHTML = '';
+  if (nextGame) {
+    const { ev, comp } = nextGame;
+    const me  = getMe(comp, tid), opp = getOpp(comp, tid);
+    const oppName = opp?.team?.shortDisplayName || opp?.team?.displayName || 'Opp';
+    const oppRank = getOppRank(comp, tid);
+    const atStr = me?.homeAway === 'home' ? 'vs' : '@';
+    const when  = smartDate(ev.date);
+    const time  = fmtTime(ev.date);
+    nextGameHTML = `
+      <div class="front-game">
+        <div class="front-game-label">Next game</div>
+        <div class="front-game-line">
+          ${when} · ${atStr}${oppRank ? ` <span class="opp-rank">#${oppRank}</span>` : ''} <strong>${oppName}</strong>
+          <span class="front-badge up">${time}</span>
+        </div>
+      </div>`;
+  }
+
+  const tagText = isDook ? '🤮 absolute garbage' : isHate ? '🗑️ boo' : null;
+  const tagClass = isHate ? 'hate-tag' : 'love-tag';
+
+  return `
+    <div class="team-header">
+      <span class="team-emoji">${team.emoji}</span>
+      <div class="team-name-row"><span class="team-name">${team.display}</span></div>
+      ${tagText ? `<div class="team-tag-row"><span class="${tagClass}">${tagText}</span></div>` : ''}
+      <div class="team-sub">${team.conf} · ${team.short}</div>
+    </div>
+    ${answerHTML}
+    ${liveDetailsHTML}
+    ${statsHTML}
+    ${lastGameHTML}
+    ${nextGameHTML}
+    <div class="hint"><span class="hint-hover">hover</span><span class="hint-tap">tap</span> for schedule ↗</div>
+  `;
+}
+
+// ─── RENDER BACK ──────────────────────────────────────────────────────────────
+function renderBack({ team, allGames, liveGame, apRank, recordStr, confRecordStr }) {
+  const tid = team.id;
+  const completed = allGames.filter(g => g.state === 'post').slice(-5);
+  const live      = allGames.filter(g => g.state === 'in');
+  const upcoming  = allGames.filter(g => g.state === 'pre').slice(0, 5);
+
+  const completedRows = completed.map(({ ev, comp }) => {
+    const me  = getMe(comp, tid), opp = getOpp(comp, tid);
+    const oppName = opp?.team?.shortDisplayName || opp?.team?.displayName || 'Opp';
+    const oppRank = getOppRank(comp, tid);
+    const atStr = me?.homeAway === 'home' ? 'vs' : '@';
+    const won   = me?.winner === true;
+    const myS = extractScore(me), oppS = extractScore(opp);
+    const when  = smartDate(ev.date);
+    const rStr  = oppRank ? `<span class="sched-opp-rank">#${oppRank}</span> ` : '';
+    return `<div class="sched-row">
+      <span class="sched-date">${when}</span>
+      <span class="sched-opp">${atStr} ${rStr}${oppName}</span>
+      <span class="sched-result ${won ? 'w' : 'l'}">${won ? 'W' : 'L'} ${myS}–${oppS}</span>
     </div>`;
-
-  container._p={items,flat,colors,cur:0,playing:false,mode:'word',timer:null,cid};
-  buildStage(cid);
-
-  // Pron chips — one per syllable
-  const pron=document.getElementById(cid+'_pron');
-  pron.innerHTML=flat.map((s,i)=>{
-    const c=colors[s.wordIdx];
-    return `<span class="pchip" id="${cid}_s${i}" style="border-color:${c};color:${c}" onclick="pClickSyl('${cid}',${i})">${s.sound}</span>`;
   }).join('');
 
-  renderP(cid);ctr(cid);
-}
+  const liveRows = live.map(({ ev, comp: rawComp }) => {
+    const comp = (liveGame && liveGame.ev.id === ev.id) ? liveGame.comp : rawComp;
+    const me  = getMe(comp, tid), opp = getOpp(comp, tid);
+    const oppName = opp?.team?.shortDisplayName || opp?.team?.displayName || 'Opp';
+    const oppRank = getOppRank(comp, tid);
+    const atStr = me?.homeAway === 'home' ? 'vs' : '@';
+    const myS = extractScore(me), oppS = extractScore(opp);
+    const rStr  = oppRank ? `<span class="sched-opp-rank">#${oppRank}</span> ` : '';
+    return `<div class="sched-row current">
+      <span class="sched-date">Now</span>
+      <span class="sched-opp">${atStr} ${rStr}${oppName}</span>
+      <span class="sched-result live">LIVE ${myS}–${oppS} · ${periodLabel(comp)}</span>
+    </div>`;
+  }).join('');
 
-// Rebuild stage spans based on mode
-function buildStage(cid){
-  const p=getP(cid);if(!p)return;
-  const{items,flat,colors,mode}=p;
-  const stage=document.getElementById(cid+'_stage');if(!stage)return;
-  if(mode==='syl'){
-    // One span per SYLLABLE — individual Hebrew chars light up
-    stage.innerHTML=flat.map((s,i)=>{
-      const c=colors[s.wordIdx];
-      return `<span class="hsp" id="${cid}_sw${i}" style="color:${c}" onclick="pClickSyl('${cid}',${i})">${s.heb}</span>`;
-    }).join('');
-  }else{
-    // One span per WORD
-    stage.innerHTML=items.map((item,wi)=>
-      `<span class="hsp" id="${cid}_ww${wi}" style="color:${colors[wi]}" onclick="pClickWordW('${cid}',${wi})">${item.heb}</span>`
-    ).join('');
-  }
-}
+  const upcomingRows = upcoming.map(({ ev, comp }, i) => {
+    const me  = getMe(comp, tid), opp = getOpp(comp, tid);
+    const oppName = opp?.team?.shortDisplayName || opp?.team?.displayName || 'Opp';
+    const oppRank = getOppRank(comp, tid);
+    const atStr  = me?.homeAway === 'home' ? 'vs' : '@';
+    const isNext = i === 0 && !live.length;
+    const when   = smartDate(ev.date);
+    const time   = fmtTime(ev.date);
+    const rStr   = oppRank ? `<span class="sched-opp-rank">#${oppRank}</span> ` : '';
+    return `<div class="sched-row ${isNext ? 'current' : ''}">
+      <span class="sched-date">${when}</span>
+      <span class="sched-opp">${atStr} ${rStr}${oppName}</span>
+      <span class="sched-result upcoming">${time}</span>
+    </div>`;
+  }).join('');
 
-function getP(cid){return document.getElementById(cid)?._p||null;}
+  const rankStr = apRank ? `<span class="back-rank">#${apRank} AP</span>` : '';
+  const recStr  = recordStr ? `<span class="back-rec">${recordStr}</span>` : '';
+  const confStr = confRecordStr ? `<span class="back-rec conf">${confRecordStr}</span>` : '';
 
-function renderP(cid){
-  const p=getP(cid);if(!p)return;
-  const{items,flat,colors,cur,mode}=p;
-  const curW=cur<flat.length?flat[cur].wordIdx:-1;
-
-  if(mode==='syl'){
-    flat.forEach((_,i)=>{
-      const el=document.getElementById(cid+'_sw'+i);if(!el)return;
-      el.classList.remove('sa','dim','done');
-      if(i<cur)el.classList.add('done');
-      else if(i===cur)el.classList.add('sa');
-      else el.classList.add('dim');
-    });
-  }else{
-    items.forEach((_,wi)=>{
-      const el=document.getElementById(cid+'_ww'+wi);if(!el)return;
-      el.classList.remove('wa','dim','done');
-      if(wi<curW)el.classList.add('done');
-      else if(wi===curW)el.classList.add('wa');
-      else el.classList.add('dim');
-    });
-  }
-
-  // Pron strip: only rebuild HTML when mode changes, otherwise just update classes
-  const pronDiv=document.getElementById(cid+'_pron');
-  if(pronDiv){
-    const currentPronMode=pronDiv.dataset.mode;
-    if(currentPronMode!==mode){
-      // Rebuild chips for this mode
-      pronDiv.dataset.mode=mode;
-      if(mode==='syl'){
-        pronDiv.innerHTML=flat.map((s,i)=>{
-          const c=colors[s.wordIdx];
-          return `<span class="pchip" id="${cid}_s${i}" style="border-color:${c};color:${c};direction:ltr;" onclick="pClickSyl('${cid}',${i})">${s.sound}</span>`;
-        }).join('');
-      }else{
-        pronDiv.innerHTML=items.map((item,wi)=>{
-          const c=colors[wi];
-          return `<span class="pchip" id="${cid}_wc${wi}" style="border-color:${c};color:${c};font-size:.95em;padding:5px 14px;direction:ltr;" onclick="pClickWordW('${cid}',${wi})">${item.sound}</span>`;
-        }).join('');
-      }
-    }
-    // Now just update classes without rebuilding
-    if(mode==='syl'){
-      flat.forEach((s,i)=>{
-        const el=document.getElementById(cid+'_s'+i);if(!el)return;
-        el.classList.remove('sa','wa','done');
-        if(i<cur)el.classList.add('done');
-        else if(i===cur)el.classList.add('sa');
-      });
-    }else{
-      items.forEach((_,wi)=>{
-        const el=document.getElementById(cid+'_wc'+wi);if(!el)return;
-        el.classList.remove('wa','done');
-        if(wi<curW)el.classList.add('done');
-        else if(wi===curW)el.classList.add('wa');
-      });
-    }
-  }
-
-  const ms=document.getElementById(cid+'_ms'),mw=document.getElementById(cid+'_mw');
-  if(ms)ms.classList.toggle('active',mode==='syl');
-  if(mw)mw.classList.toggle('active',mode==='word');
-}
-function ctr(cid){
-  const p=getP(cid);if(!p)return;
-  const el=document.getElementById(cid+'_ctr');if(!el)return;
-  const{flat,cur,mode,items}=p;
-  if(cur>=flat.length){el.textContent='✅ Complete!';return;}
-  const fs=flat[cur];
-  if(mode==='syl'){
-    el.textContent=`Syllable ${cur+1} / ${flat.length}  ·  "${fs.sound}"`;
-    el.style.fontSize='.86em';
-  }else{
-    const wi=fs.wordIdx;
-    el.innerHTML=`Word ${wi+1} / ${items.length} &nbsp;·&nbsp; <span style="direction:rtl;font-size:1.1em;">${items[wi].heb}</span> &nbsp;=&nbsp; "${items[wi].sound}"`;
-    el.style.fontSize='.9em';
-  }
-}
-window.setMode=function(cid,mode){
-  const p=getP(cid);if(!p)return;
-  stopP(cid);
-  p.mode=mode;
-  // Force pron strip rebuild on next renderP
-  const pd=document.getElementById(cid+'_pron');
-  if(pd)pd.dataset.mode='';
-  buildStage(cid);
-  renderP(cid);
-  ctr(cid);
-};
-window.pClickWordW=function(cid,wi){
-  const p=getP(cid);if(!p)return;stopP(cid);
-  const idx=p.flat.findIndex(s=>s.wordIdx===wi);
-  if(idx>=0)p.cur=idx;
-  speakHeb(p.items[wi].speak||p.items[wi].heb);
-  renderP(cid);ctr(cid);
-};
-window.pClickWord=function(cid,wi){
-  const p=getP(cid);if(!p)return;stopP(cid);
-  const idx=p.flat.findIndex(s=>s.wordIdx===wi);
-  if(idx>=0)p.cur=idx;
-  speakHeb(p.items[wi].speak||p.items[wi].heb);
-  renderP(cid);ctr(cid);
-};
-window.pClickSyl=function(cid,i){
-  const p=getP(cid);if(!p)return;stopP(cid);
-  p.cur=i;speakHeb(p.flat[i].speak);renderP(cid);ctr(cid);
-};
-window.pStep=function(cid,dir){
-  const p=getP(cid);if(!p)return;stopP(cid);
-  if(p.mode==='syl'){
-    p.cur=Math.max(0,Math.min(p.flat.length-1,p.cur+dir));
-    speakHeb(p.flat[p.cur].speak);
-  }else{
-    const curWi=p.flat[p.cur]?.wordIdx??0;
-    const nwi=Math.max(0,Math.min(p.items.length-1,curWi+dir));
-    const idx=p.flat.findIndex(s=>s.wordIdx===nwi);
-    if(idx>=0)p.cur=idx;
-    speakHeb(p.items[nwi].speak||p.items[nwi].heb);
-  }
-  renderP(cid);ctr(cid);
-};
-window.pReset=function(cid){const p=getP(cid);if(!p)return;stopP(cid);p.cur=0;renderP(cid);ctr(cid);};
-window.pPlayPause=function(cid){const p=getP(cid);if(!p)return;if(p.playing)stopP(cid);else startP(cid);};
-function stopP(cid){
-  const p=getP(cid);if(!p)return;
-  p.playing=false;
-  try{speechSynthesis.cancel();}catch(e){}
-  if(p.timer){clearTimeout(p.timer);p.timer=null;}
-  const btn=document.getElementById(cid+'_pp');
-  if(btn){btn.textContent='▶ Play';btn.classList.remove('rd');btn.classList.add('bl');}
-}
-async function startP(cid){
-  const p=getP(cid);if(!p||!window.speechSynthesis)return;
-  p.playing=true;
-  const btn=document.getElementById(cid+'_pp');
-  if(btn){btn.textContent='⏸ Pause';btn.classList.remove('bl');btn.classList.add('rd');}
-  if(p.cur>=p.flat.length)p.cur=0;
-
-  // Cancel any previous speech once before starting
-  speechSynthesis.cancel();
-  await new Promise(r=>setTimeout(r,120));
-
-  while(p.playing){
-    if(p.mode==='word'){
-      const wi=p.flat[p.cur]?.wordIdx;
-      if(wi===undefined||wi>=p.items.length)break;
-      // Snap to first syllable of this word
-      const firstSyl=p.flat.findIndex(s=>s.wordIdx===wi);
-      if(firstSyl>=0)p.cur=firstSyl;
-      renderP(cid);ctr(cid);
-      // Speak the whole word
-      const item=p.items[wi];
-      const txt=(item.speak||item.heb)==='יְהוָה'?'אֲדֹנָי':(item.speak||item.heb);
-      const u=new SpeechSynthesisUtterance(txt);
-      u.lang='he-IL';u.rate=0.78;if(hebrewVoice)u.voice=hebrewVoice;
-      speechSynthesis.resume();
-      try{await speakUtt(u);}catch(e){break;}
-      if(!p.playing)break;
-      await new Promise(r=>setTimeout(r,480));
-      if(!p.playing)break;
-      // Advance cursor to next word
-      const nextWi=wi+1;
-      if(nextWi>=p.items.length){p.cur=p.flat.length;break;}
-      const nextIdx=p.flat.findIndex(s=>s.wordIdx===nextWi);
-      p.cur=nextIdx>=0?nextIdx:p.flat.length;
-    }else{
-      // Syllable mode
-      if(p.cur>=p.flat.length)break;
-      const fs=p.flat[p.cur];
-      renderP(cid);ctr(cid);
-      const t=fs.speak==='יְהוָה'?'אֲדֹנָי':fs.speak;
-      const u=new SpeechSynthesisUtterance(t);
-      u.lang='he-IL';u.rate=0.75;if(hebrewVoice)u.voice=hebrewVoice;
-      speechSynthesis.resume();
-      try{await speakUtt(u);}catch(e){break;}
-      if(!p.playing)break;
-      await new Promise(r=>setTimeout(r,220));
-      if(!p.playing)break;
-      p.cur++;
-    }
-  }
-
-  if(p.playing){renderP(cid);ctr(cid);}
-  stopP(cid);
-}
-
-// ===================================================================
-// TROPE (CANTILLATION) ENGINE
-// Notes: frequencies in Hz, Ashkenazi Haftarah mode (roughly D minor)
-// ===================================================================
-const NOTE={
-  A3:220, B3:247, C4:262, D4:294, E4:330, F4:349, G4:392,
-  A4:440, Bb4:466, B4:494, C5:523, D5:587, E5:659, F5:698, G5:784
-};
-
-// Each trope: {name, hebrew (with mark on bet), category, desc, notes:[{f,dur}]}
-// dur in seconds, f in Hz. Ashkenazi Haftarah pentatonic-ish on D
-const tropes=[
-  {name:"Sof Pasuk",heb:"בֽ",cat:"Pause",desc:"End of every verse — full stop.",
-   notes:[{f:N('D4'),d:.18},{f:N('E4'),d:.14},{f:N('D4'),d:.14},{f:N('A3'),d:.44}]},
-  {name:"Etnachta",heb:"בֽ֑",cat:"Pause",desc:"Major phrase break — half stop",
-   notes:[{f:N('A4'),d:.15},{f:N('G4'),d:.15},{f:N('E4'),d:.15},{f:N('D4'),d:.15},{f:N('A3'),d:.3}]},
-  {name:"Zakef Katan",heb:"בֽ֔",cat:"Pause",desc:"Minor pause, common divider",
-   notes:[{f:N('E4'),d:.15},{f:N('F4'),d:.15},{f:N('E4'),d:.25}]},
-  {name:"Zakef Gadol",heb:"בֽ֕",cat:"Pause",desc:"Stronger pause than Zakef Katan",
-   notes:[{f:N('E4'),d:.12},{f:N('F4'),d:.12},{f:N('G4'),d:.12},{f:N('E4'),d:.28}]},
-  {name:"Tipcha",heb:"בֽ֖",cat:"Pause",desc:"Pre-pause servant, very common",
-   notes:[{f:N('D4'),d:.18},{f:N('E4'),d:.22}]},
-  {name:"Munach",heb:"בֽ֣",cat:"Servant",desc:"Connecting/serving note",
-   notes:[{f:N('D4'),d:.18},{f:N('C4'),d:.28}]},
-  {name:"Mahpach",heb:"בֽ֤",cat:"Servant",desc:"Quick upward servant",
-   notes:[{f:N('C4'),d:.12},{f:N('D4'),d:.12},{f:N('E4'),d:.2}]},
-  {name:"Pashta",heb:"בֽ֙",cat:"Servant",desc:"Ascending servant trope",
-   notes:[{f:N('D4'),d:.12},{f:N('E4'),d:.12},{f:N('F4'),d:.22}]},
-  {name:"Yetiv",heb:"בֽ֚",cat:"Servant",desc:"Pre-etnachta servant",
-   notes:[{f:N('B3'),d:.12},{f:N('C4'),d:.12},{f:N('D4'),d:.25}]},
-  {name:"Tevir",heb:"בֽ֛",cat:"Servant",desc:"Servant before Etnachta",
-   notes:[{f:N('E4'),d:.14},{f:N('D4'),d:.14},{f:N('C4'),d:.14},{f:N('D4'),d:.25}]},
-  {name:"Geresh",heb:"בֽ֜",cat:"Ruler",desc:"Rising ornamental ruler",
-   notes:[{f:N('D4'),d:.1},{f:N('E4'),d:.1},{f:N('F4'),d:.1},{f:N('G4'),d:.1},{f:N('E4'),d:.22}]},
-  {name:"Gershayim",heb:"בֽ֞",cat:"Ruler",desc:"Double geresh — emphatic rise",
-   notes:[{f:N('D4'),d:.09},{f:N('F4'),d:.09},{f:N('D4'),d:.09},{f:N('F4'),d:.09},{f:N('G4'),d:.09},{f:N('E4'),d:.22}]},
-  {name:"Mercha",heb:"בֽ֥",cat:"Servant",desc:"Smooth flowing connector",
-   notes:[{f:N('C4'),d:.14},{f:N('D4'),d:.28}]},
-  {name:"Darga",heb:"בֽ֧",cat:"Servant",desc:"Trilling servant",
-   notes:[{f:N('D4'),d:.1},{f:N('E4'),d:.1},{f:N('D4'),d:.1},{f:N('E4'),d:.24}]},
-  {name:"Kadma",heb:"בֽ֨",cat:"Servant",desc:"Forward-moving servant",
-   notes:[{f:N('E4'),d:.14},{f:N('F4'),d:.14},{f:N('D4'),d:.22}]},
-  {name:"Telisha Ketana",heb:"בֽ֩",cat:"Ruler",desc:"Small telisha ruler",
-   notes:[{f:N('G4'),d:.12},{f:N('F4'),d:.12},{f:N('E4'),d:.12},{f:N('D4'),d:.25}]},
-  {name:"Pazer",heb:"בֽ֡",cat:"Ruler",desc:"Strong emphatic ruler",
-   notes:[{f:N('D4'),d:.1},{f:N('E4'),d:.1},{f:N('G4'),d:.1},{f:N('A4'),d:.1},{f:N('G4'),d:.1},{f:N('E4'),d:.25}]},
-  {name:"Revia",heb:"בֽ֗",cat:"Ruler",desc:"Common mid-phrase ruler",
-   notes:[{f:N('E4'),d:.14},{f:N('D4'),d:.14},{f:N('E4'),d:.25}]},
-];
-function N(k){return NOTE[k]||440;}
-
-let tropeAudioCtx=null;
-let tropeSources=[];
-let tropeLooping=false;
-let currentTropeIdx=null;
-
-async function getTropeCtx(){
-  if(!tropeAudioCtx){
-    tropeAudioCtx=new(window.AudioContext||window.webkitAudioContext)();
-  }
-  // Always resume — Safari starts suspended even after creation
-  if(tropeAudioCtx.state==='suspended'||tropeAudioCtx.state==='interrupted'){
-    await tropeAudioCtx.resume();
-  }
-  // iOS unlock: play a silent buffer to fully activate the context
-  if(tropeAudioCtx._unlocked!==true){
-    try{
-      const buf=tropeAudioCtx.createBuffer(1,1,22050);
-      const src=tropeAudioCtx.createBufferSource();
-      src.buffer=buf;src.connect(tropeAudioCtx.destination);
-      src.start(0);
-      tropeAudioCtx._unlocked=true;
-    }catch(e){}
-  }
-  return tropeAudioCtx;
-}
-
-async function playTropeNotes(notes, onEnd){
-  stopTrope();
-  const ctx=await getTropeCtx();
-  // Small buffer after resume so Safari is ready
-  await new Promise(r=>setTimeout(r,30));
-  let t=ctx.currentTime+0.08;
-  const dots=document.getElementById('tropeDots');
-
-  notes.forEach((note,i)=>{
-    const osc=ctx.createOscillator();
-    const gain=ctx.createGain();
-    osc.connect(gain);gain.connect(ctx.destination);
-    osc.type='triangle'; // warmer than sine, more voice-like
-    osc.frequency.setValueAtTime(note.f,t);
-    // Slight vibrato for musical feel
-    const lfo=ctx.createOscillator();
-    const lfoGain=ctx.createGain();
-    lfo.connect(lfoGain);lfoGain.connect(osc.frequency);
-    lfo.frequency.value=5.5;lfoGain.gain.value=4;
-    lfo.start(t);lfo.stop(t+note.d);
-    // Envelope
-    gain.gain.setValueAtTime(0,t);
-    gain.gain.linearRampToValueAtTime(0.28,t+0.03);
-    gain.gain.setValueAtTime(0.28,t+note.d-0.05);
-    gain.gain.linearRampToValueAtTime(0,t+note.d);
-    osc.start(t);osc.stop(t+note.d);
-    tropeSources.push(osc);
-    // Animate dot
-    const delay=(t-ctx.currentTime)*1000;
-    setTimeout(()=>{
-      if(dots){
-        dots.querySelectorAll('.tdot').forEach((d,j)=>d.classList.toggle('active',j===i));
-      }
-    },delay);
-    t+=note.d+0.04;
-  });
-
-  // Return a Promise that resolves when all notes finish — needed for await/loop
-  const totalDur=(t-ctx.currentTime)*1000;
-  return new Promise(resolve=>{
-    setTimeout(()=>{
-      if(dots)dots.querySelectorAll('.tdot').forEach(d=>d.classList.remove('active'));
-      if(onEnd)onEnd();
-      resolve();
-    },totalDur+80);
-  });
-}
-
-window.playTrope=async function(){
-  if(currentTropeIdx===null)return;
-  tropeLooping=false;
-  const btn=document.getElementById('tropeLoopBtn');
-  if(btn){btn.textContent='🔁 Loop';btn.classList.remove('rd');btn.classList.add('go');}
-  await playTropeNotes(tropes[currentTropeIdx].notes, null);
-};
-
-window.playTropeLoop=async function(){
-  if(currentTropeIdx===null)return;
-  tropeLooping=true;
-  const btn=document.getElementById('tropeLoopBtn');
-  if(btn){btn.textContent='⏹ Stop loop';btn.classList.remove('go');btn.classList.add('rd');}
-  btn.onclick=()=>stopTrope();
-  async function loop(){
-    if(!tropeLooping)return;
-    await playTropeNotes(tropes[currentTropeIdx].notes, null);
-    if(tropeLooping)setTimeout(loop,400);
-  }
-  loop();
-};
-
-window.stopTrope=function(){
-  tropeLooping=false;
-  tropeSources.forEach(s=>{try{s.stop();}catch(e){}});
-  tropeSources=[];
-  const btn=document.getElementById('tropeLoopBtn');
-  if(btn){btn.textContent='🔁 Loop';btn.classList.remove('rd');btn.classList.add('go');btn.onclick=()=>playTropeLoop();}
-  const dots=document.getElementById('tropeDots');
-  if(dots)dots.querySelectorAll('.tdot').forEach(d=>d.classList.remove('active'));
-};
-
-async function selectTrope(i){
-  currentTropeIdx=i;
-  const t=tropes[i];
-  // Highlight card
-  document.querySelectorAll('.tc').forEach((c,j)=>c.classList.toggle('sel',j===i));
-  // Show player
-  const player=document.getElementById('tropePlayer');
-  if(player)player.style.display='block';
-  const nm=document.getElementById('tropeName');
-  if(nm)nm.textContent=t.name+' — '+t.cat;
-  const sym=document.getElementById('tropeSymbol');
-  if(sym)sym.textContent=t.heb;
-  const desc=document.getElementById('tropeDesc');
-  if(desc)desc.textContent=t.desc;
-  // Build dot visualizer
-  const dots=document.getElementById('tropeDots');
-  if(dots){
-    const colors=['#e74c3c','#e67e22','#f0c040','#27ae60','#3498db','#8e44ad','#e91e8c'];
-    dots.innerHTML=t.notes.map((n,i)=>{
-      const c=colors[i%colors.length];
-      // Height represents pitch roughly
-      const minF=180,maxF=800;
-      const pct=(n.f-minF)/(maxF-minF);
-      const size=10+Math.round(pct*12);
-      return `<span class="tdot" style="background:${c};width:${size}px;height:${size}px;" title="${Math.round(n.f)}Hz"></span>`;
-    }).join('');
-  }
-  // Auto-play — await so Safari unlocks context inside the tap handler
-  await playTropeNotes(t.notes, null);
-}
-
-function buildTrope(){
-  const g=document.getElementById('tropeGrid');if(!g)return;
-  const catColors={Pause:'#e74c3c',Servant:'#3498db',Ruler:'#8e44ad'};
-  tropes.forEach((t,i)=>{
-    const c=document.createElement('div');
-    c.className='tc';
-    const cc=catColors[t.cat]||'#888';
-    c.innerHTML=`<span class="tch">${t.heb}</span><span class="tcn">${t.name}</span><span class="tct" style="color:${cc}">${t.cat}</span>`;
-    c.onclick=()=>selectTrope(i);
-    g.appendChild(c);
-  });
-}
-
-// ===================================================================
-// BUILD LETTERS TAB
-// ===================================================================
-function buildLetters(){
-  const g=document.getElementById('abGrid');
-  alphabet.forEach(l=>{
-    const c=document.createElement('div');
-    c.className='lc';
-    c.innerHTML=`<span class="lch">${l.heb}</span><span class="lcn">${l.name}</span><span class="lcs">${l.sound}</span>`;
-    c.onclick=()=>{document.querySelectorAll('.lc').forEach(x=>x.classList.remove('sel'));c.classList.add('sel');speakHeb(l.speak||l.heb,0.6);};
-    g.appendChild(c);
-  });
-  const vg=document.getElementById('vGrid');
-  vowels.forEach(v=>{
-    const c=document.createElement('div');
-    c.className='vc';
-    c.innerHTML=`<span class="vch">${v.heb}</span><span class="vcn">${v.name}</span><span class="vcs">"${v.sound}"</span>`;
-    c.onclick=()=>speakHeb(v.heb,0.6);
-    vg.appendChild(c);
-  });
-}
-
-// ===================================================================
-// BUILD WORD PRACTICE TAB
-// ===================================================================
-function buildWords(){
-  const g=document.getElementById('wGrid');
-  words.forEach((w,i)=>{
-    const btn=document.createElement('button');
-    btn.className='wbtn'+(i===0?' active':'');
-    btn.style.direction='rtl';
-    btn.style.fontSize='1.3em';
-    btn.style.fontWeight='800';
-    btn.style.padding='7px 16px';
-    btn.textContent=w.hebrew;
-    btn.onclick=()=>selectWord(i);
-    g.appendChild(btn);
-  });
-  selectWord(0);
-}
-function selectWord(i){
-  document.querySelectorAll('.wbtn').forEach((b,j)=>b.classList.toggle('active',j===i));
-  const w=words[i];
-  const items=w.syllables.map(s=>({
-    heb:s.heb,sound:s.sound,speak:s.speak||s.heb,
-    syllables:[{heb:s.heb,sound:s.sound,speak:s.speak||s.heb}]
-  }));
-
-  const wrap=document.getElementById('wPlayerWrap');
-  wrap._pendingItems=items;
-  wrap._word=w;
-
-  // Fixed-height practice area — never jumps
-  wrap.innerHTML=`
-    <!-- Hebrew always centered and never moves -->
-    <div style="text-align:center;margin-bottom:16px;">
-      <div style="font-size:4.8em;font-weight:800;direction:rtl;color:var(--blue);letter-spacing:4px;line-height:1.2;">${w.hebrew}</div>
+  return `
+    <div class="back-header">
+      <span class="back-title">${team.emoji} Schedule</span>
+      <span class="back-meta">${rankStr}${recStr}${confStr}</span>
     </div>
-
-    <!-- Reveal button centered below Hebrew -->
-    <div style="text-align:center;margin-bottom:4px;">
-      <button onclick="revealWord()" id="wRevealBtn" class="cb bl" style="padding:9px 22px;font-size:.92em;">👁 Reveal</button>
+    <div class="schedule-list">
+      ${completedRows}
+      ${(liveRows || upcomingRows) ? '<div class="divider"></div>' : ''}
+      ${liveRows}
+      ${upcomingRows}
     </div>
+  `;
+}
 
-    <!-- Revealed content appears below, in same alignment -->
-    <div id="wReveal" style="display:none;margin-top:14px;padding-top:14px;border-top:2px dashed #c5d8ff;">
-
-      <div style="display:flex;align-items:baseline;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:6px;">
-        <span style="font-size:1.6em;font-weight:800;color:var(--lb);letter-spacing:2px;">${w.pronounce}</span>
-        <span style="font-size:.95em;color:#aaa;font-weight:700;font-style:italic;">${w.english}</span>
-      </div>
-
-      <!-- Syllable chips centered -->
-      <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:12px 0;" id="wSylRow">
-        ${w.syllables.map((s,si)=>`
-          <span onclick="wPlaySyl(${si})" style="background:${SYL_COLORS[si%SYL_COLORS.length]}22;border:2px solid ${SYL_COLORS[si%SYL_COLORS.length]};color:${SYL_COLORS[si%SYL_COLORS.length]};border-radius:10px;padding:6px 14px;font-size:1.05em;font-weight:800;cursor:pointer;direction:rtl;transition:all .15s;" id="wsc_${si}">${s.heb} <span style="font-size:.75em;opacity:.8;">${s.sound}</span></span>
-        `).join('')}
-      </div>
-
-      <!-- Play buttons centered -->
-      <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:10px;">
-        <button class="cb te" onclick="wPlayWord()" style="padding:8px 18px;font-size:.88em;">🔊 Hear word</button>
-        <button class="cb pu" onclick="wPlaySyllables()" style="padding:8px 18px;font-size:.88em;">🔬 Step syllables</button>
-      </div>
-      <div class="tip" style="font-size:.82em;">${w.tip}</div>
+// ─── CARD SHELL ───────────────────────────────────────────────────────────────
+function renderCard(result, idx) {
+  const { cls, style } = getCardTheme(result.team, idx);
+  return `
+    <div class="card ${cls}" style="${style}${cls==='love-card'?`background:var(--card-bg);box-shadow:0 8px 40px var(--card-shadow),0 0 0 1px rgba(255,255,255,0.06);`:''}" onclick="this.classList.toggle('flipped')">
+      <div class="card-front">${renderFront(result)}</div>
+      <div class="card-back">${renderBack(result)}</div>
     </div>`;
 }
 
-// Play the whole word via TTS
-window.wPlayWord=function(){
-  const w=document.getElementById('wPlayerWrap')?._word;
-  if(w)speakHeb(w.hebrew);
-};
-
-// Animate through syllables one by one with TTS
-window.wPlaySyllables=async function(){
-  const wrap=document.getElementById('wPlayerWrap');
-  if(!wrap||!wrap._word)return;
-  const syls=wrap._word.syllables;
-  for(let i=0;i<syls.length;i++){
-    // Highlight current chip
-    syls.forEach((_,j)=>{
-      const el=document.getElementById('wsc_'+j);
-      if(el)el.style.transform=j===i?'scale(1.18) translateY(-3px)':'scale(1)';
-    });
-    speakHeb(syls[i].speak||syls[i].heb,0.7);
-    await new Promise(r=>setTimeout(r,700));
-  }
-  // Reset
-  syls.forEach((_,j)=>{const el=document.getElementById('wsc_'+j);if(el)el.style.transform='scale(1)';});
-};
-
-// Play a single syllable on click
-window.wPlaySyl=function(i){
-  const wrap=document.getElementById('wPlayerWrap');
-  if(!wrap||!wrap._word)return;
-  const s=wrap._word.syllables[i];
-  speakHeb(s.speak||s.heb,0.65);
-  // Quick pulse
-  const el=document.getElementById('wsc_'+i);
-  if(el){
-    el.style.transform='scale(1.2) translateY(-3px)';
-    setTimeout(()=>el.style.transform='scale(1)',400);
-  }
-};
-
-window.revealWord=function(){
-  const reveal=document.getElementById('wReveal');
-  const btn=document.getElementById('wRevealBtn');
-  if(reveal)reveal.style.display='block';
-  if(btn)btn.style.display='none';
-};
-
-
-// ===================================================================
-// BUILD PRAYERS TAB
-// ===================================================================
-function buildPrayers(){
-  const fd=document.getElementById('pFilters'),ld=document.getElementById('pList');
-  const cats=['All',...new Set(prayers.map(p=>p.category))];
-  const catColors={Daily:'#3498db',Blessings:'#27ae60','Bar Mitzvah':'#8e44ad',Prayers:'#e67e22',Holidays:'#e74c3c'};
-  let active='All';
-  cats.forEach(cat=>{
-    const pill=document.createElement('button');
-    pill.className='fpill'+(cat==='All'?' active':'');
-    pill.textContent=cat;
-    pill.onclick=()=>{active=cat;fd.querySelectorAll('.fpill').forEach(x=>x.classList.remove('active'));pill.classList.add('active');render();};
-    fd.appendChild(pill);
-  });
-  function render(){
-    ld.innerHTML='';
-    const list=active==='All'?prayers:prayers.filter(p=>p.category===active);
-    list.forEach((p,pi)=>{
-      const card=document.createElement('div');
-      card.className='pcard';
-      const uid='pr_'+pi+'_'+p.category.replace(/\W/g,'');
-      const cc=catColors[p.category]||'#888';
-      const hdr=document.createElement('div');
-      hdr.className='phdr';
-      hdr.innerHTML=`<div class="phdr-left"><span class="pbadge" style="background:${cc}">${p.category}</span><span class="pname">${p.name}</span></div><span class="phname">${p.hebrewName}</span>`;
-      const body=document.createElement('div');
-      body.className='pbody';
-      body.style.display='none';
-      body.innerHTML=`<div id="${uid}_p"></div>`;
-      let built=false;
-      hdr.onclick=()=>{
-        const wasOpen=card.classList.contains('open');
-        ld.querySelectorAll('.pcard').forEach(c=>{c.classList.remove('open');c.querySelector('.pbody').style.display='none';});
-        if(!wasOpen){
-          card.classList.add('open');body.style.display='block';
-          if(!built){createPlayer(p.chunks,uid+'_p',p.translation);built=true;}
-        }
-      };
-      card.appendChild(hdr);card.appendChild(body);ld.appendChild(card);
-    });
-  }
-  render();
-}
-
-// ===================================================================
-// BUILD QUIZ
-// ===================================================================
-// ===================================================================
-// ===================================================================
-// QUIZ — recording + typed answer, 15 words, parent review
-// ===================================================================
-let QS={};
-let mediaRecorder=null;
-let audioChunks=[];
-let recordingIdx=null;
-
-function buildQuiz(){
-  const c=document.getElementById('qContainer');
-  c.innerHTML=`
-    <div style="text-align:center;margin-bottom:18px;">
-      <p style="color:#555;font-weight:600;margin-bottom:6px;">See the Hebrew word, hear it — then <strong>record yourself</strong> saying it and/or type how it sounds.</p>
-      <p style="color:#888;font-size:.85em;font-weight:600;margin-bottom:16px;">A parent will review your recordings and answers at the end!</p>
-      <button class="cb bl" onclick="startQuiz()" style="font-size:1.1em;padding:12px 32px;">🎯 Start Quiz — 15 Words</button>
-    </div>
-    <div id="qa"></div>`;
-}
-
-function startQuiz(){
-  const pool=shuffle([...words]).slice(0,15);
-  QS={pool,cur:0,answers:[],reviewing:false};
-  renderQuizQ();
-}
-
-function shuffle(a){return[...a].sort(()=>Math.random()-.5);}
-
-function renderQuizQ(){
-  const{pool,cur}=QS;
-  if(cur>=pool.length){showReview();return;}
-  const w=pool[cur];
-  const area=document.getElementById('qa');
-  const pct=Math.round((cur/pool.length)*100);
-  area.innerHTML=`
-    <div class="qcard">
-      <div class="qprog" style="margin-bottom:14px;">
-        <div class="qpbar"><div class="qpfill" style="width:${pct}%"></div></div>
-        <div class="qscore">${cur+1} / ${pool.length}</div>
+function renderError(team, idx) {
+  const { cls, style } = getCardTheme(team, idx);
+  return `
+    <div class="card ${cls}" style="${style}${cls==='love-card'?`background:var(--card-bg);`:'' }">
+      <div class="card-front">
+        <div><span class="team-emoji">${team.emoji}</span><span class="team-name">${team.display}</span></div>
+        <div class="answer tbd">—</div>
+        <div style="color:rgba(255,255,255,0.2);font-size:0.72rem;font-style:italic">Couldn't load · will retry</div>
       </div>
-
-      <div style="text-align:center;margin-bottom:10px;">
-        <div style="font-size:4.2em;font-weight:800;direction:rtl;color:var(--blue);letter-spacing:4px;">${w.hebrew}</div>
-        <div style="font-size:.95em;color:#aaa;font-weight:700;margin-top:2px;">${w.english}</div>
-      </div>
-
-
-
-      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;align-items:stretch;margin-bottom:16px;">
-
-        <!-- RECORD BOX -->
-        <div style="background:#f8f0ff;border:2px solid #d0aaff;border-radius:16px;padding:16px 18px;min-width:200px;text-align:center;flex:1;max-width:240px;" id="recBox">
-          <div style="font-weight:800;color:#8e44ad;font-size:.88em;margin-bottom:10px;">🎙️ Record yourself</div>
-          <button class="cb pu" id="recBtn" onclick="toggleRecord()" style="width:100%;padding:10px;">⏺ Record</button>
-          <div id="recStatus" style="font-size:.78em;font-weight:700;color:#aaa;margin-top:8px;min-height:18px;"></div>
-          <audio id="recPlayback" controls style="display:none;margin-top:10px;width:100%;height:36px;"></audio>
-        </div>
-
-        <!-- TYPE BOX -->
-        <div style="background:#f0f6ff;border:2px solid #c5d8ff;border-radius:16px;padding:16px 18px;min-width:200px;text-align:center;flex:1;max-width:240px;">
-          <div style="font-weight:800;color:var(--blue);font-size:.88em;margin-bottom:10px;">✏️ Type how it sounds</div>
-          <input type="text" id="qinput" placeholder="e.g. sha-LOM" autocomplete="off" autocorrect="off" spellcheck="false"
-            style="border:2px solid #c5d8ff;border-radius:12px;padding:10px 14px;font-size:1em;font-family:'Nunito',sans-serif;font-weight:700;color:var(--blue);width:100%;outline:none;transition:border .2s;box-sizing:border-box;"
-            onkeydown="if(event.key==='Enter')submitQ()"
-            onfocus="this.style.borderColor='var(--blue)'"
-            onblur="this.style.borderColor='#c5d8ff'">
-          <div style="font-size:.76em;color:#aaa;font-weight:600;margin-top:6px;">Optional — press Enter or Next</div>
-        </div>
-
-      </div>
-
-      <div style="text-align:center;">
-        <button class="cb bl" onclick="submitQ()" style="padding:11px 28px;font-size:1em;">Next → </button>
-        <div style="margin-top:8px;">
-          <button onclick="skipQ()" style="background:none;border:none;color:#bbb;font-size:.82em;font-weight:700;cursor:pointer;text-decoration:underline;">Skip this word</button>
-        </div>
-      </div>
+      <div class="card-back"><div class="back-title">No data</div></div>
     </div>`;
-
-  // Reset recorder state
-  stopRecording(false);
-  recordingIdx=cur;
-  audioChunks=[];
-
-  const inp=document.getElementById('qinput');
-  if(inp)inp.focus();
 }
 
-function speakCurrent(){
-  const w=QS.pool[QS.cur];
-  speakHeb(w.hebrew);
-}
-
-// ---- RECORDING ----
-function toggleRecord(){
-  if(mediaRecorder&&mediaRecorder.state==='recording'){
-    manualStop();
-  }else{
-    startRecording();
+// ─── MAIN LOAD ────────────────────────────────────────────────────────────────
+async function loadAll() {
+  const grid = document.getElementById('grid');
+  if (!selectedTeams.length) {
+    grid.innerHTML = `<div class="empty-state"><div class="empty-icon">🏀</div><p>Select your favorite teams below to get started</p></div>`;
+    return;
   }
-}
 
-// Called when user hits Stop manually
-function manualStop(){
-  if(autoStopTimer){clearInterval(autoStopTimer);autoStopTimer=null;}
-  if(mediaRecorder&&mediaRecorder.state==='recording'){
-    mediaRecorder.stop(); // onstop handler does the rest
-  }
-}
-
-let autoStopTimer=null;
-
-async function startRecording(){
-  // Reset
-  if(autoStopTimer){clearInterval(autoStopTimer);autoStopTimer=null;}
-  audioChunks=[];
-
-  const btn=document.getElementById('recBtn');
-  const st=document.getElementById('recStatus');
-
-  try{
-    const stream=await navigator.mediaDevices.getUserMedia({audio:true});
-    const mimeType=['audio/webm;codecs=opus','audio/webm','audio/ogg;codecs=opus','audio/mp4','audio/ogg'].find(t=>MediaRecorder.isTypeSupported(t))||'';
-    mediaRecorder=new MediaRecorder(stream, mimeType?{mimeType}:{});
-
-    mediaRecorder.ondataavailable=e=>{if(e.data.size>0)audioChunks.push(e.data);};
-
-    mediaRecorder.onstop=()=>{
-      // Always clear the auto-stop timer when recording ends
-      if(autoStopTimer){clearInterval(autoStopTimer);autoStopTimer=null;}
-      const mime=mediaRecorder.mimeType||mimeType||'audio/webm';
-      const blob=new Blob(audioChunks,{type:mime});
-      console.log('Recorded format:', mime, 'Blob size:', blob.size);
-      const idx=QS.cur;
-      if(!QS.answers[idx])QS.answers[idx]={};
-      if(QS.answers[idx].audioUrl)URL.revokeObjectURL(QS.answers[idx].audioUrl);
-      const url=URL.createObjectURL(blob);
-      QS.answers[idx].audioUrl=url;
-      const pb=document.getElementById('recPlayback');
-      if(pb){pb.pause();pb.removeAttribute('src');pb.load();pb.src=url;pb.load();pb.style.display='block';}
-      const s=document.getElementById('recStatus');
-      if(s){s.textContent='✅ Saved! Press play to hear it.';s.style.color='#27ae60';}
-      const b=document.getElementById('recBtn');
-      if(b){b.textContent='⏺ Re-record';b.disabled=false;b.classList.remove('rd');b.classList.add('pu');}
-      stream.getTracks().forEach(t=>t.stop());
-      stopRecordingPulse();
-    };
-
-    // Start recording immediately — no warmup delay (was causing short recordings)
-    mediaRecorder.start(100);
-
-    // Update button right away
-    if(btn){btn.textContent='⏹ Stop (5s)';btn.disabled=false;btn.classList.remove('pu');btn.classList.add('rd');}
-    if(st){st.textContent='🔴 Recording... 5s';st.style.color='var(--red)';}
-    startRecordingPulse();
-
-    // Countdown timer — fires every 1s, stops at 0
-    const DURATION=5;
-    let remaining=DURATION;
-    autoStopTimer=setInterval(()=>{
-      remaining--;
-      const b=document.getElementById('recBtn');
-      const s=document.getElementById('recStatus');
-      if(remaining>0){
-        if(b&&b.classList.contains('rd'))b.textContent='⏹ Stop ('+remaining+'s)';
-        if(s)s.textContent='🔴 Recording... '+remaining+'s';
-      }else{
-        // Time's up — stop
-        clearInterval(autoStopTimer);
-        autoStopTimer=null;
-        if(mediaRecorder&&mediaRecorder.state==='recording'){
-          if(s){s.textContent='⏳ Saving...';s.style.color='#888';}
-          mediaRecorder.stop();
-        }
-      }
-    },1000);
-
-  }catch(err){
-    if(st){st.textContent='⚠️ Mic not available: '+err.name;st.style.color='#e67e22';}
-    console.warn('Mic error:',err);
-  }
-}
-
-function stopRecording(save){
-  if(autoStopTimer){clearInterval(autoStopTimer);autoStopTimer=null;}
-  if(mediaRecorder&&mediaRecorder.state==='recording'){
-    if(save){
-      mediaRecorder.stop();
-    }else{
-      mediaRecorder.ondataavailable=null;
-      mediaRecorder.onstop=null;
-      try{mediaRecorder.stop();}catch(e){}
-      stopRecordingPulse();
-    }
-  }
-  mediaRecorder=null;
-}
-
-let pulseTimer=null;
-function startRecordingPulse(){
-  const box=document.getElementById('recBox');
-  if(!box)return;
-  let on=true;
-  pulseTimer=setInterval(()=>{
-    box.style.borderColor=on?'var(--red)':'#d0aaff';
-    on=!on;
-  },600);
-}
-function stopRecordingPulse(){
-  clearInterval(pulseTimer);pulseTimer=null;
-  const box=document.getElementById('recBox');
-  if(box)box.style.borderColor='#d0aaff';
-}
-
-function submitQ(){
-  stopRecording(mediaRecorder&&mediaRecorder.state==='recording');
-  const input=document.getElementById('qinput');
-  const val=(input?input.value:'').trim();
-  const idx=QS.cur;
-  if(!QS.answers[idx])QS.answers[idx]={};
-  QS.answers[idx].typed=val||'';
-  QS.answers[idx].word=QS.pool[idx];
-  QS.cur++;
-  renderQuizQ();
-}
-
-function skipQ(){
-  stopRecording(false);
-  const idx=QS.cur;
-  if(!QS.answers[idx])QS.answers[idx]={};
-  QS.answers[idx].typed='';
-  QS.answers[idx].word=QS.pool[idx];
-  QS.cur++;
-  renderQuizQ();
-}
-
-// ---- REVIEW ----
-function showReview(){
-  const{answers,pool}=QS;
-  // Ensure all entries have word ref
-  pool.forEach((w,i)=>{if(!answers[i])answers[i]={word:w};else if(!answers[i].word)answers[i].word=w;});
-
-  const area=document.getElementById('qa');
-  const rows=answers.map((a,i)=>`
-    <div id="rrow_${i}" style="border-radius:14px;border:2px solid #e0eaff;padding:12px 14px;margin-bottom:8px;background:white;transition:background .3s;">
-      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px;">
-        <span style="font-size:2em;direction:rtl;font-weight:800;color:var(--blue);">${a.word.hebrew}</span>
-        <div style="flex:1;">
-          <div style="font-size:.82em;font-weight:800;color:var(--lb);">${a.word.pronounce}</div>
-          <div style="font-size:.8em;color:#888;font-weight:600;">${a.word.english}</div>
+  if (!grid.children.length || grid.querySelector('.empty-state')) {
+    grid.innerHTML = selectedTeams.map((t, i) => {
+      const { cls, style } = getCardTheme(t, i);
+      return `<div class="card loading ${cls}" style="${style}${cls==='love-card'?`background:var(--card-bg);`:''}" >
+        <div class="card-front">
+          <div><span class="team-emoji">${t.emoji}</span><span class="team-name">${t.display}</span></div>
+          <div class="answer tbd" style="margin-top:auto">…</div>
         </div>
+        <div class="card-back"></div>
+      </div>`;
+    }).join('');
+  }
 
-      </div>
+  const results = await Promise.allSettled(selectedTeams.map(fetchTeam));
 
-      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px;">
-        ${a.audioUrl?`
-          <div style="display:flex;align-items:center;gap:6px;background:#f8f0ff;border-radius:10px;padding:6px 10px;flex:1;">
-            <span style="font-size:.78em;font-weight:800;color:#8e44ad;">🎙️ Recording:</span>
-            <audio controls src="${a.audioUrl}" style="height:32px;flex:1;min-width:140px;"></audio>
-          </div>` : `<div style="font-size:.78em;color:#ccc;font-weight:600;padding:4px 8px;">No recording</div>`}
-        ${a.typed?`
-          <div style="background:#f0f6ff;border-radius:10px;padding:6px 12px;">
-            <span style="font-size:.78em;font-weight:800;color:var(--lb);">✏️ Typed: </span>
-            <span style="font-size:.88em;font-weight:700;color:#333;">"${a.typed}"</span>
-          </div>` : ''}
-      </div>
+  grid.innerHTML = results.map((r, i) =>
+    r.status === 'fulfilled' ? renderCard(r.value, i) : renderError(selectedTeams[i], i)
+  ).join('');
 
-      <div style="display:flex;gap:8px;">
-        <button onclick="markQ(${i},true)" style="flex:1;background:#e8f8ee;border:2px solid #2ecc71;border-radius:10px;padding:7px;font-size:.85em;font-weight:800;color:#1a6b3a;cursor:pointer;">✓ Got it!</button>
-        <button onclick="markQ(${i},false)" style="flex:1;background:#fee;border:2px solid var(--red);border-radius:10px;padding:7px;font-size:.85em;font-weight:800;color:#8b0000;cursor:pointer;">✗ Keep practicing</button>
-      </div>
+  document.getElementById('last-updated').textContent =
+    new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit' });
+}
+
+function manualRefresh() {
+  const btn = document.getElementById('refresh-btn');
+  btn.classList.add('spinning'); btn.disabled = true;
+  loadAll().finally(() => { btn.classList.remove('spinning'); btn.disabled = false; });
+}
+
+// ─── CATEGORY / TOP 25 ───────────────────────────────────────────────────────
+async function getCategoryTeams(catId) {
+  if (catId === 'top25') {
+    const ids = await fetchTop25Ids();
+    if (!ids || !ids.length) return null;
+    return ids.map(id => TEAM_LIST.find(t => t.id === id)).filter(Boolean);
+  }
+  return TEAM_LIST.filter(t => t.conf === catId);
+}
+
+let activeCategory = null;
+
+// ─── SELECTOR UI ─────────────────────────────────────────────────────────────
+let searchQuery = '';
+let dragSrcIdx  = null;
+
+function isSelected(team) { return selectedTeams.some(t => t.display === team.display); }
+
+function toggleTeam(team) {
+  if (isSelected(team)) {
+    selectedTeams = selectedTeams.filter(t => t.display !== team.display);
+  } else if (selectedTeams.length < 6) {
+    selectedTeams = [...selectedTeams, team];
+  }
+  window.selectedTeams = selectedTeams;
+  saveSaved(selectedTeams);
+  renderSelector();
+  loadAll();
+}
+
+function removeTeam(display) {
+  selectedTeams = selectedTeams.filter(t => t.display !== display);
+  saveSaved(selectedTeams);
+  renderSelector();
+  loadAll();
+}
+
+function clearAllTeams() {
+  selectedTeams = [];
+  saveSaved(selectedTeams);
+  renderSelector();
+  loadAll();
+}
+
+function renderChips() {
+  const container = document.getElementById('selected-chips');
+  const clearBtn  = document.getElementById('clear-all-btn');
+  if (!selectedTeams.length) {
+    container.innerHTML = '<span style="color:rgba(255,255,255,0.15);font-size:0.75rem;">No teams selected yet</span>';
+    clearBtn.style.display = 'none';
+    return;
+  }
+  clearBtn.style.display = 'inline-block';
+  container.innerHTML = selectedTeams.map((t, i) => `
+    <div class="chip" draggable="true" data-idx="${i}"
+         ondragstart="dragStart(event,${i})"
+         ondragover="dragOver(event,${i})"
+         ondrop="dropOn(event,${i})"
+         ondragend="dragEnd(event)">
+      <span class="chip-drag-handle">⠿</span>
+      <span class="chip-emoji">${t.emoji}</span>
+      <span class="chip-name">${t.short || t.display}</span>
+      <span class="chip-remove" onclick="removeTeam('${t.display.replace(/'/g,"\\'")}')">✕</span>
     </div>`).join('');
-
-  area.innerHTML=`
-    <div class="qcard" style="padding:20px;">
-      <div style="text-align:center;margin-bottom:16px;">
-        <div style="font-family:'Fredoka One',cursive;font-size:1.6em;color:var(--blue);">👨‍👩‍👧 Parent Review</div>
-        <div style="font-size:.88em;color:#777;font-weight:600;margin-top:4px;">Listen to each recording, check the typed answer — then mark it!</div>
-      </div>
-      <div id="reviewRows">${rows}</div>
-      <div style="text-align:center;margin-top:16px;" id="scoreArea"></div>
-      <div style="text-align:center;margin-top:14px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-        <button class="qnext" onclick="startQuiz()">🔄 New Quiz</button>
-        <button class="qnext" style="background:var(--lb);" onclick="buildQuiz()">🏠 Home</button>
-      </div>
-    </div>`;
-
-  QS.marks=new Array(answers.length).fill(null);
-  QS.markCount=0;
 }
 
-window.speakReview=function(heb){speakHeb(heb);};
+async function renderBrowser() {
+  const container = document.getElementById('team-browser');
+  const q = searchQuery.toLowerCase().trim();
 
-window.markQ=function(i,correct){
-  if(QS.marks[i]!==null)return;
-  QS.marks[i]=correct;
-  QS.markCount++;
-  const row=document.getElementById('rrow_'+i);
-  if(row){
-    row.style.background=correct?'#e8f8ee':'#fff0f0';
-    row.style.borderColor=correct?'#2ecc71':'var(--red)';
-    row.querySelectorAll('button[onclick^="markQ"]').forEach(b=>{b.style.opacity='0.4';b.style.cursor='default';});
-    const badge=document.createElement('div');
-    badge.style.cssText='text-align:center;font-weight:800;font-size:1.1em;margin-top:6px;';
-    badge.textContent=correct?'✅ Correct!':'❌ Keep practicing';
-    badge.style.color=correct?'#27ae60':'var(--red)';
-    row.appendChild(badge);
+  let filtered;
+  if (q) {
+    filtered = TEAM_LIST.filter(t =>
+      t.display.toLowerCase().includes(q) ||
+      t.conf.toLowerCase().includes(q) ||
+      t._espnLocation?.toLowerCase().includes(q) ||
+      t.aliases.some(a => a.includes(q))
+    );
+  } else if (activeCategory) {
+    container.innerHTML = '<div class="no-results" style="color:rgba(255,255,255,0.15)">Loading…</div>';
+    filtered = await getCategoryTeams(activeCategory);
+    if (filtered === null) {
+      container.innerHTML = '<div class="no-results">Couldn\'t load rankings — try again in a moment</div>';
+      return;
+    }
+  } else {
+    filtered = TEAM_LIST;
   }
-  if(QS.markCount===QS.marks.length){
-    const score=QS.marks.filter(Boolean).length;
-    const tot=QS.marks.length;
-    const pct=Math.round((score/tot)*100);
-    const msg=pct>=90?'🏆 Bar Mitzvah ready!':pct>=70?'🌟 Great work — almost there!':pct>=50?'💪 Good effort — keep going!':'📚 Great practice — let\'s try again!';
-    const sa=document.getElementById('scoreArea');
-    if(sa)sa.innerHTML=`<div class="bigscore" style="font-size:2.8em;">${score} / ${tot}</div><div class="scoremsg">${msg}</div>`;
+
+  const maxReached = selectedTeams.length >= 6;
+
+  if (!filtered || !filtered.length) {
+    container.innerHTML = '<div class="no-results">No teams found</div>';
+    return;
+  }
+
+  container.innerHTML = filtered.map(t => {
+    const sel = isSelected(t);
+    const dis = maxReached && !sel;
+    const hateClass = t.vibe === 'hate' ? 'hate-option' : '';
+    return `<div class="team-option ${sel ? 'selected' : ''} ${dis ? 'disabled' : ''} ${hateClass}"
+                 onclick="toggleTeam(TEAM_LIST.find(x=>x.display==='${t.display.replace(/'/g,"\\'")}'))">
+      <div class="option-check">${sel ? '✓' : ''}</div>
+      <span class="option-emoji">${t.emoji}</span>
+      <div class="option-info">
+        <div class="option-name">${t.display}</div>
+        <div class="option-conf">${t.conf}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderCategories() {
+  const row   = document.getElementById('category-row');
+  const label = document.getElementById('cat-active-label');
+  const confCats = buildConferenceCategories();
+  const allCats  = [{ id: 'top25', label: '🏆 Top 25' }, ...confCats];
+
+  row.innerHTML = allCats.map(c => {
+    const isActive = activeCategory === c.id;
+    return `<span class="cat-pill ${isActive ? 'active' : ''}" onclick="selectCategory('${c.id}')">${c.label}</span>`;
+  }).join('') + (activeCategory ? `<span class="cat-clear" onclick="clearCategory()">✕ Clear</span>` : '');
+
+  if (activeCategory) {
+    const cat = allCats.find(c => c.id === activeCategory);
+    label.textContent = `Filtering by: ${cat?.label || activeCategory}`;
+    label.classList.add('visible');
+  } else {
+    label.classList.remove('visible');
+  }
+}
+
+async function selectCategory(id) {
+  activeCategory = activeCategory === id ? null : id;
+  searchQuery = '';
+  document.getElementById('team-search').value = '';
+  renderCategories();
+  await renderBrowser();
+}
+
+function clearCategory() {
+  activeCategory = null;
+  renderCategories();
+  renderBrowser();
+}
+
+async function renderSelector() {
+  renderChips();
+  renderCelebRow();
+  renderCategories();
+  await renderBrowser();
+  document.getElementById('sel-count').textContent =
+    `${selectedTeams.length} / 6 selected · drag chips to reorder`;
+}
+
+document.getElementById('team-search').addEventListener('input', async e => {
+  searchQuery = e.target.value;
+  if (searchQuery) activeCategory = null;
+  await renderBrowser();
+  renderCategories();
+});
+
+// Drag to reorder
+function dragStart(e, idx) {
+  dragSrcIdx = idx;
+  e.currentTarget.classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move';
+}
+function dragOver(e, idx) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('drag-over'));
+  if (idx !== dragSrcIdx) e.currentTarget.classList.add('drag-over');
+}
+function dropOn(e, toIdx) {
+  e.preventDefault();
+  if (dragSrcIdx === null || dragSrcIdx === toIdx) return;
+  const moved = selectedTeams.splice(dragSrcIdx, 1)[0];
+  selectedTeams.splice(toIdx, 0, moved);
+  dragSrcIdx = null;
+  saveSaved(selectedTeams);
+  renderSelector();
+  loadAll();
+}
+function dragEnd(e) {
+  dragSrcIdx = null;
+  document.querySelectorAll('.chip').forEach(c => {
+    c.classList.remove('dragging');
+    c.classList.remove('drag-over');
+  });
+}
+
+// ─── DEBUG HELPER ────────────────────────────────────────────────────────────
+// Run debugDWW() in the browser console to inspect state
+window.debugDWW = function() {
+  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+  console.group('🏀 Did We Win — Debug');
+  console.log('TEAM_LIST length:', TEAM_LIST.length);
+  console.log('TEAM_LIST sample:', TEAM_LIST.slice(0, 3).map(t => ({display: t.display, id: t.id, conf: t.conf, confId: t.confId})));
+  console.log('Saved names:', saved);
+  console.log('Selected teams:', selectedTeams.map(t => ({display: t.display, id: t.id, conf: t.conf, confId: t.confId})));
+  console.log('Top 25 IDs:', cachedTop25Ids);
+  console.groupEnd();
+
+  // Test conf record fetch for first selected team
+  const t = selectedTeams[0];
+  if (t) {
+    const url = `https://sports.core.api.espn.com/v2/sports/basketball/leagues/mens-college-basketball/seasons/2026/types/2/groups/${t.confId}/teams/${t.id}/records/9`;
+    console.log(`\nConf record URL for ${t.display}:\n${url}`);
+    fetch(url)
+      .then(r => { console.log('Status:', r.status); return r.json(); })
+      .then(d => console.log('Conf record response:', d))
+      .catch(e => console.error('Conf record error:', e));
   }
 };
 
-// ===================================================================
-// TAB MANAGEMENT
-// ===================================================================
-function showTab(tab,btn){
-  ['letters','words','prayers','quiz'].forEach(t=>document.getElementById('tab-'+t).classList.add('hidden'));
-  document.getElementById('tab-'+tab).classList.remove('hidden');
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  if(btn)btn.classList.add('active');
-}
+// ─── BOOT ─────────────────────────────────────────────────────────────────────
+(async () => {
+  const savedNames = loadSavedNames();
 
-// ===================================================================
-// INIT
-// ===================================================================
-buildLetters();
-buildTrope();
-buildWords();
-buildPrayers();
-buildQuiz();
-initTTS();
+  // Build team list immediately from hardcoded DB — no API needed, instant
+  await buildTeamListFromESPN();
+
+  // Fetch Top 25 (single API call, fast)
+  await fetchTop25Ids();
+
+  // Resolve saved teams and render immediately
+  selectedTeams = resolveFromSaved(savedNames);
+  window.selectedTeams = selectedTeams;
+  await renderSelector();
+  await loadAll();
+  setInterval(loadAll, 60_000);
+})();
 </script>
 </body>
 </html>
