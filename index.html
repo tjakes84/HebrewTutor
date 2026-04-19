@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hebrew Reading Adventure 🌟</title>
+<title>MitzvahQuest 🏆</title>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--blue:#1a3a6b;--gold:#f0c040;--lb:#4a7ec7;--sky:#e8f0ff;--green:#2ecc71;--red:#e74c3c;--sh:0 4px 18px rgba(26,58,107,0.13);}
@@ -129,13 +129,229 @@ footer{text-align:center;padding:16px;color:rgba(255,255,255,0.6);font-size:.88e
 .qtag{display:inline-block;background:rgba(26,58,107,0.1);color:var(--blue);font-size:.76em;font-weight:700;padding:2px 10px;border-radius:18px;margin-bottom:10px;}
 .bigscore{font-family:'Fredoka One',cursive;font-size:3.5em;color:var(--blue);}
 .scoremsg{font-size:1.1em;font-weight:700;color:#555;margin:6px 0 16px;}
+
+/* MOBILE */
+@media(max-width:430px){
+  header{padding:16px 14px 6px;}
+  header h1{font-size:1.9em;}
+  header .sub{font-size:.85em;}
+  .stars{font-size:1.1em;}
+  .tabs{gap:6px;padding:10px 10px 0;}
+  .tab-btn{padding:7px 12px;font-size:.82em;}
+  .container{padding:0 10px;margin-top:12px;}
+  .card{padding:16px;}
+  .hstage-text{font-size:2em;}
+  .hstage-text.sw{font-size:3.2em;}
+  .qq{font-size:2.6em;}
+  .qmbtn{min-width:100px;padding:12px 10px;font-size:.84em;}
+  .bigscore{font-size:2.6em;}
+  .cb{padding:8px 14px;font-size:.86em;}
+  .qchoices{gap:8px;}
+  .qch{padding:10px 10px;font-size:.86em;}
+  .pchip{font-size:.74em;padding:3px 8px;}
+  .sec-title{font-size:1.2em;}
+}
+
+/* ===== ONBOARDING ===== */
+#onboarding{position:fixed;inset:0;z-index:1000;background:linear-gradient(160deg,#0f2450 0%,#1a3a6b 50%,#2563c7 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;overflow-y:auto;}
+#onboarding.hidden{display:none!important;}
+.ob-logo{text-align:center;margin-bottom:32px;}
+.ob-logo h1{font-family:'Fredoka One',cursive;font-size:3em;color:white;letter-spacing:1px;text-shadow:0 4px 20px rgba(0,0,0,0.3);}
+.ob-logo .ob-stars{font-size:1.6em;letter-spacing:6px;margin-bottom:6px;}
+.ob-logo p{color:rgba(255,255,255,0.75);font-weight:600;font-size:1em;}
+.ob-card{background:rgba(255,255,255,0.97);border-radius:28px;padding:32px 28px;width:100%;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,0.3);}
+.ob-step{display:none;}
+.ob-step.active{display:block;}
+.ob-step-label{font-size:.72em;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--lb);margin-bottom:6px;}
+.ob-title{font-family:'Fredoka One',cursive;font-size:1.7em;color:var(--blue);margin-bottom:6px;}
+.ob-sub{font-size:.9em;color:#777;font-weight:600;margin-bottom:22px;}
+.ob-input{width:100%;border:2px solid #c5d8ff;border-radius:14px;padding:13px 16px;font-family:'Nunito',sans-serif;font-weight:700;font-size:1em;color:var(--blue);outline:none;transition:border-color .2s;background:#f8fbff;}
+.ob-input:focus{border-color:var(--blue);}
+.ob-toggle{display:flex;gap:10px;margin-top:14px;}
+.ob-tog-btn{flex:1;border:2px solid #c5d8ff;border-radius:14px;padding:14px 10px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.95em;color:var(--blue);background:#f8fbff;cursor:pointer;transition:all .2s;text-align:center;}
+.ob-tog-btn.sel{background:var(--blue);color:white;border-color:var(--blue);transform:translateY(-2px);box-shadow:0 4px 14px rgba(26,58,107,0.25);}
+.ob-date-wrap{position:relative;margin-top:4px;}
+.ob-countdown-preview{text-align:center;margin-top:14px;padding:12px;background:linear-gradient(135deg,#e8f0ff,#f0f6ff);border-radius:14px;border:2px solid #c5d8ff;}
+.ob-countdown-preview .days{font-family:'Fredoka One',cursive;font-size:2.4em;color:var(--blue);}
+.ob-countdown-preview .days-label{font-size:.82em;font-weight:700;color:var(--lb);}
+.ob-select{width:100%;border:2px solid #c5d8ff;border-radius:14px;padding:13px 16px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.92em;color:var(--blue);outline:none;background:#f8fbff;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234a7ec7' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;margin-top:4px;}
+.ob-select:focus{border-color:var(--blue);}
+.ob-focus-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px;}
+.ob-focus-btn{border:2px solid #c5d8ff;border-radius:14px;padding:14px 10px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.88em;color:var(--blue);background:#f8fbff;cursor:pointer;transition:all .2s;text-align:center;}
+.ob-focus-btn.sel{background:var(--blue);color:white;border-color:var(--blue);}
+.ob-focus-btn .ob-focus-icon{font-size:1.6em;display:block;margin-bottom:4px;}
+.ob-nav{display:flex;gap:10px;margin-top:24px;align-items:center;}
+.ob-btn-next{flex:1;background:var(--blue);color:white;border:none;border-radius:16px;padding:14px;font-family:'Fredoka One',cursive;font-size:1.1em;cursor:pointer;transition:all .2s;box-shadow:0 4px 14px rgba(26,58,107,0.3);}
+.ob-btn-next:hover{background:var(--lb);transform:translateY(-2px);}
+.ob-btn-back{background:transparent;color:var(--lb);border:2px solid #c5d8ff;border-radius:16px;padding:14px 18px;font-family:'Fredoka One',cursive;font-size:1em;cursor:pointer;transition:all .2s;}
+.ob-btn-back:hover{border-color:var(--blue);color:var(--blue);}
+.ob-dots{display:flex;justify-content:center;gap:7px;margin-top:20px;}
+.ob-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.3);transition:all .3s;}
+.ob-dot.active{background:white;width:22px;border-radius:4px;}
+/* ===== PERSONALIZED HEADER ===== */
+.hd-greeting{font-size:.88em;font-weight:700;color:rgba(255,255,255,0.85);margin-bottom:2px;}
+.hd-countdown{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 14px;margin-top:6px;font-size:.88em;font-weight:800;color:white;cursor:pointer;}
+.hd-countdown.urgent{background:rgba(231,76,60,0.3);border-color:rgba(231,76,60,0.5);}
+.hd-countdown.soon{background:rgba(240,192,64,0.25);border-color:rgba(240,192,64,0.4);color:var(--gold);}
+.hd-edit{display:inline-block;margin-top:8px;font-size:.72em;color:rgba(255,255,255,0.45);font-weight:600;cursor:pointer;text-decoration:underline;}
+.hd-edit:hover{color:rgba(255,255,255,0.75);}
+@media(max-width:430px){
+  .ob-logo h1{font-size:2.3em;}
+  .ob-card{padding:24px 18px;}
+  .ob-title{font-size:1.4em;}
+  .ob-focus-grid{grid-template-columns:1fr 1fr;}
+}
 </style>
 </head>
 <body>
-<header>
-  <div class="stars">✡️ ⭐ ✡️</div>
-  <h1>Hebrew Reading Adventure</h1>
-  <p class="sub">Learn to read Hebrew — one syllable at a time! 🎉</p>
+
+<!-- ONBOARDING -->
+<div id="onboarding">
+  <div class="ob-logo">
+    <div class="ob-stars">⚔️ ✡️ ⚔️</div>
+    <h1>MitzvahQuest</h1>
+    <p>From Aleph to Mitzvah ready — fast</p>
+  </div>
+  <div class="ob-card">
+    <!-- Step 1: Name + Bar/Bat -->
+    <div class="ob-step active" id="ob-step-1">
+      <div class="ob-step-label">Step 1 of 4</div>
+      <div class="ob-title">Welcome! What's your name?</div>
+      <div class="ob-sub">Let's personalize your quest.</div>
+      <input class="ob-input" id="ob-name" type="text" placeholder="Enter your first name" maxlength="30" autocomplete="off" />
+      <div class="ob-toggle" style="margin-top:18px;">
+        <button class="ob-tog-btn sel" id="tog-bar" onclick="setToggle('bar')">🎉 Bar Mitzvah</button>
+        <button class="ob-tog-btn" id="tog-bat" onclick="setToggle('bat')">✨ Bat Mitzvah</button>
+      </div>
+      <div class="ob-nav">
+        <button class="ob-btn-next" onclick="obNext(1)">Next →</button>
+      </div>
+    </div>
+    <!-- Step 2: Date -->
+    <div class="ob-step" id="ob-step-2">
+      <div class="ob-step-label">Step 2 of 4</div>
+      <div class="ob-title">When is the big day?</div>
+      <div class="ob-sub">We'll show you a live countdown.</div>
+      <div class="ob-date-wrap">
+        <input class="ob-input" id="ob-date" type="date" />
+      </div>
+      <div class="ob-countdown-preview" id="ob-countdown-preview" style="display:none;">
+        <div class="days" id="ob-days-num">—</div>
+        <div class="days-label">days until your big day 🏆</div>
+      </div>
+      <div class="ob-nav">
+        <button class="ob-btn-back" onclick="obBack(2)">←</button>
+        <button class="ob-btn-next" onclick="obNext(2)">Next →</button>
+      </div>
+    </div>
+    <!-- Step 3: Portion + Tradition -->
+    <div class="ob-step" id="ob-step-3">
+      <div class="ob-step-label">Step 3 of 4</div>
+      <div class="ob-title">Your Torah portion</div>
+      <div class="ob-sub">Which parasha are you reading?</div>
+      <select class="ob-select" id="ob-parasha">
+        <option value="">— Select your portion —</option>
+        <option value="Bereishit">Bereishit</option>
+<option value="Noach">Noach</option>
+<option value="Lech Lecha">Lech Lecha</option>
+<option value="Vayera">Vayera</option>
+<option value="Chayei Sarah">Chayei Sarah</option>
+<option value="Toldot">Toldot</option>
+<option value="Vayetzei">Vayetzei</option>
+<option value="Vayishlach">Vayishlach</option>
+<option value="Vayeshev">Vayeshev</option>
+<option value="Miketz">Miketz</option>
+<option value="Vayigash">Vayigash</option>
+<option value="Vayechi">Vayechi</option>
+<option value="Shemot">Shemot</option>
+<option value="Vaera">Vaera</option>
+<option value="Bo">Bo</option>
+<option value="Beshalach">Beshalach</option>
+<option value="Yitro">Yitro</option>
+<option value="Mishpatim">Mishpatim</option>
+<option value="Terumah">Terumah</option>
+<option value="Tetzaveh">Tetzaveh</option>
+<option value="Ki Tisa">Ki Tisa</option>
+<option value="Vayakhel">Vayakhel</option>
+<option value="Pekudei">Pekudei</option>
+<option value="Vayikra">Vayikra</option>
+<option value="Tzav">Tzav</option>
+<option value="Shemini">Shemini</option>
+<option value="Tazria">Tazria</option>
+<option value="Metzora">Metzora</option>
+<option value="Acharei Mot">Acharei Mot</option>
+<option value="Kedoshim">Kedoshim</option>
+<option value="Emor">Emor</option>
+<option value="Behar">Behar</option>
+<option value="Bechukotai">Bechukotai</option>
+<option value="Bamidbar">Bamidbar</option>
+<option value="Naso">Naso</option>
+<option value="Behaalotecha">Behaalotecha</option>
+<option value="Shelach">Shelach</option>
+<option value="Korach">Korach</option>
+<option value="Chukat">Chukat</option>
+<option value="Balak">Balak</option>
+<option value="Pinchas">Pinchas</option>
+<option value="Matot">Matot</option>
+<option value="Masei">Masei</option>
+<option value="Devarim">Devarim</option>
+<option value="Vaetchanan">Vaetchanan</option>
+<option value="Ekev">Ekev</option>
+<option value="Reeh">Reeh</option>
+<option value="Shoftim">Shoftim</option>
+<option value="Ki Teitzei">Ki Teitzei</option>
+<option value="Ki Tavo">Ki Tavo</option>
+<option value="Nitzavim">Nitzavim</option>
+<option value="Vayeilech">Vayeilech</option>
+<option value="Haazinu">Haazinu</option>
+<option value="Vezot HaBracha">Vezot HaBracha</option>
+      </select>
+      <div style="margin-top:14px;">
+        <div style="font-size:.78em;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Tradition</div>
+        <div class="ob-toggle">
+          <button class="ob-tog-btn sel" id="tog-ash" onclick="setTradition('ashkenazi')">🕍 Ashkenazi</button>
+          <button class="ob-tog-btn" id="tog-sep" onclick="setTradition('sephardic')">🌟 Sephardic</button>
+        </div>
+      </div>
+      <div class="ob-nav">
+        <button class="ob-btn-back" onclick="obBack(3)">←</button>
+        <button class="ob-btn-next" onclick="obNext(3)">Next →</button>
+      </div>
+    </div>
+    <!-- Step 4: Focus -->
+    <div class="ob-step" id="ob-step-4">
+      <div class="ob-step-label">Step 4 of 4</div>
+      <div class="ob-title">What do you want to focus on?</div>
+      <div class="ob-sub">Pick one or more — you can change later.</div>
+      <div class="ob-focus-grid">
+        <button class="ob-focus-btn sel" data-focus="letters" onclick="toggleFocus(this)"><span class="ob-focus-icon">🔤</span>Letters &amp; Vowels</button>
+        <button class="ob-focus-btn sel" data-focus="prayers" onclick="toggleFocus(this)"><span class="ob-focus-icon">🕍</span>Prayers</button>
+        <button class="ob-focus-btn sel" data-focus="words" onclick="toggleFocus(this)"><span class="ob-focus-icon">📖</span>Word Practice</button>
+        <button class="ob-focus-btn sel" data-focus="quiz" onclick="toggleFocus(this)"><span class="ob-focus-icon">🧠</span>Quiz</button>
+      </div>
+      <div class="ob-nav">
+        <button class="ob-btn-back" onclick="obBack(4)">←</button>
+        <button class="ob-btn-next" onclick="obFinish()" style="background:#27ae60;">🏆 Start My Quest!</button>
+      </div>
+    </div>
+  </div>
+  <div class="ob-dots">
+    <div class="ob-dot active" id="dot-1"></div>
+    <div class="ob-dot" id="dot-2"></div>
+    <div class="ob-dot" id="dot-3"></div>
+    <div class="ob-dot" id="dot-4"></div>
+  </div>
+</div>
+
+<header id="mainHeader">
+  <div class="stars">⚔️ ✡️ ⚔️</div>
+  <h1>MitzvahQuest</h1>
+  <div id="hd-personal" style="display:none;">
+    <div class="hd-greeting" id="hd-greeting"></div>
+    <div class="hd-countdown" id="hd-countdown" onclick="showOnboarding()"></div>
+    <div><span class="hd-edit" onclick="showOnboarding()">✏️ Edit my info</span></div>
+  </div>
+  <p class="sub" id="hd-tagline">From Aleph to Mitzvah ready — fast</p>
 </header>
 <div class="tabs">
   <button class="tab-btn active" onclick="showTab('letters',this)">🔤 Letters &amp; Vowels</button>
@@ -195,8 +411,144 @@ footer{text-align:center;padding:16px;color:rgba(255,255,255,0.6);font-size:.88e
     <div id="qContainer"></div>
   </div>
 </div>
-<footer>Built with ❤️ for Bar Mitzvah preparation · Hebrew is a beautiful language!</footer>
+<footer>MitzvahQuest · From Aleph to Mitzvah ready — fast</footer>
 <script>
+
+// ===================================================================
+// ONBOARDING + PERSONALIZATION
+// ===================================================================
+let OB = { type:'bar', tradition:'ashkenazi', focus:['letters','prayers','words','quiz'] };
+
+function obGoStep(n){
+  document.querySelectorAll('.ob-step').forEach(s=>s.classList.remove('active'));
+  const el = document.getElementById('ob-step-'+n);
+  if(el) el.classList.add('active');
+  for(let i=1;i<=4;i++){
+    const d=document.getElementById('dot-'+i);
+    if(d) d.classList.toggle('active', i===n);
+  }
+}
+
+function setToggle(type){
+  OB.type = type;
+  document.getElementById('tog-bar').classList.toggle('sel', type==='bar');
+  document.getElementById('tog-bat').classList.toggle('sel', type==='bat');
+}
+
+function setTradition(t){
+  OB.tradition = t;
+  document.getElementById('tog-ash').classList.toggle('sel', t==='ashkenazi');
+  document.getElementById('tog-sep').classList.toggle('sel', t==='sephardic');
+}
+
+function toggleFocus(btn){
+  btn.classList.toggle('sel');
+}
+
+document.getElementById('ob-date').addEventListener('change', function(){
+  const d = new Date(this.value + 'T12:00:00');
+  const today = new Date(); today.setHours(0,0,0,0);
+  const diff = Math.round((d - today)/(1000*60*60*24));
+  const preview = document.getElementById('ob-countdown-preview');
+  const daysEl = document.getElementById('ob-days-num');
+  if(!isNaN(diff) && diff > 0){
+    preview.style.display='block';
+    daysEl.textContent = diff;
+  } else {
+    preview.style.display='none';
+  }
+});
+
+function obNext(step){
+  if(step===1){
+    const name = document.getElementById('ob-name').value.trim();
+    if(!name){ document.getElementById('ob-name').focus(); document.getElementById('ob-name').style.borderColor='var(--red)'; return; }
+    document.getElementById('ob-name').style.borderColor='';
+    OB.name = name;
+    obGoStep(2);
+  } else if(step===2){
+    const d = document.getElementById('ob-date').value;
+    OB.date = d || null;
+    obGoStep(3);
+  } else if(step===3){
+    OB.parasha = document.getElementById('ob-parasha').value || null;
+    obGoStep(4);
+  }
+}
+
+function obBack(step){
+  obGoStep(step - 1);
+}
+
+function obFinish(){
+  OB.focus = Array.from(document.querySelectorAll('.ob-focus-btn.sel')).map(b=>b.dataset.focus);
+  if(OB.focus.length===0) OB.focus = ['letters'];
+  localStorage.setItem('mq_profile', JSON.stringify(OB));
+  applyProfile(OB);
+  document.getElementById('onboarding').classList.add('hidden');
+}
+
+function showOnboarding(){
+  const saved = loadProfile();
+  if(saved){
+    document.getElementById('ob-name').value = saved.name || '';
+    if(saved.type) setToggle(saved.type);
+    if(saved.tradition) setTradition(saved.tradition);
+    if(saved.date) { document.getElementById('ob-date').value = saved.date; document.getElementById('ob-date').dispatchEvent(new Event('change')); }
+    if(saved.parasha) document.getElementById('ob-parasha').value = saved.parasha;
+  }
+  obGoStep(1);
+  document.getElementById('onboarding').classList.remove('hidden');
+}
+
+function loadProfile(){
+  try{ return JSON.parse(localStorage.getItem('mq_profile')); } catch(e){ return null; }
+}
+
+function applyProfile(p){
+  if(!p||!p.name) return;
+  const titleWord = p.type==='bat' ? 'Bat Mitzvah' : 'Bar Mitzvah';
+  document.getElementById('hd-tagline').style.display='none';
+  document.getElementById('hd-personal').style.display='block';
+  document.getElementById('hd-greeting').textContent = 'Shalom, ' + p.name + '! 👋';
+
+  const cntEl = document.getElementById('hd-countdown');
+  if(p.date){
+    const d = new Date(p.date + 'T12:00:00');
+    const today = new Date(); today.setHours(0,0,0,0);
+    const diff = Math.round((d - today)/(1000*60*60*24));
+    if(diff > 0){
+      cntEl.textContent = '🗓 ' + diff + ' days until your ' + titleWord;
+      cntEl.className = 'hd-countdown' + (diff<=30?' urgent':diff<=60?' soon':'');
+    } else if(diff===0){
+      cntEl.textContent = '🏆 Today is your ' + titleWord + '!';
+      cntEl.className = 'hd-countdown urgent';
+    } else {
+      cntEl.textContent = '🌟 ' + titleWord + ' complete!';
+      cntEl.className = 'hd-countdown';
+    }
+    cntEl.style.display='inline-flex';
+  } else {
+    cntEl.style.display='none';
+  }
+
+  // Set default tab based on first focus item
+  if(p.focus && p.focus.length > 0){
+    const firstTab = p.focus[0];
+    const btn = document.querySelector('.tab-btn[onclick*="' + firstTab + '"]');
+    if(btn) showTab(firstTab, btn);
+  }
+}
+
+// INIT: check for saved profile
+(function initProfile(){
+  const saved = loadProfile();
+  if(saved && saved.name){
+    applyProfile(saved);
+    document.getElementById('onboarding').classList.add('hidden');
+  }
+})();
+
 // ===== COLORS =====
 const SYL_COLORS=['#e74c3c','#3498db','#e67e22','#27ae60','#8e44ad','#e91e8c','#00b894','#f39c12','#16a085','#6c3483'];
 
