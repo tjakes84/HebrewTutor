@@ -2750,32 +2750,29 @@ function buildHomeTab(){
 // YOUTUBE PLAYER
 // ===================================================================
 window.toggleYT = function(id, videoId) {
-  const embed = document.getElementById('yt-'+id);
-  if(!embed) return;
-  if(embed.classList.contains('open')){
-    embed.classList.remove('open');
-    embed.innerHTML = '';
+  // YouTube blocks embedding in native WebViews — open directly instead
+  const url = 'https://www.youtube.com/watch?v=' + videoId;
+  if(window.Capacitor){
+    // In native app — use Capacitor browser or window.open
+    window.open(url, '_system');
   } else {
-    embed.classList.add('open');
-    // Try iframe first (works in Capacitor), fall back to thumbnail
-    const iframe = document.createElement('iframe');
-    iframe.src = 'https://www.youtube-nocookie.com/embed/' + videoId + '?playsinline=1&rel=0';
-    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-    iframe.allowFullscreen = true;
-    iframe.style.cssText = 'width:100%;aspect-ratio:16/9;border:none;border-radius:12px;display:block;';
-    embed.appendChild(iframe);
-
-    // If iframe fails to load after 3s, show thumbnail instead
-    iframe.onerror = function() {
+    // In browser — show thumbnail that opens YouTube
+    const embed = document.getElementById('yt-'+id);
+    if(!embed) return;
+    if(embed.classList.contains('open')){
+      embed.classList.remove('open');
+      embed.innerHTML = '';
+    } else {
+      embed.classList.add('open');
       embed.innerHTML = `
-        <div style="position:relative;cursor:pointer;" onclick="window.open('https://www.youtube.com/watch?v=${videoId}','_blank')">
-          <img src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg" style="width:100%;border-radius:12px;display:block;" />
+        <div style="position:relative;cursor:pointer;border-radius:12px;overflow:hidden;" onclick="window.open('${url}','_blank')">
+          <img src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg" style="width:100%;display:block;" />
           <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.75);border-radius:50%;width:60px;height:60px;display:flex;align-items:center;justify-content:center;">
             <div style="width:0;height:0;border-top:12px solid transparent;border-bottom:12px solid transparent;border-left:22px solid white;margin-left:5px;"></div>
           </div>
-          <div style="text-align:center;font-size:.78em;color:#666;font-weight:600;padding:6px;">Tap to open in YouTube</div>
+          <div style="text-align:center;font-size:.78em;color:#555;font-weight:700;padding:8px;background:white;">Tap to watch on YouTube</div>
         </div>`;
-    };
+    }
   }
 };
 
