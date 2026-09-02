@@ -258,7 +258,10 @@
     <div class="sec-title">📖 Word Practice</div>
     <p style="margin-bottom:10px;color:#555;font-weight:600;">Pick a word — try to read it first, then reveal!</p>
     <div style="margin-bottom:14px;">
-      <div style="font-size:.75em;font-weight:700;color:#aaa;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;">Choose a word:</div>
+      <div class="wgrid-hdr">
+        <span>Choose a word</span>
+        <button class="wshuffle" onclick="buildWords()">🔀 Shuffle</button>
+      </div>
       <div class="wgrid" id="wGrid"></div>
     </div>
     <div style="border-top:2px dashed #c5d8ff;padding-top:16px;">
@@ -564,6 +567,68 @@ const words=[
    syllables:[{heb:"תְּ",sound:"T'",speak:"תְּ"},{heb:"פִ",sound:"fi",speak:"פִ"},{heb:"לִּין",sound:"LIN",speak:"לִּין"}],
    tip:"💡 Tefillin are leather boxes containing Torah verses, worn during morning prayers."},
 ];
+
+// ===================================================================
+// TORAH VOCABULARY — high-frequency words from Torah reading itself,
+// as opposed to the siddur words above. Used to weight the quiz.
+// ===================================================================
+const TORAH_WORDS=[
+  {hebrew:"אִישׁ",english:"Man",pronounce:"ish",level:1,syllables:[{heb:"אִישׁ",sound:"ish",speak:"אִישׁ"}],tip:""},
+  {hebrew:"בֵּן",english:"Son",pronounce:"ben",level:1,syllables:[{heb:"בֵּן",sound:"ben",speak:"בֵּן"}],tip:""},
+  {hebrew:"בַּת",english:"Daughter",pronounce:"bat",level:1,syllables:[{heb:"בַּת",sound:"bat",speak:"בַּת"}],tip:""},
+  {hebrew:"אָב",english:"Father",pronounce:"av",level:1,syllables:[{heb:"אָב",sound:"av",speak:"אָב"}],tip:""},
+  {hebrew:"אֵם",english:"Mother",pronounce:"em",level:1,syllables:[{heb:"אֵם",sound:"em",speak:"אֵם"}],tip:""},
+  {hebrew:"אָח",english:"Brother",pronounce:"ach",level:1,syllables:[{heb:"אָח",sound:"ach",speak:"אָח"}],tip:""},
+  {hebrew:"יוֹם",english:"Day",pronounce:"yom",level:1,syllables:[{heb:"יוֹם",sound:"yom",speak:"יוֹם"}],tip:""},
+  {hebrew:"אוֹר",english:"Light",pronounce:"or",level:1,syllables:[{heb:"אוֹר",sound:"or",speak:"אוֹר"}],tip:""},
+  {hebrew:"יָד",english:"Hand",pronounce:"yad",level:1,syllables:[{heb:"יָד",sound:"yad",speak:"יָד"}],tip:""},
+  {hebrew:"לֵב",english:"Heart",pronounce:"lev",level:1,syllables:[{heb:"לֵב",sound:"lev",speak:"לֵב"}],tip:""},
+  {hebrew:"קוֹל",english:"Voice",pronounce:"kol",level:1,syllables:[{heb:"קוֹל",sound:"kol",speak:"קוֹל"}],tip:""},
+  {hebrew:"טוֹב",english:"Good",pronounce:"tov",level:1,syllables:[{heb:"טוֹב",sound:"tov",speak:"טוֹב"}],tip:""},
+  {hebrew:"שֵׁם",english:"Name",pronounce:"shem",level:1,syllables:[{heb:"שֵׁם",sound:"shem",speak:"שֵׁם"}],tip:""},
+  {hebrew:"עַם",english:"People",pronounce:"am",level:1,syllables:[{heb:"עַם",sound:"am",speak:"עַם"}],tip:""},
+  {hebrew:"אֶרֶץ",english:"Land / earth",pronounce:"E-rets",level:2,syllables:[{heb:"אֶ",sound:"E",speak:"אֶ"},{heb:"רֶץ",sound:"rets",speak:"רֶץ"}],tip:""},
+  {hebrew:"מַיִם",english:"Water",pronounce:"MA-yim",level:2,syllables:[{heb:"מַ",sound:"MA",speak:"מַ"},{heb:"יִם",sound:"yim",speak:"יִם"}],tip:""},
+  {hebrew:"בַּיִת",english:"House",pronounce:"BA-yit",level:2,syllables:[{heb:"בַּ",sound:"BA",speak:"בַּ"},{heb:"יִת",sound:"yit",speak:"יִת"}],tip:""},
+  {hebrew:"עַיִן",english:"Eye",pronounce:"A-yin",level:2,syllables:[{heb:"עַ",sound:"A",speak:"עַ"},{heb:"יִן",sound:"yin",speak:"יִן"}],tip:""},
+  {hebrew:"דֶּרֶךְ",english:"Way / road",pronounce:"DE-rekh",level:2,syllables:[{heb:"דֶּ",sound:"DE",speak:"דֶּ"},{heb:"רֶךְ",sound:"rekh",speak:"רֶךְ"}],tip:""},
+  {hebrew:"שָׁנָה",english:"Year",pronounce:"sha-NAH",level:2,syllables:[{heb:"שָׁ",sound:"sha",speak:"שָׁ"},{heb:"נָה",sound:"NAH",speak:"נָה"}],tip:""},
+  {hebrew:"גָּדוֹל",english:"Great / big",pronounce:"ga-DOL",level:2,syllables:[{heb:"גָּ",sound:"ga",speak:"גָּ"},{heb:"דוֹל",sound:"DOL",speak:"דוֹל"}],tip:""},
+  {hebrew:"חֶסֶד",english:"Loving-kindness",pronounce:"CHE-sed",level:2,syllables:[{heb:"חֶ",sound:"CHE",speak:"חֶ"},{heb:"סֶד",sound:"sed",speak:"סֶד"}],tip:""},
+  {hebrew:"נֶפֶשׁ",english:"Soul",pronounce:"NE-fesh",level:2,syllables:[{heb:"נֶ",sound:"NE",speak:"נֶ"},{heb:"פֶשׁ",sound:"fesh",speak:"פֶשׁ"}],tip:""},
+  {hebrew:"עוֹלָם",english:"World / forever",pronounce:"o-LAM",level:2,syllables:[{heb:"עוֹ",sound:"o",speak:"עוֹ"},{heb:"לָם",sound:"LAM",speak:"לָם"}],tip:""},
+  {hebrew:"כֹּהֵן",english:"Priest",pronounce:"ko-HEN",level:2,syllables:[{heb:"כֹּ",sound:"ko",speak:"כֹּ"},{heb:"הֵן",sound:"HEN",speak:"הֵן"}],tip:""},
+  {hebrew:"מֹשֶׁה",english:"Moses",pronounce:"mo-SHEH",level:2,syllables:[{heb:"מֹ",sound:"mo",speak:"מֹ"},{heb:"שֶׁה",sound:"SHEH",speak:"שֶׁה"}],tip:""},
+  {hebrew:"יוֹסֵף",english:"Joseph",pronounce:"yo-SEF",level:2,syllables:[{heb:"יוֹ",sound:"yo",speak:"יוֹ"},{heb:"סֵף",sound:"SEF",speak:"סֵף"}],tip:""},
+  {hebrew:"לַיְלָה",english:"Night",pronounce:"LAI-lah",level:2,syllables:[{heb:"לַיְ",sound:"LAI",speak:"לַיְ"},{heb:"לָה",sound:"lah",speak:"לָה"}],tip:""},
+  {hebrew:"חֹשֶׁךְ",english:"Darkness",pronounce:"CHO-shekh",level:2,syllables:[{heb:"חֹ",sound:"CHO",speak:"חֹ"},{heb:"שֶׁךְ",sound:"shekh",speak:"שֶׁךְ"}],tip:""},
+  {hebrew:"דָּבָר",english:"Word / thing",pronounce:"da-VAR",level:2,syllables:[{heb:"דָּ",sound:"da",speak:"דָּ"},{heb:"בָר",sound:"VAR",speak:"בָר"}],tip:""},
+  {hebrew:"עֶבֶד",english:"Servant",pronounce:"E-ved",level:2,syllables:[{heb:"עֶ",sound:"E",speak:"עֶ"},{heb:"בֶד",sound:"ved",speak:"בֶד"}],tip:""},
+  {hebrew:"בְּרִית",english:"Covenant",pronounce:"b'RIT",level:2,syllables:[{heb:"בְּ",sound:"b'",speak:"בְּ"},{heb:"רִית",sound:"RIT",speak:"רִית"}],tip:""},
+  {hebrew:"וַיֹּאמֶר",english:"And he said",pronounce:"va-YO-mer",level:3,syllables:[{heb:"וַ",sound:"va",speak:"וַ"},{heb:"יֹּא",sound:"YO",speak:"יֹּא"},{heb:"מֶר",sound:"mer",speak:"מֶר"}],tip:""},
+  {hebrew:"שָׁמַיִם",english:"Heaven / sky",pronounce:"sha-MA-yim",level:3,syllables:[{heb:"שָׁ",sound:"sha",speak:"שָׁ"},{heb:"מַ",sound:"MA",speak:"מַ"},{heb:"יִם",sound:"yim",speak:"יִם"}],tip:""},
+  {hebrew:"וַיְהִי",english:"And it came to pass",pronounce:"vai-HI",level:3,syllables:[{heb:"וַיְ",sound:"vai",speak:"וַיְ"},{heb:"הִי",sound:"HI",speak:"הִי"}],tip:""},
+  {hebrew:"וַיֵּלֶךְ",english:"And he went",pronounce:"vai-YE-lekh",level:3,syllables:[{heb:"וַ",sound:"va",speak:"וַ"},{heb:"יֵּ",sound:"YE",speak:"יֵּ"},{heb:"לֶךְ",sound:"lekh",speak:"לֶךְ"}],tip:""},
+  {hebrew:"וַיִּקַּח",english:"And he took",pronounce:"vai-yi-KACH",level:3,syllables:[{heb:"וַ",sound:"va",speak:"וַ"},{heb:"יִּ",sound:"yi",speak:"יִּ"},{heb:"קַּח",sound:"KACH",speak:"קַּח"}],tip:""},
+  {hebrew:"מִצְרַיִם",english:"Egypt",pronounce:"mitz-RA-yim",level:3,syllables:[{heb:"מִצ",sound:"mitz",speak:"מִצ"},{heb:"רַ",sound:"RA",speak:"רַ"},{heb:"יִם",sound:"yim",speak:"יִם"}],tip:""},
+  {hebrew:"אַבְרָהָם",english:"Abraham",pronounce:"av-ra-HAM",level:3,syllables:[{heb:"אַב",sound:"av",speak:"אַב"},{heb:"רָ",sound:"ra",speak:"רָ"},{heb:"הָם",sound:"HAM",speak:"הָם"}],tip:""},
+  {hebrew:"יַעֲקֹב",english:"Jacob",pronounce:"ya-a-KOV",level:3,syllables:[{heb:"יַ",sound:"ya",speak:"יַ"},{heb:"עֲ",sound:"a",speak:"עֲ"},{heb:"קֹב",sound:"KOV",speak:"קֹב"}],tip:""},
+  {hebrew:"אִשָּׁה",english:"Woman",pronounce:"i-SHAH",level:3,syllables:[{heb:"אִ",sound:"i",speak:"אִ"},{heb:"שָּׁה",sound:"SHAH",speak:"שָּׁה"}],tip:""}
+];
+
+// Difficulty for the siddur words above (1 = short and simple, 3 = hardest)
+const SIDDUR_LEVEL={
+  "שָׁלוֹם":1,"תּוֹרָה":1,"שַׁבָּת":1,"אָמֵן":1,"בָּרוּךְ":1,"מֶלֶךְ":1,
+  "בְּרָכָה":2,"מִצְוָה":2,"יִשְׂרָאֵל":2,"אֱלֹהִים":2,"חַיִּים":2,"הָעוֹלָם":2,"מַזָּל טוֹב":2,"טַלִּית":2,
+  "קְדוּשָׁה":3,"תְּפִלָּה":3,"עֲמִידָה":3,"עֲלִיָּה":3,"הַפְטָרָה":3,"תְּפִלִּין":3
+};
+
+words.forEach(w=>{ w.src='siddur'; w.level=SIDDUR_LEVEL[w.hebrew]||2; });
+TORAH_WORDS.forEach(w=>{ w.src='torah'; if(!w.tip) w.tip='💡 A word you will meet again and again in the Torah reading.'; });
+
+// Everything the quiz and word practice can draw from
+const ALL_WORDS = words.concat(TORAH_WORDS);
+
 // ===== PRAYERS DATA =====
 function AD(){return{heb:"יְהוָה",sound:"Ado-NAI",speak:"אֲדֹנָי",syllables:[{heb:"אֲדֹ",sound:"Ado",speak:"אֲדֹ"},{heb:"נָי",sound:"NAI",speak:"נָי"}]};}
 function BaruchFormula(extra){
@@ -1530,9 +1595,14 @@ function buildLetters(){
 // ===================================================================
 // BUILD WORD PRACTICE TAB
 // ===================================================================
+let WP_WORDS=[];
 function buildWords(){
   const g=document.getElementById('wGrid');
-  words.forEach((w,i)=>{
+  if(!g)return;
+  g.innerHTML='';
+  const bank=(typeof ALL_WORDS!=='undefined')?ALL_WORDS:words;
+  WP_WORDS=shuffle(bank).slice(0,14);
+  WP_WORDS.forEach((w,i)=>{
     const btn=document.createElement('button');
     btn.className='wbtn'+(i===0?' active':'');
     btn.style.direction='rtl';
@@ -1547,7 +1617,7 @@ function buildWords(){
 }
 function selectWord(i){
   document.querySelectorAll('.wbtn').forEach((b,j)=>b.classList.toggle('active',j===i));
-  const w=words[i];
+  const w=WP_WORDS[i]||words[i];
   const items=w.syllables.map(s=>({
     heb:s.heb,sound:s.sound,speak:s.speak||s.heb,
     syllables:[{heb:s.heb,sound:s.sound,speak:s.speak||s.heb}]
@@ -1788,7 +1858,8 @@ function saveQuiz(){
 async function restoreQuiz(){
   const s=await QDB.get('current');
   if(!s||!Array.isArray(s.hebrews)||!s.hebrews.length) return null;
-  const pool=s.hebrews.map(h=>words.find(w=>w.hebrew===h));
+  const bank=(typeof ALL_WORDS!=='undefined')?ALL_WORDS:words;
+  const pool=s.hebrews.map(h=>bank.find(w=>w.hebrew===h));
   if(pool.some(w=>!w)) return null;              // word list changed since saving
   const answers=(s.answers||[]).map((a,i)=>{
     if(!a) return undefined;
@@ -1821,50 +1892,39 @@ function buildQuiz(){
   const c=document.getElementById('qContainer');
   c.innerHTML=`
     <div style="text-align:center;margin-bottom:18px;">
-      <p style="color:#555;font-weight:600;margin-bottom:6px;">See the Hebrew word, hear it — then <strong>record yourself</strong> saying it and/or type how it sounds.</p>
-      <p style="color:#888;font-size:.85em;font-weight:600;margin-bottom:16px;">A parent will review your recordings and answers at the end!</p>
-      <button class="cb bl" onclick="startQuiz()" style="font-size:1.1em;padding:12px 32px;">🎯 Start Quiz — 15 Words</button>
+      <p>See the Hebrew word, hear it, then <strong>record yourself</strong> saying it. A parent listens back and marks each one at the end.</p>
+      <p class="qsub-note">20 words — mostly Torah vocabulary, mixed easy to hard.</p>
+      <div class="qstart-row">
+        <button class="cb bl" onclick="startQuiz()">🎯 Start quiz</button>
+        <button class="cb go" onclick="startQuiz()">🔀 Shuffle words</button>
+      </div>
     </div>
     <div id="qresume"></div>
     <div id="qa"></div>`;
   offerResume();
 }
 
-async function offerResume(){
-  const s=await restoreQuiz();
-  const el=document.getElementById('qresume');
-  if(!s||!el) return;
-  const where = s.stage==='review'
-    ? 'All 15 answered — waiting on parent review'
-    : s.cur+' of '+s.pool.length+' words answered';
-  el.innerHTML=`
-    <div class="qresume">
-      <div class="qresume-title">Your last quiz is still here</div>
-      <div class="qresume-sub">${where} · saved ${agoLabel(s.savedAt)}</div>
-      <div class="qresume-actions">
-        <button class="cb bl" onclick="resumeQuiz()">Pick up where I left off</button>
-        <button class="cb rd" onclick="discardQuiz()">Start fresh instead</button>
-      </div>
-    </div>`;
+// ---- picking the 20 words -------------------------------------------------
+// Aim for 15 Torah words to 5 siddur words, spread across the three
+// difficulty levels so a round is never all easy or all hard.
+function buildQuizPool(){
+  const pool = (typeof ALL_WORDS!=='undefined') ? ALL_WORDS : words;
+  const lvl=(arr,l)=>arr.filter(w=>(w.level||2)===l);
+  const torah =pool.filter(w=>w.src==='torah');
+  const siddur=pool.filter(w=>w.src!=='torah');
+  const out=[];
+  const take=(arr,n)=>{ shuffle(arr).slice(0,n).forEach(w=>{ if(!out.includes(w)) out.push(w); }); };
+  [[1,5],[2,6],[3,4]].forEach(([l,n])=>take(lvl(torah,l),n));
+  [[1,2],[2,2],[3,1]].forEach(([l,n])=>take(lvl(siddur,l),n));
+  // top up if a level ran short
+  const rest=shuffle(pool.filter(w=>!out.includes(w)));
+  while(out.length<20 && rest.length) out.push(rest.pop());
+  return shuffle(out).slice(0,20);
 }
-
-window.resumeQuiz=async function(){
-  const s=await restoreQuiz();
-  if(!s){ buildQuiz(); return; }
-  QS=s;
-  const el=document.getElementById('qresume'); if(el) el.innerHTML='';
-  if(s.stage==='review') showReview(); else renderQuizQ();
-};
-
-window.discardQuiz=async function(){
-  await QDB.del('current');
-  buildQuiz();
-};
 
 function startQuiz(){
   clearQuizSave();
-  const pool=shuffle([...words]).slice(0,15);
-  QS={pool,cur:0,answers:[],stage:'quiz',reviewing:false};
+  QS={pool:buildQuizPool(),cur:0,answers:[],stage:'quiz'};
   const el=document.getElementById('qresume'); if(el) el.innerHTML='';
   saveQuiz();
   renderQuizQ();
@@ -1873,201 +1933,207 @@ function startQuiz(){
 function shuffle(a){return[...a].sort(()=>Math.random()-.5);}
 
 function renderQuizQ(){
+  releaseMic();
   const{pool,cur}=QS;
   if(cur>=pool.length){showReview();return;}
   const w=pool[cur];
-  const area=document.getElementById('qa');
   const pct=Math.round((cur/pool.length)*100);
-  area.innerHTML=`
+  document.getElementById('qa').innerHTML=`
     <div class="qcard">
-      <div class="qprog" style="margin-bottom:14px;">
+      <div class="qprog">
         <div class="qpbar"><div class="qpfill" style="width:${pct}%"></div></div>
         <div class="qscore">${cur+1} / ${pool.length}</div>
       </div>
 
-      <div style="text-align:center;margin-bottom:10px;">
-        <div style="font-size:4.2em;font-weight:800;direction:rtl;color:var(--blue);letter-spacing:4px;">${w.hebrew}</div>
-        <div style="font-size:.95em;color:#aaa;font-weight:700;margin-top:2px;">${w.english}</div>
+      <div class="qword">${w.hebrew}</div>
+      <div class="qword-en">${w.english}</div>
+
+      <div class="recbox" id="recBox">
+        <div class="recbox-label">🎙️ Say it out loud and record yourself</div>
+        <button class="cb pu" id="recBtn" onclick="toggleRecord()">⏺ Record</button>
+        <div class="recstatus" id="recStatus"></div>
+        <audio id="recPlayback" controls playsinline class="recplayer"></audio>
       </div>
 
-
-
-      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;align-items:stretch;margin-bottom:16px;">
-
-        <!-- RECORD BOX -->
-        <div style="background:#f8f0ff;border:2px solid #d0aaff;border-radius:16px;padding:16px 18px;min-width:200px;text-align:center;flex:1;max-width:240px;" id="recBox">
-          <div style="font-weight:800;color:#8e44ad;font-size:.88em;margin-bottom:10px;">🎙️ Record yourself</div>
-          <button class="cb pu" id="recBtn" onclick="toggleRecord()" style="width:100%;padding:10px;">⏺ Record</button>
-          <div id="recStatus" style="font-size:.78em;font-weight:700;color:#aaa;margin-top:8px;min-height:18px;"></div>
-          <audio id="recPlayback" controls style="display:none;margin-top:10px;width:100%;height:36px;"></audio>
-        </div>
-
-        <!-- TYPE BOX -->
-        <div style="background:#f0f6ff;border:2px solid #c5d8ff;border-radius:16px;padding:16px 18px;min-width:200px;text-align:center;flex:1;max-width:240px;">
-          <div style="font-weight:800;color:var(--blue);font-size:.88em;margin-bottom:10px;">✏️ Type how it sounds</div>
-          <input type="text" id="qinput" placeholder="e.g. sha-LOM" autocomplete="off" autocorrect="off" spellcheck="false"
-            style="border:2px solid #c5d8ff;border-radius:12px;padding:10px 14px;font-size:1em;font-family:'Nunito',sans-serif;font-weight:700;color:var(--blue);width:100%;outline:none;transition:border .2s;box-sizing:border-box;"
-            onkeydown="if(event.key==='Enter')submitQ()"
-            onfocus="this.style.borderColor='var(--blue)'"
-            onblur="this.style.borderColor='#c5d8ff'">
-          <div style="font-size:.76em;color:#aaa;font-weight:600;margin-top:6px;">Optional — press Enter or Next</div>
-        </div>
-
-      </div>
-
-      <div style="text-align:center;">
-        <button class="cb bl" onclick="submitQ()" style="padding:11px 28px;font-size:1em;">Next → </button>
-        <div style="margin-top:8px;">
-          <button onclick="skipQ()" style="background:none;border:none;color:#bbb;font-size:.82em;font-weight:700;cursor:pointer;text-decoration:underline;">Skip this word</button>
-        </div>
+      <div class="qnav">
+        <button class="cb bl" onclick="submitQ()">Next →</button>
+        <button class="qskip" onclick="skipQ()">Skip this word</button>
       </div>
     </div>`;
 
-  // Reset recorder state
-  stopRecording(false);
-  recordingIdx=cur;
-  audioChunks=[];
-
-  const inp=document.getElementById('qinput');
-  if(inp)inp.focus();
+  const a=QS.answers[cur];
+  if(a&&a.audioUrl) showPlayback(a.audioUrl,'Saved — press play to hear it.');
 }
 
-function speakCurrent(){
-  const w=QS.pool[QS.cur];
-  speakHeb(w.hebrew);
+function showPlayback(url,msg){
+  const pb=document.getElementById('recPlayback');
+  if(pb){ pb.src=url; pb.style.display='block'; }
+  const s=document.getElementById('recStatus');
+  if(s){ s.textContent=msg; s.className='recstatus ok'; }
+  const b=document.getElementById('recBtn');
+  if(b){ b.textContent='⏺ Re-record'; b.disabled=false; b.className='cb pu'; }
 }
 
-// ---- RECORDING ----
-function toggleRecord(){
-  if(mediaRecorder&&mediaRecorder.state==='recording'){
-    manualStop();
-  }else{
-    startRecording();
-  }
-}
+// ===================================================================
+// RECORDING
+// Every state transition is guarded. MediaRecorder throws
+// InvalidStateError if you start one that is already recording or stop
+// one that is already inactive, and the old code could do both — it
+// called stop() from three places and nulled the recorder before the
+// async onstop handler had run.
+// ===================================================================
+let recStream=null;
+let recTimer=null;
+let pulseTimer=null;
 
-// Called when user hits Stop manually
-function manualStop(){
-  if(autoStopTimer){clearInterval(autoStopTimer);autoStopTimer=null;}
-  if(mediaRecorder&&mediaRecorder.state==='recording'){
-    mediaRecorder.stop(); // onstop handler does the rest
-  }
-}
+function recorderIsLive(){ return mediaRecorder && mediaRecorder.state==='recording'; }
 
-let autoStopTimer=null;
-
-async function startRecording(){
-  // Reset
-  if(autoStopTimer){clearInterval(autoStopTimer);autoStopTimer=null;}
-  audioChunks=[];
-
-  const btn=document.getElementById('recBtn');
-  const st=document.getElementById('recStatus');
-
-  try{
-    const stream=await navigator.mediaDevices.getUserMedia({audio:true});
-    const mimeType=['audio/webm;codecs=opus','audio/webm','audio/ogg;codecs=opus','audio/mp4','audio/ogg'].find(t=>MediaRecorder.isTypeSupported(t))||'';
-    mediaRecorder=new MediaRecorder(stream, mimeType?{mimeType}:{});
-
-    mediaRecorder.ondataavailable=e=>{if(e.data.size>0)audioChunks.push(e.data);};
-
-    mediaRecorder.onstop=()=>{
-      // Always clear the auto-stop timer when recording ends
-      if(autoStopTimer){clearInterval(autoStopTimer);autoStopTimer=null;}
-      const mime=mediaRecorder.mimeType||mimeType||'audio/webm';
-      const blob=new Blob(audioChunks,{type:mime});
-      console.log('Recorded format:', mime, 'Blob size:', blob.size);
-      const idx=QS.cur;
-      if(!QS.answers[idx])QS.answers[idx]={};
-      if(QS.answers[idx].audioUrl)URL.revokeObjectURL(QS.answers[idx].audioUrl);
-      const url=URL.createObjectURL(blob);
-      QS.answers[idx].audioUrl=url;
-      QS.answers[idx].blob=blob;
-      QS.answers[idx].word=QS.pool[idx];
-      saveQuiz();
-      const pb=document.getElementById('recPlayback');
-      if(pb){pb.pause();pb.removeAttribute('src');pb.load();pb.src=url;pb.load();pb.style.display='block';}
-      const s=document.getElementById('recStatus');
-      if(s){s.textContent='✅ Saved! Press play to hear it.';s.style.color='#27ae60';}
-      const b=document.getElementById('recBtn');
-      if(b){b.textContent='⏺ Re-record';b.disabled=false;b.classList.remove('rd');b.classList.add('pu');}
-      stream.getTracks().forEach(t=>t.stop());
-      stopRecordingPulse();
-    };
-
-    // Start recording immediately — no warmup delay (was causing short recordings)
-    mediaRecorder.start(100);
-
-    // Update button right away
-    if(btn){btn.textContent='⏹ Stop (5s)';btn.disabled=false;btn.classList.remove('pu');btn.classList.add('rd');}
-    if(st){st.textContent='🔴 Recording... 5s';st.style.color='var(--red)';}
-    startRecordingPulse();
-
-    // Countdown timer — fires every 1s, stops at 0
-    const DURATION=5;
-    let remaining=DURATION;
-    autoStopTimer=setInterval(()=>{
-      remaining--;
-      const b=document.getElementById('recBtn');
-      const s=document.getElementById('recStatus');
-      if(remaining>0){
-        if(b&&b.classList.contains('rd'))b.textContent='⏹ Stop ('+remaining+'s)';
-        if(s)s.textContent='🔴 Recording... '+remaining+'s';
-      }else{
-        // Time's up — stop
-        clearInterval(autoStopTimer);
-        autoStopTimer=null;
-        if(mediaRecorder&&mediaRecorder.state==='recording'){
-          if(s){s.textContent='⏳ Saving...';s.style.color='#888';}
-          mediaRecorder.stop();
-        }
-      }
-    },1000);
-
-  }catch(err){
-    if(st){st.textContent='⚠️ Mic not available: '+err.name;st.style.color='#e67e22';}
-    console.warn('Mic error:',err);
-  }
-}
-
-function stopRecording(save){
-  if(autoStopTimer){clearInterval(autoStopTimer);autoStopTimer=null;}
-  if(mediaRecorder&&mediaRecorder.state==='recording'){
-    if(save){
-      mediaRecorder.stop();
-    }else{
-      mediaRecorder.ondataavailable=null;
-      mediaRecorder.onstop=null;
-      try{mediaRecorder.stop();}catch(e){}
-      stopRecordingPulse();
-    }
+function releaseMic(){
+  if(recTimer){ clearInterval(recTimer); recTimer=null; }
+  stopRecordingPulse();
+  const rec=mediaRecorder;
+  if(rec){
+    rec.ondataavailable=null; rec.onstop=null; rec.onerror=null;
+    if(rec.state!=='inactive'){ try{ rec.stop(); }catch(e){} }   // guarded
   }
   mediaRecorder=null;
+  if(recStream){ recStream.getTracks().forEach(t=>{ try{t.stop();}catch(e){} }); recStream=null; }
+  audioChunks=[];
 }
 
-let pulseTimer=null;
+window.toggleRecord=function(){
+  if(recorderIsLive()) manualStop(); else startRecording();
+};
+
+function manualStop(){
+  if(recTimer){ clearInterval(recTimer); recTimer=null; }
+  if(recorderIsLive()){
+    const s=document.getElementById('recStatus');
+    if(s){ s.textContent='Saving…'; s.className='recstatus'; }
+    try{ mediaRecorder.stop(); }catch(e){}     // onstop finishes the job
+  }
+}
+
+async function startRecording(){
+  if(recorderIsLive()) return;                // never start a second one
+  releaseMic();
+
+  const btn=document.getElementById('recBtn');
+  const st =document.getElementById('recStatus');
+  const idx=QS.cur;                           // captured now, not read later
+
+  if(!navigator.mediaDevices||!window.MediaRecorder){
+    if(st){ st.textContent='Recording is not supported in this browser.'; st.className='recstatus warn'; }
+    return;
+  }
+  if(btn){ btn.disabled=true; }
+  if(st){ st.textContent='Waiting for microphone…'; st.className='recstatus'; }
+
+  let stream;
+  try{
+    stream=await navigator.mediaDevices.getUserMedia({audio:true});
+  }catch(err){
+    if(btn){ btn.disabled=false; }
+    if(st){
+      st.className='recstatus warn';
+      st.textContent = err && err.name==='NotAllowedError'
+        ? 'Microphone blocked. Allow it in your browser settings and try again.'
+        : 'No microphone available.';
+    }
+    return;
+  }
+  recStream=stream;
+
+  const wanted=['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/ogg;codecs=opus'];
+  const mime=wanted.find(t=>{ try{ return MediaRecorder.isTypeSupported(t); }catch(e){ return false; } });
+
+  let rec;
+  try{ rec = mime ? new MediaRecorder(stream,{mimeType:mime}) : new MediaRecorder(stream); }
+  catch(e){
+    try{ rec=new MediaRecorder(stream); }
+    catch(e2){
+      releaseMic();
+      if(btn){ btn.disabled=false; }
+      if(st){ st.textContent='This browser cannot record audio.'; st.className='recstatus warn'; }
+      return;
+    }
+  }
+
+  mediaRecorder=rec;
+  audioChunks=[];
+  rec.ondataavailable=e=>{ if(e.data && e.data.size) audioChunks.push(e.data); };
+  rec.onerror=()=>finishRecording(rec,idx);
+  rec.onstop =()=>finishRecording(rec,idx);
+
+  try{ rec.start(); }
+  catch(e){
+    releaseMic();
+    if(btn){ btn.disabled=false; }
+    if(st){ st.textContent='Could not start recording. Try again.'; st.className='recstatus warn'; }
+    return;
+  }
+
+  if(btn){ btn.disabled=false; btn.textContent='⏹ Stop (5s)'; btn.className='cb rd'; }
+  if(st){ st.textContent='🔴 Recording… 5s'; st.className='recstatus rec'; }
+  startRecordingPulse();
+
+  let left=5;
+  recTimer=setInterval(()=>{
+    left--;
+    const b=document.getElementById('recBtn'), s=document.getElementById('recStatus');
+    if(left>0){
+      if(b&&b.classList.contains('rd')) b.textContent='⏹ Stop ('+left+'s)';
+      if(s) s.textContent='🔴 Recording… '+left+'s';
+    }else{
+      clearInterval(recTimer); recTimer=null;
+      manualStop();
+    }
+  },1000);
+}
+
+// Runs once per recording, from onstop or onerror.
+function finishRecording(rec,idx){
+  if(recTimer){ clearInterval(recTimer); recTimer=null; }
+  stopRecordingPulse();
+  rec.ondataavailable=null; rec.onstop=null; rec.onerror=null;
+
+  const blob=new Blob(audioChunks,{type:rec.mimeType||'audio/webm'});
+  audioChunks=[];
+  if(recStream){ recStream.getTracks().forEach(t=>{ try{t.stop();}catch(e){} }); recStream=null; }
+  if(mediaRecorder===rec) mediaRecorder=null;
+
+  if(blob.size>0){
+    if(!QS.answers[idx]) QS.answers[idx]={};
+    if(QS.answers[idx].audioUrl) URL.revokeObjectURL(QS.answers[idx].audioUrl);
+    QS.answers[idx].blob=blob;
+    QS.answers[idx].audioUrl=URL.createObjectURL(blob);
+    QS.answers[idx].word=QS.pool[idx];
+    saveQuiz();
+    if(QS.cur===idx) showPlayback(QS.answers[idx].audioUrl,'Saved — press play to hear it.');
+  }else{
+    const s=document.getElementById('recStatus');
+    if(s){ s.textContent='Nothing was recorded. Try again.'; s.className='recstatus warn'; }
+    const b=document.getElementById('recBtn');
+    if(b){ b.textContent='⏺ Record'; b.disabled=false; b.className='cb pu'; }
+  }
+}
+
 function startRecordingPulse(){
   const box=document.getElementById('recBox');
-  if(!box)return;
+  if(!box) return;
   let on=true;
-  pulseTimer=setInterval(()=>{
-    box.style.borderColor=on?'var(--red)':'#d0aaff';
-    on=!on;
-  },600);
+  pulseTimer=setInterval(()=>{ box.classList.toggle('pulsing',on); on=!on; },600);
 }
 function stopRecordingPulse(){
-  clearInterval(pulseTimer);pulseTimer=null;
+  if(pulseTimer){ clearInterval(pulseTimer); pulseTimer=null; }
   const box=document.getElementById('recBox');
-  if(box)box.style.borderColor='#d0aaff';
+  if(box) box.classList.remove('pulsing');
 }
 
 function submitQ(){
-  stopRecording(mediaRecorder&&mediaRecorder.state==='recording');
-  const input=document.getElementById('qinput');
-  const val=(input?input.value:'').trim();
+  manualStop();
   const idx=QS.cur;
-  if(!QS.answers[idx])QS.answers[idx]={};
-  QS.answers[idx].typed=val||'';
+  if(!QS.answers[idx]) QS.answers[idx]={};
   QS.answers[idx].word=QS.pool[idx];
   QS.cur++;
   saveQuiz();
@@ -2075,64 +2141,50 @@ function submitQ(){
 }
 
 function skipQ(){
-  stopRecording(false);
+  releaseMic();
   const idx=QS.cur;
-  if(!QS.answers[idx])QS.answers[idx]={};
-  QS.answers[idx].typed='';
+  if(!QS.answers[idx]) QS.answers[idx]={};
   QS.answers[idx].word=QS.pool[idx];
   QS.cur++;
   saveQuiz();
   renderQuizQ();
 }
 
-// ---- REVIEW ----
+// ---- parent review --------------------------------------------------------
 function showReview(){
+  releaseMic();
   const{answers,pool}=QS;
-  // Ensure all entries have word ref
-  pool.forEach((w,i)=>{if(!answers[i])answers[i]={word:w};else if(!answers[i].word)answers[i].word=w;});
+  pool.forEach((w,i)=>{ if(!answers[i]) answers[i]={word:w}; else if(!answers[i].word) answers[i].word=w; });
 
-  const area=document.getElementById('qa');
   const rows=answers.map((a,i)=>`
-    <div id="rrow_${i}" style="border-radius:14px;border:2px solid #e0eaff;padding:12px 14px;margin-bottom:8px;background:white;transition:background .3s;">
-      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px;">
-        <span style="font-size:2em;direction:rtl;font-weight:800;color:var(--blue);">${a.word.hebrew}</span>
-        <div style="flex:1;">
-          <div style="font-size:.82em;font-weight:800;color:var(--lb);">${a.word.pronounce}</div>
-          <div style="font-size:.8em;color:#888;font-weight:600;">${a.word.english}</div>
+    <div class="rrow" id="rrow_${i}">
+      <div class="rrow-top">
+        <span class="rrow-heb">${a.word.hebrew}</span>
+        <div class="rrow-meta">
+          <div class="rrow-pron">${a.word.pronounce}</div>
+          <div class="rrow-en">${a.word.english}</div>
         </div>
-
       </div>
-
-      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px;">
-        ${a.audioUrl?`
-          <div style="display:flex;align-items:center;gap:6px;background:#f8f0ff;border-radius:10px;padding:6px 10px;flex:1;">
-            <span style="font-size:.78em;font-weight:800;color:#8e44ad;">🎙️ Recording:</span>
-            <audio controls src="${a.audioUrl}" style="height:32px;flex:1;min-width:140px;"></audio>
-          </div>` : `<div style="font-size:.78em;color:#ccc;font-weight:600;padding:4px 8px;">No recording</div>`}
-        ${a.typed?`
-          <div style="background:#f0f6ff;border-radius:10px;padding:6px 12px;">
-            <span style="font-size:.78em;font-weight:800;color:var(--lb);">✏️ Typed: </span>
-            <span style="font-size:.88em;font-weight:700;color:#333;">"${a.typed}"</span>
-          </div>` : ''}
-      </div>
-
-      <div style="display:flex;gap:8px;">
-        <button onclick="markQ(${i},true)" style="flex:1;background:#e8f8ee;border:2px solid #2ecc71;border-radius:10px;padding:7px;font-size:.85em;font-weight:800;color:#1a6b3a;cursor:pointer;">✓ Got it!</button>
-        <button onclick="markQ(${i},false)" style="flex:1;background:#fee;border:2px solid var(--red);border-radius:10px;padding:7px;font-size:.85em;font-weight:800;color:#8b0000;cursor:pointer;">✗ Keep practicing</button>
+      ${a.audioUrl
+        ? `<audio controls playsinline src="${a.audioUrl}" class="rrow-audio"></audio>`
+        : `<div class="rrow-norec">No recording</div>`}
+      <div class="rrow-marks">
+        <button class="rmark ok"   onclick="markQ(${i},true)">✓ Got it</button>
+        <button class="rmark bad"  onclick="markQ(${i},false)">✗ Keep practicing</button>
       </div>
     </div>`).join('');
 
-  area.innerHTML=`
-    <div class="qcard" style="padding:20px;">
+  document.getElementById('qa').innerHTML=`
+    <div class="qcard" style="text-align:left;">
       <div style="text-align:center;margin-bottom:16px;">
-        <div style="font-family:'Fredoka One',cursive;font-size:1.6em;color:var(--blue);">👨‍👩‍👧 Parent Review</div>
-        <div style="font-size:.88em;color:#777;font-weight:600;margin-top:4px;">Listen to each recording, check the typed answer — then mark it!</div>
+        <div class="review-title">Parent review</div>
+        <div class="review-sub">Listen to each recording, then mark it.</div>
       </div>
       <div id="reviewRows">${rows}</div>
       <div style="text-align:center;margin-top:16px;" id="scoreArea"></div>
-      <div style="text-align:center;margin-top:14px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-        <button class="qnext" onclick="startQuiz()">🔄 New Quiz</button>
-        <button class="qnext" style="background:var(--lb);" onclick="buildQuiz()">🏠 Home</button>
+      <div class="qnav" style="margin-top:14px;">
+        <button class="qnext" onclick="startQuiz()">🔀 New 20 words</button>
+        <button class="qnext" style="background:var(--brass);" onclick="buildQuiz()">🏠 Done</button>
       </div>
     </div>`;
 
@@ -2144,30 +2196,21 @@ function showReview(){
   if(prior) prior.forEach((m,i)=>{ if(m===true||m===false) markQ(i,m); });
 }
 
-window.speakReview=function(heb){speakHeb(heb);};
-
 window.markQ=function(i,correct){
-  if(QS.marks[i]!==null)return;
+  if(!QS.marks || QS.marks[i]!==null) return;
   QS.marks[i]=correct;
   QS.markCount++;
   const row=document.getElementById('rrow_'+i);
   if(row){
-    row.style.background=correct?'#e8f8ee':'#fff0f0';
-    row.style.borderColor=correct?'#2ecc71':'var(--red)';
-    row.querySelectorAll('button[onclick^="markQ"]').forEach(b=>{b.style.opacity='0.4';b.style.cursor='default';});
-    const badge=document.createElement('div');
-    badge.style.cssText='text-align:center;font-weight:800;font-size:1.1em;margin-top:6px;';
-    badge.textContent=correct?'✅ Correct!':'❌ Keep practicing';
-    badge.style.color=correct?'#27ae60':'var(--red)';
-    row.appendChild(badge);
+    row.classList.add(correct?'marked-ok':'marked-bad');
+    row.querySelectorAll('.rmark').forEach(b=>{ b.disabled=true; });
   }
   if(QS.markCount===QS.marks.length){
-    const score=QS.marks.filter(Boolean).length;
-    const tot=QS.marks.length;
+    const score=QS.marks.filter(Boolean).length, tot=QS.marks.length;
     const pct=Math.round((score/tot)*100);
-    const msg=pct>=90?'🏆 Bar Mitzvah ready!':pct>=70?'🌟 Great work — almost there!':pct>=50?'💪 Good effort — keep going!':'📚 Great practice — let\'s try again!';
+    const msg=pct>=90?'🏆 Bar Mitzvah ready!':pct>=70?'🌟 Great work — almost there!':pct>=50?'💪 Good effort — keep going!':'📚 Great practice — let\'s go again!';
     const sa=document.getElementById('scoreArea');
-    if(sa)sa.innerHTML=`<div class="bigscore" style="font-size:2.8em;">${score} / ${tot}</div><div class="scoremsg">${msg}</div>`;
+    if(sa)sa.innerHTML=`<div class="bigscore">${score} / ${tot}</div><div class="scoremsg">${msg}</div>`;
   }
   saveQuiz();
 };
