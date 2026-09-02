@@ -221,6 +221,7 @@
   <div id="tab-letters" class="card">
     <div class="sec-title">🔤 The Aleph-Bet</div>
     <p style="margin-bottom:14px;color:#555;font-weight:600;">Click any letter to hear it! Hebrew reads <strong>right to left</strong>.</p>
+    <button class="cantor-btn" style="margin-bottom:14px;" onclick="window.open('https://qrco.de/bgrjw2','_blank','noopener')">🎤 Hear Cantor Wolman sing the Alef-Bet song</button>
     <div class="ab-grid" id="abGrid"></div>
     <div class="tip">💡 Letters with a dot (dagesh) have a harder sound. Some have a different shape at the end of a word — the <strong>sofit</strong> form!</div>
     <div class="subsec">
@@ -235,6 +236,7 @@
       <p style="margin-bottom:14px;font-size:.84em;color:#888;font-weight:600;">Each mark tells the reader which melody to sing on that word. The tones are approximated using the Web Audio API.</p>
       <div class="trope-grid" id="tropeGrid"></div>
       <div class="tip">💡 Trope marks appear above or below Hebrew letters — they tell you both the melody AND where to put emphasis in the phrase!</div>
+      <div id="tropePlayerAnchor"></div>
       <div id="tropePlayer" style="display:none;margin-top:16px;background:linear-gradient(135deg,#f0f6ff,#e8f0ff);border:2px solid #c5d8ff;border-radius:16px;padding:16px;text-align:center;">
         <div style="font-family:'Fredoka One',cursive;font-size:1.1em;color:var(--blue);margin-bottom:4px;" id="tropeName"></div>
         <div style="font-size:3em;margin:6px 0;" id="tropeSymbol"></div>
@@ -245,6 +247,11 @@
         <button class="cb rd" onclick="stopTrope()" style="padding:9px 20px;">⏹ Stop</button>
         <div class="trope-hint" id="tropeHint"></div>
       </div>
+    </div>
+    <div class="subsec">
+      <div class="sec-title">📏 Hebrew Reading Rules</div>
+      <p>The ten rules from your 5th grade packet. Tap a rule to open it, then tap any example to hear it.</p>
+      <div id="rulesList" class="rules-list"></div>
     </div>
   </div>
   <div id="tab-words" class="card hidden">
@@ -590,7 +597,13 @@ const prayers=[
   AD(),
   {heb:"אֱלֹהֵינוּ",sound:"e-lo-HEI-nu",speak:"אֱלֹהֵינוּ",syllables:[{heb:"אֱ",sound:"e",speak:"אֱ"},{heb:"לֹ",sound:"lo",speak:"לֹ"},{heb:"הֵי",sound:"HEI",speak:"הֵי"},{heb:"נוּ",sound:"nu",speak:"נוּ"}]},
   AD(),
-  {heb:"אֶחָד",sound:"e-CHAD",speak:"אֶחָד",syllables:[{heb:"אֶ",sound:"e",speak:"אֶ"},{heb:"חָד",sound:"CHAD",speak:"חָד"}]}
+  {heb:"אֶחָד",sound:"e-CHAD",speak:"אֶחָד",syllables:[{heb:"אֶ",sound:"e",speak:"אֶ"},{heb:"חָד",sound:"CHAD",speak:"חָד"}]},
+  {heb:"בָּרוּךְ",sound:"ba-RUKH",speak:"בָּרוּךְ",syllables:[{heb:"בָּ",sound:"ba",speak:"בָּ"},{heb:"רוּךְ",sound:"RUKH",speak:"רוּךְ"}]},
+  {heb:"שֵׁם",sound:"shem",speak:"שֵׁם",syllables:[{heb:"שֵׁם",sound:"shem",speak:"שֵׁם"}]},
+  {heb:"כְּבוֹד",sound:"k'VOD",speak:"כְּבוֹד",syllables:[{heb:"כְּ",sound:"k'",speak:"כְּ"},{heb:"בוֹד",sound:"VOD",speak:"בוֹד"}]},
+  {heb:"מַלְכוּתוֹ",sound:"mal-khu-TO",speak:"מַלְכוּתוֹ",syllables:[{heb:"מַל",sound:"mal",speak:"מַל"},{heb:"כוּ",sound:"khu",speak:"כוּ"},{heb:"תוֹ",sound:"TO",speak:"תוֹ"}]},
+  {heb:"לְעוֹלָם",sound:"l'o-LAM",speak:"לְעוֹלָם",syllables:[{heb:"לְ",sound:"l'",speak:"לְ"},{heb:"עוֹ",sound:"o",speak:"עוֹ"},{heb:"לָם",sound:"LAM",speak:"לָם"}]},
+  {heb:"וָעֶד",sound:"va-ED",speak:"וָעֶד",syllables:[{heb:"וָ",sound:"va",speak:"וָ"},{heb:"עֶד",sound:"ED",speak:"עֶד"}]}
 ]},
 {category:"Daily",name:"V'ahavta — Love the Lord",hebrewName:"וְאָהַבְתָּ",
  translation:"You shall love the Lord your God with all your heart, soul, and might.",
@@ -669,6 +682,89 @@ const prayers=[
   {heb:"נֶאְדָּר",sound:"ne-DAR",speak:"נֶאְדָּר",syllables:[{heb:"נֶאְ",sound:"ne",speak:"נֶאְ"},{heb:"דָּר",sound:"DAR",speak:"דָּר"}]},
   {heb:"בַּקֹּדֶשׁ",sound:"ba-KO-desh",speak:"בַּקֹּדֶשׁ",syllables:[{heb:"בַּ",sound:"ba",speak:"בַּ"},{heb:"קֹּ",sound:"KO",speak:"קֹּ"},{heb:"דֶשׁ",sound:"desh",speak:"דֶשׁ"}]}
 ]},
+{category:"Amidah",name:"Avot V'imahot — ancestors",hebrewName:"אָבוֹת וְאִמָּהוֹת",
+ translation:"Blessed are You, Lord our God and God of our fathers and mothers: God of Abraham, Isaac and Jacob; God of Sarah, Rebecca, Rachel and Leah.",
+ cantor:"https://youtu.be/zoDXcm9A0Ko",
+ chunks:[{heb:"בָּרוּךְ",sound:"ba-RUKH",speak:"בָּרוּךְ",syllables:[{heb:"בָּ",sound:"ba",speak:"בָּ"},{heb:"רוּךְ",sound:"RUKH",speak:"רוּךְ"}]},
+  {heb:"אַתָּה",sound:"a-TAH",speak:"אַתָּה",syllables:[{heb:"אַ",sound:"a",speak:"אַ"},{heb:"תָּה",sound:"TAH",speak:"תָּה"}]},
+  AD(),
+  {heb:"אֱלֹהֵינוּ",sound:"e-lo-HEI-nu",speak:"אֱלֹהֵינוּ",syllables:[{heb:"אֱ",sound:"e",speak:"אֱ"},{heb:"לֹ",sound:"lo",speak:"לֹ"},{heb:"הֵי",sound:"HEI",speak:"הֵי"},{heb:"נוּ",sound:"nu",speak:"נוּ"}]},
+  {heb:"וֵאלֹהֵי",sound:"vei-lo-HEI",speak:"וֵאלֹהֵי",syllables:[{heb:"וֵא",sound:"vei",speak:"וֵא"},{heb:"לֹ",sound:"lo",speak:"לֹ"},{heb:"הֵי",sound:"HEI",speak:"הֵי"}]},
+  {heb:"אֲבוֹתֵינוּ",sound:"a-vo-TEI-nu",speak:"אֲבוֹתֵינוּ",syllables:[{heb:"אֲ",sound:"a",speak:"אֲ"},{heb:"בוֹ",sound:"vo",speak:"בוֹ"},{heb:"תֵי",sound:"TEI",speak:"תֵי"},{heb:"נוּ",sound:"nu",speak:"נוּ"}]},
+  {heb:"וְאִמּוֹתֵינוּ",sound:"v'i-mo-TEI-nu",speak:"וְאִמּוֹתֵינוּ",syllables:[{heb:"וְ",sound:"v'",speak:"וְ"},{heb:"אִמּוֹ",sound:"i-mo",speak:"אִמּוֹ"},{heb:"תֵי",sound:"TEI",speak:"תֵי"},{heb:"נוּ",sound:"nu",speak:"נוּ"}]},
+  {heb:"אֱלֹהֵי",sound:"e-lo-HEI",speak:"אֱלֹהֵי",syllables:[{heb:"אֱ",sound:"e",speak:"אֱ"},{heb:"לֹ",sound:"lo",speak:"לֹ"},{heb:"הֵי",sound:"HEI",speak:"הֵי"}]},
+  {heb:"אַבְרָהָם",sound:"av-ra-HAM",speak:"אַבְרָהָם",syllables:[{heb:"אַב",sound:"av",speak:"אַב"},{heb:"רָ",sound:"ra",speak:"רָ"},{heb:"הָם",sound:"HAM",speak:"הָם"}]},
+  {heb:"אֱלֹהֵי",sound:"e-lo-HEI",speak:"אֱלֹהֵי",syllables:[{heb:"אֱ",sound:"e",speak:"אֱ"},{heb:"לֹ",sound:"lo",speak:"לֹ"},{heb:"הֵי",sound:"HEI",speak:"הֵי"}]},
+  {heb:"יִצְחָק",sound:"yitz-CHAK",speak:"יִצְחָק",syllables:[{heb:"יִצ",sound:"yitz",speak:"יִצ"},{heb:"חָק",sound:"CHAK",speak:"חָק"}]},
+  {heb:"וֵאלֹהֵי",sound:"vei-lo-HEI",speak:"וֵאלֹהֵי",syllables:[{heb:"וֵא",sound:"vei",speak:"וֵא"},{heb:"לֹ",sound:"lo",speak:"לֹ"},{heb:"הֵי",sound:"HEI",speak:"הֵי"}]},
+  {heb:"יַעֲקֹב",sound:"ya-a-KOV",speak:"יַעֲקֹב",syllables:[{heb:"יַ",sound:"ya",speak:"יַ"},{heb:"עֲ",sound:"a",speak:"עֲ"},{heb:"קֹב",sound:"KOV",speak:"קֹב"}]},
+  {heb:"אֱלֹהֵי",sound:"e-lo-HEI",speak:"אֱלֹהֵי",syllables:[{heb:"אֱ",sound:"e",speak:"אֱ"},{heb:"לֹ",sound:"lo",speak:"לֹ"},{heb:"הֵי",sound:"HEI",speak:"הֵי"}]},
+  {heb:"שָׂרָה",sound:"sa-RAH",speak:"שָׂרָה",syllables:[{heb:"שָׂ",sound:"sa",speak:"שָׂ"},{heb:"רָה",sound:"RAH",speak:"רָה"}]},
+  {heb:"אֱלֹהֵי",sound:"e-lo-HEI",speak:"אֱלֹהֵי",syllables:[{heb:"אֱ",sound:"e",speak:"אֱ"},{heb:"לֹ",sound:"lo",speak:"לֹ"},{heb:"הֵי",sound:"HEI",speak:"הֵי"}]},
+  {heb:"רִבְקָה",sound:"riv-KAH",speak:"רִבְקָה",syllables:[{heb:"רִב",sound:"riv",speak:"רִב"},{heb:"קָה",sound:"KAH",speak:"קָה"}]},
+  {heb:"אֱלֹהֵי",sound:"e-lo-HEI",speak:"אֱלֹהֵי",syllables:[{heb:"אֱ",sound:"e",speak:"אֱ"},{heb:"לֹ",sound:"lo",speak:"לֹ"},{heb:"הֵי",sound:"HEI",speak:"הֵי"}]},
+  {heb:"רָחֵל",sound:"ra-CHEL",speak:"רָחֵל",syllables:[{heb:"רָ",sound:"ra",speak:"רָ"},{heb:"חֵל",sound:"CHEL",speak:"חֵל"}]},
+  {heb:"וֵאלֹהֵי",sound:"vei-lo-HEI",speak:"וֵאלֹהֵי",syllables:[{heb:"וֵא",sound:"vei",speak:"וֵא"},{heb:"לֹ",sound:"lo",speak:"לֹ"},{heb:"הֵי",sound:"HEI",speak:"הֵי"}]},
+  {heb:"לֵאָה",sound:"le-AH",speak:"לֵאָה",syllables:[{heb:"לֵ",sound:"le",speak:"לֵ"},{heb:"אָה",sound:"AH",speak:"אָה"}]},
+  {heb:"הָאֵל",sound:"ha-EL",speak:"הָאֵל",syllables:[{heb:"הָ",sound:"ha",speak:"הָ"},{heb:"אֵל",sound:"EL",speak:"אֵל"}]},
+  {heb:"הַגָּדוֹל",sound:"ha-ga-DOL",speak:"הַגָּדוֹל",syllables:[{heb:"הַ",sound:"ha",speak:"הַ"},{heb:"גָּ",sound:"ga",speak:"גָּ"},{heb:"דוֹל",sound:"DOL",speak:"דוֹל"}]},
+  {heb:"הַגִּבּוֹר",sound:"ha-gi-BOR",speak:"הַגִּבּוֹר",syllables:[{heb:"הַ",sound:"ha",speak:"הַ"},{heb:"גִּ",sound:"gi",speak:"גִּ"},{heb:"בּוֹר",sound:"BOR",speak:"בּוֹר"}]},
+  {heb:"וְהַנּוֹרָא",sound:"v'ha-no-RA",speak:"וְהַנּוֹרָא",syllables:[{heb:"וְ",sound:"v'",speak:"וְ"},{heb:"הַנּוֹ",sound:"ha-no",speak:"הַנּוֹ"},{heb:"רָא",sound:"RA",speak:"רָא"}]},
+  {heb:"אֵל",sound:"el",speak:"אֵל",syllables:[{heb:"אֵל",sound:"el",speak:"אֵל"}]},
+  {heb:"עֶלְיוֹן",sound:"el-YON",speak:"עֶלְיוֹן",syllables:[{heb:"עֶל",sound:"el",speak:"עֶל"},{heb:"יוֹן",sound:"YON",speak:"יוֹן"}]},
+  {heb:"גּוֹמֵל",sound:"go-MEL",speak:"גּוֹמֵל",syllables:[{heb:"גּוֹ",sound:"go",speak:"גּוֹ"},{heb:"מֵל",sound:"MEL",speak:"מֵל"}]},
+  {heb:"חֲסָדִים",sound:"cha-sa-DIM",speak:"חֲסָדִים",syllables:[{heb:"חֲ",sound:"cha",speak:"חֲ"},{heb:"סָ",sound:"sa",speak:"סָ"},{heb:"דִים",sound:"DIM",speak:"דִים"}]},
+  {heb:"טוֹבִים",sound:"to-VIM",speak:"טוֹבִים",syllables:[{heb:"טוֹ",sound:"to",speak:"טוֹ"},{heb:"בִים",sound:"VIM",speak:"בִים"}]}]},
+{category:"Amidah",name:"Gevurot — God's power",hebrewName:"גְּבוּרוֹת",
+ translation:"You are forever mighty, Lord; You give life to all, great is Your saving power.",
+ cantor:"https://youtu.be/9rZEGXCz2dM",
+ chunks:[{heb:"אַתָּה",sound:"a-TAH",speak:"אַתָּה",syllables:[{heb:"אַ",sound:"a",speak:"אַ"},{heb:"תָּה",sound:"TAH",speak:"תָּה"}]},
+  {heb:"גִבּוֹר",sound:"gi-BOR",speak:"גִבּוֹר",syllables:[{heb:"גִ",sound:"gi",speak:"גִ"},{heb:"בּוֹר",sound:"BOR",speak:"בּוֹר"}]},
+  {heb:"לְעוֹלָם",sound:"l'o-LAM",speak:"לְעוֹלָם",syllables:[{heb:"לְ",sound:"l'",speak:"לְ"},{heb:"עוֹ",sound:"o",speak:"עוֹ"},{heb:"לָם",sound:"LAM",speak:"לָם"}]},
+  {heb:"אֲדֹנָי",sound:"a-do-NAI",speak:"אֲדֹנָי",syllables:[{heb:"אֲ",sound:"a",speak:"אֲ"},{heb:"דֹ",sound:"do",speak:"דֹ"},{heb:"נָי",sound:"NAI",speak:"נָי"}]},
+  {heb:"מְחַיֵּה",sound:"m'cha-YEH",speak:"מְחַיֵּה",syllables:[{heb:"מְ",sound:"m'",speak:"מְ"},{heb:"חַ",sound:"cha",speak:"חַ"},{heb:"יֵּה",sound:"YEH",speak:"יֵּה"}]},
+  {heb:"הַכֹּל",sound:"ha-KOL",speak:"הַכֹּל",syllables:[{heb:"הַ",sound:"ha",speak:"הַ"},{heb:"כֹּל",sound:"KOL",speak:"כֹּל"}]},
+  {heb:"אַתָּה",sound:"a-TAH",speak:"אַתָּה",syllables:[{heb:"אַ",sound:"a",speak:"אַ"},{heb:"תָּה",sound:"TAH",speak:"תָּה"}]},
+  {heb:"רַב",sound:"rav",speak:"רַב",syllables:[{heb:"רַב",sound:"rav",speak:"רַב"}]},
+  {heb:"לְהוֹשִׁיעַ",sound:"l'ho-SHI-a",speak:"לְהוֹשִׁיעַ",syllables:[{heb:"לְ",sound:"l'",speak:"לְ"},{heb:"הוֹ",sound:"ho",speak:"הוֹ"},{heb:"שִׁי",sound:"SHI",speak:"שִׁי"},{heb:"עַ",sound:"a",speak:"עַ"}]},
+  {heb:"מְכַלְכֵּל",sound:"m'khal-KEL",speak:"מְכַלְכֵּל",syllables:[{heb:"מְ",sound:"m'",speak:"מְ"},{heb:"כַל",sound:"khal",speak:"כַל"},{heb:"כֵּל",sound:"KEL",speak:"כֵּל"}]},
+  {heb:"חַיִּים",sound:"cha-YIM",speak:"חַיִּים",syllables:[{heb:"חַ",sound:"cha",speak:"חַ"},{heb:"יִּים",sound:"YIM",speak:"יִּים"}]},
+  {heb:"בְּחֶסֶד",sound:"b'CHE-sed",speak:"בְּחֶסֶד",syllables:[{heb:"בְּ",sound:"b'",speak:"בְּ"},{heb:"חֶ",sound:"CHE",speak:"חֶ"},{heb:"סֶד",sound:"sed",speak:"סֶד"}]},
+  {heb:"מְחַיֵּה",sound:"m'cha-YEH",speak:"מְחַיֵּה",syllables:[{heb:"מְ",sound:"m'",speak:"מְ"},{heb:"חַ",sound:"cha",speak:"חַ"},{heb:"יֵּה",sound:"YEH",speak:"יֵּה"}]},
+  {heb:"הַכֹּל",sound:"ha-KOL",speak:"הַכֹּל",syllables:[{heb:"הַ",sound:"ha",speak:"הַ"},{heb:"כֹּל",sound:"KOL",speak:"כֹּל"}]},
+  {heb:"בְּרַחֲמִים",sound:"b'ra-cha-MIM",speak:"בְּרַחֲמִים",syllables:[{heb:"בְּ",sound:"b'",speak:"בְּ"},{heb:"רַ",sound:"ra",speak:"רַ"},{heb:"חֲ",sound:"cha",speak:"חֲ"},{heb:"מִים",sound:"MIM",speak:"מִים"}]},
+  {heb:"רַבִּים",sound:"ra-BIM",speak:"רַבִּים",syllables:[{heb:"רַ",sound:"ra",speak:"רַ"},{heb:"בִּים",sound:"BIM",speak:"בִּים"}]},
+  {heb:"סוֹמֵךְ",sound:"so-MEKH",speak:"סוֹמֵךְ",syllables:[{heb:"סוֹ",sound:"so",speak:"סוֹ"},{heb:"מֵךְ",sound:"MEKH",speak:"מֵךְ"}]},
+  {heb:"נוֹפְלִים",sound:"nof-LIM",speak:"נוֹפְלִים",syllables:[{heb:"נוֹפ",sound:"nof",speak:"נוֹפ"},{heb:"לִים",sound:"LIM",speak:"לִים"}]},
+  {heb:"וְרוֹפֵא",sound:"v'ro-FEI",speak:"וְרוֹפֵא",syllables:[{heb:"וְ",sound:"v'",speak:"וְ"},{heb:"רוֹ",sound:"ro",speak:"רוֹ"},{heb:"פֵא",sound:"FEI",speak:"פֵא"}]},
+  {heb:"חוֹלִים",sound:"cho-LIM",speak:"חוֹלִים",syllables:[{heb:"חוֹ",sound:"cho",speak:"חוֹ"},{heb:"לִים",sound:"LIM",speak:"לִים"}]},
+  {heb:"וּמַתִּיר",sound:"u-ma-TIR",speak:"וּמַתִּיר",syllables:[{heb:"וּ",sound:"u",speak:"וּ"},{heb:"מַ",sound:"ma",speak:"מַ"},{heb:"תִּיר",sound:"TIR",speak:"תִּיר"}]},
+  {heb:"אֲסוּרִים",sound:"a-su-RIM",speak:"אֲסוּרִים",syllables:[{heb:"אֲ",sound:"a",speak:"אֲ"},{heb:"סוּ",sound:"su",speak:"סוּ"},{heb:"רִים",sound:"RIM",speak:"רִים"}]},
+  {heb:"וּמְקַיֵּם",sound:"u-m'ka-YEM",speak:"וּמְקַיֵּם",syllables:[{heb:"וּמְ",sound:"u-m'",speak:"וּמְ"},{heb:"קַ",sound:"ka",speak:"קַ"},{heb:"יֵּם",sound:"YEM",speak:"יֵּם"}]},
+  {heb:"אֱמוּנָתוֹ",sound:"e-mu-na-TO",speak:"אֱמוּנָתוֹ",syllables:[{heb:"אֱ",sound:"e",speak:"אֱ"},{heb:"מוּ",sound:"mu",speak:"מוּ"},{heb:"נָ",sound:"na",speak:"נָ"},{heb:"תוֹ",sound:"TO",speak:"תוֹ"}]},
+  {heb:"לִישֵׁנֵי",sound:"li-shei-NEI",speak:"לִישֵׁנֵי",syllables:[{heb:"לִי",sound:"li",speak:"לִי"},{heb:"שֵׁ",sound:"shei",speak:"שֵׁ"},{heb:"נֵי",sound:"NEI",speak:"נֵי"}]},
+  {heb:"עָפָר",sound:"a-FAR",speak:"עָפָר",syllables:[{heb:"עָ",sound:"a",speak:"עָ"},{heb:"פָר",sound:"FAR",speak:"פָר"}]},
+  {heb:"מִי",sound:"mi",speak:"מִי",syllables:[{heb:"מִי",sound:"mi",speak:"מִי"}]},
+  {heb:"כָמוֹךָ",sound:"kha-MO-kha",speak:"כָמוֹךָ",syllables:[{heb:"כָ",sound:"kha",speak:"כָ"},{heb:"מוֹ",sound:"MO",speak:"מוֹ"},{heb:"ךָ",sound:"kha",speak:"ךָ"}]},
+  {heb:"בַּעַל",sound:"BA-al",speak:"בַּעַל",syllables:[{heb:"בַּ",sound:"BA",speak:"בַּ"},{heb:"עַל",sound:"al",speak:"עַל"}]},
+  {heb:"גְּבוּרוֹת",sound:"g'vu-ROT",speak:"גְּבוּרוֹת",syllables:[{heb:"גְּ",sound:"g'",speak:"גְּ"},{heb:"בוּ",sound:"vu",speak:"בוּ"},{heb:"רוֹת",sound:"ROT",speak:"רוֹת"}]},
+  {heb:"וּמִי",sound:"u-MI",speak:"וּמִי",syllables:[{heb:"וּ",sound:"u",speak:"וּ"},{heb:"מִי",sound:"MI",speak:"מִי"}]},
+  {heb:"דוֹמֶה",sound:"DO-meh",speak:"דוֹמֶה",syllables:[{heb:"דוֹ",sound:"DO",speak:"דוֹ"},{heb:"מֶה",sound:"meh",speak:"מֶה"}]},
+  {heb:"לָּךְ",sound:"lakh",speak:"לָּךְ",syllables:[{heb:"לָּךְ",sound:"lakh",speak:"לָּךְ"}]},
+  {heb:"מֶלֶךְ",sound:"ME-lekh",speak:"מֶלֶךְ",syllables:[{heb:"מֶ",sound:"ME",speak:"מֶ"},{heb:"לֶךְ",sound:"lekh",speak:"לֶךְ"}]},
+  {heb:"מֵמִית",sound:"me-MIT",speak:"מֵמִית",syllables:[{heb:"מֵ",sound:"me",speak:"מֵ"},{heb:"מִית",sound:"MIT",speak:"מִית"}]},
+  {heb:"וּמְחַיֶּה",sound:"u-m'cha-YEH",speak:"וּמְחַיֶּה",syllables:[{heb:"וּמְ",sound:"u-m'",speak:"וּמְ"},{heb:"חַ",sound:"cha",speak:"חַ"},{heb:"יֶּה",sound:"YEH",speak:"יֶּה"}]},
+  {heb:"וּמַצְמִיחַ",sound:"u-matz-MI-ach",speak:"וּמַצְמִיחַ",syllables:[{heb:"וּמַצ",sound:"u-matz",speak:"וּמַצ"},{heb:"מִי",sound:"MI",speak:"מִי"},{heb:"חַ",sound:"ach",speak:"חַ"}]},
+  {heb:"יְשׁוּעָה",sound:"y'shu-AH",speak:"יְשׁוּעָה",syllables:[{heb:"יְ",sound:"y'",speak:"יְ"},{heb:"שׁוּ",sound:"shu",speak:"שׁוּ"},{heb:"עָה",sound:"AH",speak:"עָה"}]},
+  {heb:"וְנֶאֱמָן",sound:"v'ne-e-MAN",speak:"וְנֶאֱמָן",syllables:[{heb:"וְ",sound:"v'",speak:"וְ"},{heb:"נֶ",sound:"ne",speak:"נֶ"},{heb:"אֱ",sound:"e",speak:"אֱ"},{heb:"מָן",sound:"MAN",speak:"מָן"}]},
+  {heb:"אַתָּה",sound:"a-TAH",speak:"אַתָּה",syllables:[{heb:"אַ",sound:"a",speak:"אַ"},{heb:"תָּה",sound:"TAH",speak:"תָּה"}]},
+  {heb:"לְהַחֲיוֹת",sound:"l'ha-cha-YOT",speak:"לְהַחֲיוֹת",syllables:[{heb:"לְ",sound:"l'",speak:"לְ"},{heb:"הַ",sound:"ha",speak:"הַ"},{heb:"חֲ",sound:"cha",speak:"חֲ"},{heb:"יוֹת",sound:"YOT",speak:"יוֹת"}]},
+  {heb:"הַכֹּל",sound:"ha-KOL",speak:"הַכֹּל",syllables:[{heb:"הַ",sound:"ha",speak:"הַ"},{heb:"כֹּל",sound:"KOL",speak:"כֹּל"}]},
+  {heb:"בָּרוּךְ",sound:"ba-RUKH",speak:"בָּרוּךְ",syllables:[{heb:"בָּ",sound:"ba",speak:"בָּ"},{heb:"רוּךְ",sound:"RUKH",speak:"רוּךְ"}]},
+  {heb:"אַתָּה",sound:"a-TAH",speak:"אַתָּה",syllables:[{heb:"אַ",sound:"a",speak:"אַ"},{heb:"תָּה",sound:"TAH",speak:"תָּה"}]},
+  AD(),
+  {heb:"מְחַיֵּה",sound:"m'cha-YEH",speak:"מְחַיֵּה",syllables:[{heb:"מְ",sound:"m'",speak:"מְ"},{heb:"חַ",sound:"cha",speak:"חַ"},{heb:"יֵּה",sound:"YEH",speak:"יֵּה"}]},
+  {heb:"הַכֹּל",sound:"ha-KOL",speak:"הַכֹּל",syllables:[{heb:"הַ",sound:"ha",speak:"הַ"},{heb:"כֹּל",sound:"KOL",speak:"כֹּל"}]}]},
 // BLESSINGS
 {category:"Blessings",name:"Blessing Formula — every bracha",hebrewName:"בָּרוּךְ אַתָּה",
  translation:"Blessed are You, Lord our God, King of the universe.",
@@ -880,6 +976,18 @@ function speakUtt(u){return new Promise((res,rej)=>{u.onend=res;u.onerror=rej;sp
 // UNIFIED PLAYER
 // items: [{heb, sound, speak, syllables:[{heb,sound,speak}]}]
 // ===================================================================
+let SHOW_TR = localStorage.getItem('mq_translit') !== '0';
+
+window.toggleTranslit=function(){
+  SHOW_TR=!SHOW_TR;
+  localStorage.setItem('mq_translit', SHOW_TR?'1':'0');
+  document.querySelectorAll('.hplayer').forEach(pl=>pl.classList.toggle('tr-off',!SHOW_TR));
+  document.querySelectorAll('.trbtn').forEach(b=>{
+    b.classList.toggle('active',SHOW_TR);
+    b.textContent = SHOW_TR ? 'Hide transliteration' : 'Show transliteration';
+  });
+};
+
 function createPlayer(items,cid,translation){
   const flat=[];
   items.forEach((item,wi)=>{
@@ -893,12 +1001,14 @@ function createPlayer(items,cid,translation){
   if(!container)return;
 
   container.innerHTML=`
-    <div class="hplayer">
+    <div class="hplayer${SHOW_TR?'':' tr-off'}">
       <div class="hstage">
         <div class="hstage-text${sw?' sw':''}" id="${cid}_stage"></div>
         ${translation?`<div class="engline">${translation}</div>`:''}
       </div>
-      <div class="pron-strip" id="${cid}_pron"></div>
+      <div class="troggle">
+        <button class="trbtn${SHOW_TR?' active':''}" onclick="toggleTranslit()">${SHOW_TR?'Hide transliteration':'Show transliteration'}</button>
+      </div>
       <div class="mtoggle">
         <button class="mtbtn" id="${cid}_ms" onclick="setMode('${cid}','syl')">&#128300; By Syllable</button>
         <button class="mtbtn active" id="${cid}_mw" onclick="setMode('${cid}','word')">&#128214; By Word</button>
@@ -914,14 +1024,6 @@ function createPlayer(items,cid,translation){
 
   container._p={items,flat,colors,cur:0,playing:false,mode:'word',timer:null,cid};
   buildStage(cid);
-
-  // Pron chips — one per syllable
-  const pron=document.getElementById(cid+'_pron');
-  pron.innerHTML=flat.map((s,i)=>{
-    const c=colors[s.wordIdx];
-    return `<span class="pchip" id="${cid}_s${i}" style="border-color:${c};color:${c}" onclick="pClickSyl('${cid}',${i})">${s.sound}</span>`;
-  }).join('');
-
   renderP(cid);ctr(cid);
 }
 
@@ -930,16 +1032,20 @@ function buildStage(cid){
   const p=getP(cid);if(!p)return;
   const{items,flat,colors,mode}=p;
   const stage=document.getElementById(cid+'_stage');if(!stage)return;
+  const unit=(id,color,click,heb,tr)=>
+    `<span class="hsp" id="${id}" style="color:${color}" onclick="${click}">`+
+      `<span class="hspw">${heb}</span>`+
+      `<span class="hspt">${tr}</span>`+
+    `</span>`;
   if(mode==='syl'){
-    // One span per SYLLABLE — individual Hebrew chars light up
-    stage.innerHTML=flat.map((s,i)=>{
-      const c=colors[s.wordIdx];
-      return `<span class="hsp" id="${cid}_sw${i}" style="color:${c}" onclick="pClickSyl('${cid}',${i})">${s.heb}</span>`;
-    }).join('');
+    // one column per SYLLABLE — the syllable sits above its own sound
+    stage.innerHTML=flat.map((s,i)=>
+      unit(`${cid}_sw${i}`, colors[s.wordIdx], `pClickSyl('${cid}',${i})`, s.heb, s.sound)
+    ).join('');
   }else{
-    // One span per WORD
+    // one column per WORD
     stage.innerHTML=items.map((item,wi)=>
-      `<span class="hsp" id="${cid}_ww${wi}" style="color:${colors[wi]}" onclick="pClickWordW('${cid}',${wi})">${item.heb}</span>`
+      unit(`${cid}_ww${wi}`, colors[wi], `pClickWordW('${cid}',${wi})`, item.heb, item.sound)
     ).join('');
   }
 }
@@ -967,43 +1073,6 @@ function renderP(cid){
       else if(wi===curW)el.classList.add('wa');
       else el.classList.add('dim');
     });
-  }
-
-  // Pron strip: only rebuild HTML when mode changes, otherwise just update classes
-  const pronDiv=document.getElementById(cid+'_pron');
-  if(pronDiv){
-    const currentPronMode=pronDiv.dataset.mode;
-    if(currentPronMode!==mode){
-      // Rebuild chips for this mode
-      pronDiv.dataset.mode=mode;
-      if(mode==='syl'){
-        pronDiv.innerHTML=flat.map((s,i)=>{
-          const c=colors[s.wordIdx];
-          return `<span class="pchip" id="${cid}_s${i}" style="border-color:${c};color:${c};direction:ltr;" onclick="pClickSyl('${cid}',${i})">${s.sound}</span>`;
-        }).join('');
-      }else{
-        pronDiv.innerHTML=items.map((item,wi)=>{
-          const c=colors[wi];
-          return `<span class="pchip" id="${cid}_wc${wi}" style="border-color:${c};color:${c};font-size:.95em;padding:5px 14px;direction:ltr;" onclick="pClickWordW('${cid}',${wi})">${item.sound}</span>`;
-        }).join('');
-      }
-    }
-    // Now just update classes without rebuilding
-    if(mode==='syl'){
-      flat.forEach((s,i)=>{
-        const el=document.getElementById(cid+'_s'+i);if(!el)return;
-        el.classList.remove('sa','wa','done');
-        if(i<cur)el.classList.add('done');
-        else if(i===cur)el.classList.add('sa');
-      });
-    }else{
-      items.forEach((_,wi)=>{
-        const el=document.getElementById(cid+'_wc'+wi);if(!el)return;
-        el.classList.remove('wa','done');
-        if(wi<curW)el.classList.add('done');
-        else if(wi===curW)el.classList.add('wa');
-      });
-    }
   }
 
   const ms=document.getElementById(cid+'_ms'),mw=document.getElementById(cid+'_mw');
@@ -1365,6 +1434,75 @@ function buildTrope(){
   });
 }
 
+
+// ===================================================================
+// HEBREW READING RULES — from the 5th grade packet
+// ===================================================================
+const READING_RULES=[
+ {n:1,title:"The sh'va — sometimes silent, sometimes sounded",
+  body:"The sh'va vowel ( ְ ) is sometimes silent and sometimes sounded. When it is under the FIRST letter of a word, sound the letter and the vowel makes the <strong>ih</strong> sound.",
+  ex:[{h:"שְׁמַע",t:"Sh'ma"},{h:"פְּרִי",t:"P'ree"},{h:"לְעוֹלָם",t:"L'olam"}]},
+ {n:2,title:"Two sh'vas side by side",
+  body:"When two sh'va vowels sit side by side in the middle of a word, the first is <strong>silent</strong> — just make the letter sound. The second is <strong>sounded</strong> with the ih sound.",
+  ex:[{h:"נַפְשְׁךָ",t:"Naf-shih-chah"},{h:"מַמְלְכוּת",t:"Mahm-lih-choht"},{h:"תִּזְכְּרוּ",t:"Teez-kih-roo"},{h:"תִּמְצְאוּ",t:"Teem-tsih-oo"}]},
+ {n:3,title:"A sh'va at the end of a syllable",
+  body:"When the sh'va is in the middle of a word and falls at the end of a syllable, it is <strong>silent</strong>. Just make the letter sound.",
+  ex:[{h:"יִשְׂרָאֵל",t:"Yees-rah-ayl"},{h:"לְהִתְעַטֵּף",t:"Lih-heet-ah-tayf"},{h:"לְהַדְלִיק",t:"Lih-hahd-leek"}]},
+ {n:4,title:"Final chaf",
+  body:"Final chaf ( ך ) makes the <strong>ch</strong> sound, like clearing your throat. With a sh'va under it the sh'va is silent, so you say just <strong>ch</strong>. With a kamatz under it, say <strong>chah</strong>.",
+  ex:[{h:"מֶלֶךְ",t:"Mel-ech"},{h:"חֹשֶׁךְ",t:"Choh-shech"},{h:"בֵּיתֶךָ",t:"Vay-teh-chah"}]},
+ {n:5,title:"Chet with a patach at the end of a word",
+  body:"When a word ends with chet and a patach ( ַח ), make the <strong>ach</strong> sound. This is the only time you say the vowel FIRST and the letter second.",
+  ex:[{h:"רוּחַ",t:"Rooh-ach"},{h:"לוּחַ",t:"Loo-ach"},{h:"שָׂמֵחַ",t:"Sah-may-ach"}]},
+ {n:6,title:"The combination יו",
+  body:"If you ever see the combination <strong>יו</strong>, it is pronounced <strong>AHV</strong>. The yud becomes silent.",
+  ex:[{h:"אֱלֹהָיו",t:"El-oh-hahv"},{h:"בְּמִצְוֹתָיו",t:"Bih-meetz-voh-tahv"},{h:"וְרַחֲמָיו",t:"Vih-rah-chah-mahv"}]},
+ {n:7,title:"Yud after the eh sound",
+  body:"When yud ( י ) follows the vowel sound <strong>eh</strong>, the yud is silent. The very common combination <strong>יךָ</strong> makes the sound <strong>eh-chah</strong>.",
+  ex:[{h:"דֶּיךָ",t:"Deh-chah"},{h:"אֱלֹהֶיךָ",t:"Elo-heh-chah"},{h:"לְבָנֶיךָ",t:"Lih-vah-neh-chah"}]},
+ {n:8,title:"The dot above shin or sin",
+  body:"The dot above a shin ( שׁ ) or sin ( שׂ ) can serve as the dot for the letter <em>and</em> as the vowel, making the <strong>OH</strong> sound.",
+  ex:[{h:"מֹשֶׁה",t:"Moh-sheh"},{h:"חֹשֶׁךְ",t:"Choh-shech"},{h:"יֹשְׁבֵי",t:"Yohsh-vay"}]},
+ {n:9,title:"כָּל and כְּל",
+  body:"Any time you see the words <strong>כָּל</strong> or <strong>כְּל</strong>, they are pronounced <strong>oh</strong> — as in coal or choal.",
+  ex:[{h:"מִכָּל",t:"Me-coal"},{h:"וְכָל",t:"V'choal"},{h:"בְּכָל",t:"B'choal"}]},
+ {n:10,title:"Silent hey at the end of a word",
+  body:"The letter hey ( ה ) makes the <strong>H</strong> sound. But it is <strong>silent</strong> when it comes at the end of a word and has no vowel.",
+  ex:[{h:"חֲנֻכָּה",t:"Chanukah"},{h:"סֶלָה",t:"Selah"},{h:"הַזֶּה",t:"Hazeh"},{h:"מַצָּה",t:"Matzah"}]}
+];
+
+function buildReadingRules(){
+  const g=document.getElementById('rulesList');
+  if(!g)return;
+  g.innerHTML=READING_RULES.map(r=>`
+    <div class="rule" id="rule${r.n}">
+      <div class="rule-hdr" onclick="toggleRule(${r.n})">
+        <span class="rule-num">Rule ${r.n}</span>
+        <span class="rule-title">${r.title}</span>
+        <span class="rule-chev">▾</span>
+      </div>
+      <div class="rule-body">
+        <p class="rule-text">${r.body}</p>
+        <div class="rule-ex">
+          ${r.ex.map(e=>`
+            <div class="rule-ex-row" onclick="speakHeb('${e.h}',0.65)">
+              <span class="rule-ex-heb">${e.h}</span>
+              <span class="rule-ex-tr">${e.t}</span>
+              <span class="rule-ex-play">🔊</span>
+            </div>`).join('')}
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+window.toggleRule=function(n){
+  const el=document.getElementById('rule'+n);
+  if(!el)return;
+  const open=el.classList.contains('open');
+  document.querySelectorAll('.rule.open').forEach(r=>r.classList.remove('open'));
+  if(!open)el.classList.add('open');
+};
+
 // ===================================================================
 // BUILD LETTERS TAB
 // ===================================================================
@@ -1502,10 +1640,22 @@ window.revealWord=function(){
 // ===================================================================
 // BUILD PRAYERS TAB
 // ===================================================================
+// Cantor Wolman recordings — decoded from the 5th grade packet QR codes
+const CANTOR={
+  "Shabbat Candle Blessing":"https://qrco.de/bgsQOy",
+  "Kiddush — blessing over wine":"https://qrco.de/bgsQQq",
+  "HaMotzi — blessing over bread":"https://qrco.de/bgsQRh",
+  "Shehecheyanu — new occasions":"https://qrco.de/bgsQTS",
+  "Blessing over Tallit":"https://qrco.de/bgsQSQ",
+  "Barchu — call to worship":"https://qrco.de/bgsQNw",
+  "Shema — declaration of faith":"https://qrco.de/bgsQMa"
+};
+const ALEFBET_SONG="https://qrco.de/bgrjw2";
+
 function buildPrayers(){
   const fd=document.getElementById('pFilters'),ld=document.getElementById('pList');
   const cats=['All',...new Set(prayers.map(p=>p.category))];
-  const catColors={Daily:'#22314f',Blessings:'#2f6152','Bar Mitzvah':'#574a80',Prayers:'#a3762a',Holidays:'#8e2b32'};
+  const catColors={Daily:'#22314f',Blessings:'#2f6152','Bar Mitzvah':'#574a80',Prayers:'#a3762a',Holidays:'#8e2b32',Amidah:'#345b7a'};
   let active='All';
   cats.forEach(cat=>{
     const pill=document.createElement('button');
@@ -1527,7 +1677,12 @@ function buildPrayers(){
       const ytVideos={"Barchu — call to worship":"lTV4PZg3yMI","Torah Blessing — before reading":"bcQ6B1m6IbA","Torah Blessing — after reading":"bcQ6B1m6IbA","Haftarah Blessing — before":"ovGi9aS5Y5k","Haftarah Blessing — after":"9RRF_cr2xhw"};
       const ytId=ytVideos[p.name];
       const ytBtn=ytId?`<button class="yt-btn" onclick="event.stopPropagation();toggleYT('${uid}','${ytId}')">🎵 Hear it sung</button><div class="yt-embed" id="yt-${uid}"></div>`:'';
-      hdr.innerHTML=`<div class="phdr-left"><span class="pbadge" style="background:${cc}">${p.category}</span><span class="pname">${p.name}</span>${ytBtn}</div><span class="phname">${p.hebrewName}</span>`;
+      // Cantor Wolman recordings from the 5th grade packet QR codes
+      const cantorUrl = p.cantor || CANTOR[p.name];
+      const cantorBtn = cantorUrl
+        ? `<button class="cantor-btn" onclick="event.stopPropagation();window.open('${cantorUrl}','_blank','noopener')">🎤 Cantor Wolman</button>`
+        : '';
+      hdr.innerHTML=`<div class="phdr-left"><span class="pbadge" style="background:${cc}">${p.category}</span><span class="pname">${p.name}</span>${cantorBtn}${ytBtn}</div><span class="phname">${p.hebrewName}</span>`;
       const body=document.createElement('div');
       body.className='pbody';
       body.style.display='none';
@@ -2259,6 +2414,7 @@ window.toggleYT = function(id, videoId) {
 // INIT
 // ===================================================================
 buildLetters();
+buildReadingRules();
 buildTrope();
 buildWords();
 buildPrayers();
