@@ -243,6 +243,7 @@
         <button class="cb bl" id="tropePlayBtn" onclick="playTrope()" style="padding:9px 28px;">▶ Play melody</button>
         <button class="cb go" onclick="playTropeLoop()" style="padding:9px 20px;" id="tropeLoopBtn">🔁 Loop</button>
         <button class="cb rd" onclick="stopTrope()" style="padding:9px 20px;">⏹ Stop</button>
+        <div class="trope-hint" id="tropeHint"></div>
       </div>
     </div>
   </div>
@@ -1183,12 +1184,39 @@ const tropes=[
 ];
 function N(k){return NOTE[k]||440;}
 
+// ---- iOS audio session ------------------------------------------------
+// iOS plays Web Audio through the "ambient" session, which the hardware
+// ring/silent switch mutes. speechSynthesis is not affected, which is why
+// prayers speak while the trope stays silent. Promoting the page to the
+// "playback" session makes the trope audible with the switch either way.
+let audioSessionPromoted=false;
+let silentKeepalive=null;
+function promoteAudioSession(){
+  if(audioSessionPromoted) return;
+  audioSessionPromoted=true;
+  // Safari 16.4+ exposes this directly.
+  try{ if(navigator.audioSession) navigator.audioSession.type='playback'; }catch(e){}
+  // Older iOS: a silent looping element moves the page off the ambient session.
+  try{
+    if(!silentKeepalive){
+      silentKeepalive=document.createElement('audio');
+      silentKeepalive.setAttribute('playsinline','');
+      silentKeepalive.loop=true;
+      silentKeepalive.volume=0;
+      silentKeepalive.src='data:audio/wav;base64,UklGRrQBAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YZABAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA';
+    }
+    const p=silentKeepalive.play();
+    if(p&&p.catch) p.catch(()=>{});
+  }catch(e){}
+}
+
 let tropeAudioCtx=null;
 let tropeSources=[];
 let tropeLooping=false;
 let currentTropeIdx=null;
 
 async function getTropeCtx(){
+  promoteAudioSession();   // must run inside the tap that started playback
   if(!tropeAudioCtx){
     tropeAudioCtx=new(window.AudioContext||window.webkitAudioContext)();
   }
@@ -1321,6 +1349,10 @@ async function selectTrope(i){
 }
 
 function buildTrope(){
+  const hint=document.getElementById('tropeHint');
+  if(hint && /iPad|iPhone|iPod/.test(navigator.userAgent)){
+    hint.textContent='No sound? Check the ring/silent switch on the side of your phone.';
+  }
   const g=document.getElementById('tropeGrid');if(!g)return;
   const catColors={Pause:'#8e2b32',Servant:'#22314f',Ruler:'#574a80'};
   tropes.forEach((t,i)=>{
@@ -1524,6 +1556,79 @@ function buildPrayers(){
 // ===================================================================
 let QS={};
 let mediaRecorder=null;
+
+// ---- Saved quiz state (IndexedDB — localStorage can't hold audio blobs) ----
+const QDB=(()=>{
+  const NAME='mitzvahquest', STORE='quiz';
+  let dbp=null;
+  function open(){
+    if(dbp) return dbp;
+    dbp=new Promise((res,rej)=>{
+      const r=indexedDB.open(NAME,1);
+      r.onupgradeneeded=()=>{ if(!r.result.objectStoreNames.contains(STORE)) r.result.createObjectStore(STORE); };
+      r.onsuccess=()=>res(r.result);
+      r.onerror=()=>rej(r.error);
+    });
+    return dbp;
+  }
+  async function run(mode,fn){
+    try{
+      const db=await open();
+      return await new Promise((res,rej)=>{
+        const req=fn(db.transaction(STORE,mode).objectStore(STORE));
+        req.onsuccess=()=>res(req.result);
+        req.onerror=()=>rej(req.error);
+      });
+    }catch(e){ console.warn('Quiz save unavailable:',e); return null; }
+  }
+  return {
+    get:k=>run('readonly',  s=>s.get(k)),
+    set:(k,v)=>run('readwrite', s=>s.put(v,k)),
+    del:k=>run('readwrite', s=>s.delete(k))
+  };
+})();
+
+function saveQuiz(){
+  if(!QS.pool||!QS.pool.length) return;
+  QDB.set('current',{
+    hebrews:QS.pool.map(w=>w.hebrew),
+    cur:QS.cur||0,
+    stage:QS.stage||'quiz',
+    marks:Array.isArray(QS.marks)?QS.marks:null,
+    answers:(QS.answers||[]).map(a=>a?{typed:a.typed||'',blob:a.blob||null}:null),
+    savedAt:Date.now()
+  });
+}
+
+async function restoreQuiz(){
+  const s=await QDB.get('current');
+  if(!s||!Array.isArray(s.hebrews)||!s.hebrews.length) return null;
+  const pool=s.hebrews.map(h=>words.find(w=>w.hebrew===h));
+  if(pool.some(w=>!w)) return null;              // word list changed since saving
+  const answers=(s.answers||[]).map((a,i)=>{
+    if(!a) return undefined;
+    const o={typed:a.typed||'',word:pool[i]};
+    if(a.blob){ o.blob=a.blob; o.audioUrl=URL.createObjectURL(a.blob); }
+    return o;
+  });
+  return {pool,cur:s.cur||0,answers,marks:s.marks||null,stage:s.stage||'quiz',savedAt:s.savedAt};
+}
+
+function clearQuizSave(){
+  (QS.answers||[]).forEach(a=>{ if(a&&a.audioUrl) URL.revokeObjectURL(a.audioUrl); });
+  QDB.del('current');
+}
+
+function agoLabel(ts){
+  if(!ts) return '';
+  const m=Math.round((Date.now()-ts)/60000);
+  if(m<1) return 'just now';
+  if(m<60) return m+' minute'+(m===1?'':'s')+' ago';
+  const h=Math.round(m/60);
+  if(h<24) return h+' hour'+(h===1?'':'s')+' ago';
+  const d=Math.round(h/24);
+  return d+' day'+(d===1?'':'s')+' ago';
+}
 let audioChunks=[];
 let recordingIdx=null;
 
@@ -1535,12 +1640,48 @@ function buildQuiz(){
       <p style="color:#888;font-size:.85em;font-weight:600;margin-bottom:16px;">A parent will review your recordings and answers at the end!</p>
       <button class="cb bl" onclick="startQuiz()" style="font-size:1.1em;padding:12px 32px;">🎯 Start Quiz — 15 Words</button>
     </div>
+    <div id="qresume"></div>
     <div id="qa"></div>`;
+  offerResume();
 }
 
+async function offerResume(){
+  const s=await restoreQuiz();
+  const el=document.getElementById('qresume');
+  if(!s||!el) return;
+  const where = s.stage==='review'
+    ? 'All 15 answered — waiting on parent review'
+    : s.cur+' of '+s.pool.length+' words answered';
+  el.innerHTML=`
+    <div class="qresume">
+      <div class="qresume-title">Your last quiz is still here</div>
+      <div class="qresume-sub">${where} · saved ${agoLabel(s.savedAt)}</div>
+      <div class="qresume-actions">
+        <button class="cb bl" onclick="resumeQuiz()">Pick up where I left off</button>
+        <button class="cb rd" onclick="discardQuiz()">Start fresh instead</button>
+      </div>
+    </div>`;
+}
+
+window.resumeQuiz=async function(){
+  const s=await restoreQuiz();
+  if(!s){ buildQuiz(); return; }
+  QS=s;
+  const el=document.getElementById('qresume'); if(el) el.innerHTML='';
+  if(s.stage==='review') showReview(); else renderQuizQ();
+};
+
+window.discardQuiz=async function(){
+  await QDB.del('current');
+  buildQuiz();
+};
+
 function startQuiz(){
+  clearQuizSave();
   const pool=shuffle([...words]).slice(0,15);
-  QS={pool,cur:0,answers:[],reviewing:false};
+  QS={pool,cur:0,answers:[],stage:'quiz',reviewing:false};
+  const el=document.getElementById('qresume'); if(el) el.innerHTML='';
+  saveQuiz();
   renderQuizQ();
 }
 
@@ -1656,6 +1797,9 @@ async function startRecording(){
       if(QS.answers[idx].audioUrl)URL.revokeObjectURL(QS.answers[idx].audioUrl);
       const url=URL.createObjectURL(blob);
       QS.answers[idx].audioUrl=url;
+      QS.answers[idx].blob=blob;
+      QS.answers[idx].word=QS.pool[idx];
+      saveQuiz();
       const pb=document.getElementById('recPlayback');
       if(pb){pb.pause();pb.removeAttribute('src');pb.load();pb.src=url;pb.load();pb.style.display='block';}
       const s=document.getElementById('recStatus');
@@ -1741,6 +1885,7 @@ function submitQ(){
   QS.answers[idx].typed=val||'';
   QS.answers[idx].word=QS.pool[idx];
   QS.cur++;
+  saveQuiz();
   renderQuizQ();
 }
 
@@ -1751,6 +1896,7 @@ function skipQ(){
   QS.answers[idx].typed='';
   QS.answers[idx].word=QS.pool[idx];
   QS.cur++;
+  saveQuiz();
   renderQuizQ();
 }
 
@@ -1805,8 +1951,12 @@ function showReview(){
       </div>
     </div>`;
 
+  const prior = Array.isArray(QS.marks) ? QS.marks : null;
   QS.marks=new Array(answers.length).fill(null);
   QS.markCount=0;
+  QS.stage='review';
+  saveQuiz();
+  if(prior) prior.forEach((m,i)=>{ if(m===true||m===false) markQ(i,m); });
 }
 
 window.speakReview=function(heb){speakHeb(heb);};
@@ -1834,6 +1984,7 @@ window.markQ=function(i,correct){
     const sa=document.getElementById('scoreArea');
     if(sa)sa.innerHTML=`<div class="bigscore" style="font-size:2.8em;">${score} / ${tot}</div><div class="scoremsg">${msg}</div>`;
   }
+  saveQuiz();
 };
 
 
@@ -2072,30 +2223,36 @@ function buildHomeTab(){
 // YOUTUBE PLAYER
 // ===================================================================
 window.toggleYT = function(id, videoId) {
-  // YouTube blocks embedding in native WebViews — open directly instead
   const url = 'https://www.youtube.com/watch?v=' + videoId;
-  if(window.Capacitor){
-    // In native app — use Capacitor browser or window.open
-    window.open(url, '_system');
-  } else {
-    // In browser — show thumbnail that opens YouTube
-    const embed = document.getElementById('yt-'+id);
-    if(!embed) return;
-    if(embed.classList.contains('open')){
-      embed.classList.remove('open');
-      embed.innerHTML = '';
-    } else {
-      embed.classList.add('open');
-      embed.innerHTML = `
-        <div style="position:relative;cursor:pointer;border-radius:12px;overflow:hidden;" onclick="window.open('${url}','_blank')">
-          <img src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg" style="width:100%;display:block;" />
-          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.75);border-radius:50%;width:60px;height:60px;display:flex;align-items:center;justify-content:center;">
-            <div style="width:0;height:0;border-top:12px solid transparent;border-bottom:12px solid transparent;border-left:22px solid white;margin-left:5px;"></div>
-          </div>
-          <div style="text-align:center;font-size:.78em;color:#555;font-weight:700;padding:8px;background:white;">Tap to watch on YouTube</div>
-        </div>`;
-    }
+
+  // Native WebViews block YouTube iframes — hand off to the system browser.
+  if(window.Capacitor){ window.open(url, '_system'); return; }
+
+  const embed = document.getElementById('yt-'+id);
+  if(!embed) return;
+
+  if(embed.classList.contains('open')){
+    embed.classList.remove('open');
+    embed.innerHTML = '';   // unloads the iframe so audio stops
+    return;
   }
+
+  // Close any other open video first so two can't play at once
+  document.querySelectorAll('.yt-embed.open').forEach(e=>{
+    e.classList.remove('open');
+    e.innerHTML='';
+  });
+
+  embed.classList.add('open');
+  embed.innerHTML = `
+    <iframe
+      src="https://www.youtube-nocookie.com/embed/${videoId}?rel=0&modestbranding=1&playsinline=1"
+      title="MitzvahQuest video"
+      loading="lazy"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+      allowfullscreen></iframe>
+    <div class="yt-fallback">Not loading? <a href="${url}" target="_blank" rel="noopener">Watch on YouTube</a></div>`;
 };
 
 // ===================================================================
