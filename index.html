@@ -221,7 +221,7 @@
   <div id="tab-letters" class="card">
     <div class="sec-title">🔤 The Aleph-Bet</div>
     <p style="margin-bottom:14px;color:#555;font-weight:600;">Click any letter to hear it! Hebrew reads <strong>right to left</strong>.</p>
-    <button class="cantor-btn" style="margin-bottom:14px;" onclick="window.open('https://qrco.de/bgrjw2','_blank','noopener')">🎤 Hear Cantor Wolman sing the Alef-Bet song</button>
+    <div id="alefbetSong" style="margin-bottom:14px;"></div>
     <div class="ab-grid" id="abGrid"></div>
     <div class="tip">💡 Letters with a dot (dagesh) have a harder sound. Some have a different shape at the end of a word — the <strong>sofit</strong> form!</div>
     <div class="subsec">
@@ -1507,6 +1507,8 @@ window.toggleRule=function(n){
 // BUILD LETTERS TAB
 // ===================================================================
 function buildLetters(){
+  const ab=document.getElementById('alefbetSong');
+  if(ab) ab.innerHTML=cantorButton('alefbet', CANTOR['Alef-Bet song'], '🎤 Hear the Alef-Bet song');
   const g=document.getElementById('abGrid');
   alphabet.forEach(l=>{
     const c=document.createElement('div');
@@ -1640,17 +1642,45 @@ window.revealWord=function(){
 // ===================================================================
 // BUILD PRAYERS TAB
 // ===================================================================
-// Cantor Wolman recordings — decoded from the 5th grade packet QR codes
+// ===================================================================
+// CANTOR WOLMAN RECORDINGS — from the 5th grade packet QR codes
+//
+// A value can be either:
+//   a YouTube link or bare 11-character video ID  -> embeds inline
+//   any other URL (e.g. a qrco.de redirect)       -> opens in a new tab
+//
+// The qrco.de links below are dynamic redirects, so their YouTube IDs
+// can't be read from the QR code itself. To make one embed, open it
+// once and replace the qrco.de URL here with the YouTube link.
+// ===================================================================
 const CANTOR={
-  "Shabbat Candle Blessing":"https://qrco.de/bgsQOy",
-  "Kiddush — blessing over wine":"https://qrco.de/bgsQQq",
-  "HaMotzi — blessing over bread":"https://qrco.de/bgsQRh",
-  "Shehecheyanu — new occasions":"https://qrco.de/bgsQTS",
-  "Blessing over Tallit":"https://qrco.de/bgsQSQ",
-  "Barchu — call to worship":"https://qrco.de/bgsQNw",
-  "Shema — declaration of faith":"https://qrco.de/bgsQMa"
+  "Alef-Bet song":              "MKoB4XWWHG4",
+  "Shabbat Candle Blessing":    "kj0X3OyyTl0",
+  "Kiddush — blessing over wine":"95_PGe2_Mx0",
+  "HaMotzi — blessing over bread":"V0zF23Nf_zI",
+  "Shehecheyanu — new occasions":"OQkzWSSgklg",
+  "Blessing over Tallit":       "qqWnekdY6YU",
+  "Barchu — call to worship":   "H2uXJwhTtQM",
+  "Shema — declaration of faith":"XARuNyQML5Q"
 };
-const ALEFBET_SONG="https://qrco.de/bgrjw2";
+
+// Pull an 11-char YouTube id out of a link, or return null if it isn't one.
+function ytId(v){
+  if(!v) return null;
+  if(/^[A-Za-z0-9_-]{11}$/.test(v)) return v;
+  const m = v.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);
+  return m ? m[1] : null;
+}
+
+// Renders either an embedding button or a new-tab button.
+function cantorButton(uid, value, label){
+  if(!value) return '';
+  const id = ytId(value);
+  const text = label || '🎤 Cantor Wolman';
+  return id
+    ? `<button class="cantor-btn" onclick="event.stopPropagation();toggleYT('c${uid}','${id}')">${text}</button><div class="yt-embed" id="yt-c${uid}"></div>`
+    : `<button class="cantor-btn" onclick="event.stopPropagation();window.open('${value}','_blank','noopener')">${text} ↗</button>`;
+}
 
 function buildPrayers(){
   const fd=document.getElementById('pFilters'),ld=document.getElementById('pList');
@@ -1674,15 +1704,15 @@ function buildPrayers(){
       const cc=catColors[p.category]||'#888';
       const hdr=document.createElement('div');
       hdr.className='phdr';
-      const ytVideos={"Barchu — call to worship":"lTV4PZg3yMI","Torah Blessing — before reading":"bcQ6B1m6IbA","Torah Blessing — after reading":"bcQ6B1m6IbA","Haftarah Blessing — before":"ovGi9aS5Y5k","Haftarah Blessing — after":"9RRF_cr2xhw"};
+      // Barchu and Shema now use Cantor Wolman's own recording instead of these
+      const ytVideos={"Torah Blessing — before reading":"bcQ6B1m6IbA","Torah Blessing — after reading":"bcQ6B1m6IbA","Haftarah Blessing — before":"ovGi9aS5Y5k","Haftarah Blessing — after":"9RRF_cr2xhw"};
       const ytId=ytVideos[p.name];
       const ytBtn=ytId?`<button class="yt-btn" onclick="event.stopPropagation();toggleYT('${uid}','${ytId}')">🎵 Hear it sung</button><div class="yt-embed" id="yt-${uid}"></div>`:'';
       // Cantor Wolman recordings from the 5th grade packet QR codes
-      const cantorUrl = p.cantor || CANTOR[p.name];
-      const cantorBtn = cantorUrl
-        ? `<button class="cantor-btn" onclick="event.stopPropagation();window.open('${cantorUrl}','_blank','noopener')">🎤 Cantor Wolman</button>`
-        : '';
+      const cantorBtn = cantorButton(uid, p.cantor || CANTOR[p.name]);
       hdr.innerHTML=`<div class="phdr-left"><span class="pbadge" style="background:${cc}">${p.category}</span><span class="pname">${p.name}</span>${cantorBtn}${ytBtn}</div><span class="phname">${p.hebrewName}</span>`;
+      // keep any embed panels below the header row rather than inside its flex line
+      hdr.querySelectorAll('.yt-embed').forEach(e=>hdr.after(e));
       const body=document.createElement('div');
       body.className='pbody';
       body.style.display='none';
