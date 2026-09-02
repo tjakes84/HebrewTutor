@@ -573,6 +573,97 @@ const words=[
 // as opposed to the siddur words above. Used to weight the quiz.
 // ===================================================================
 const TORAH_WORDS=[
+  {hebrew:"בְּרֵאשִׁית",english:"In the beginning",pronounce:"b'rei-SHIT",level:3,book:"Genesis",syllables:[{heb:"בְּ",sound:"b'",speak:"בְּ"},{heb:"רֵא",sound:"rei",speak:"רֵא"},{heb:"שִׁית",sound:"SHIT",speak:"שִׁית"}],tip:"💡 Rule 1 — the sh'va under the first letter is sounded."},
+  {hebrew:"גַּן",english:"Garden",pronounce:"gan",level:1,book:"Genesis",syllables:[{heb:"גַּן",sound:"gan",speak:"גַּן"}],tip:""},
+  {hebrew:"עֵץ",english:"Tree",pronounce:"ets",level:1,book:"Genesis",syllables:[{heb:"עֵץ",sound:"ets",speak:"עֵץ"}],tip:""},
+  {hebrew:"נָחָשׁ",english:"Snake",pronounce:"na-CHASH",level:2,book:"Genesis",syllables:[{heb:"נָ",sound:"na",speak:"נָ"},{heb:"חָשׁ",sound:"CHASH",speak:"חָשׁ"}],tip:""},
+  {hebrew:"תֵּבָה",english:"Ark",pronounce:"tei-VAH",level:2,book:"Genesis",syllables:[{heb:"תֵּ",sound:"tei",speak:"תֵּ"},{heb:"בָה",sound:"VAH",speak:"בָה"}],tip:""},
+  {hebrew:"מַבּוּל",english:"Flood",pronounce:"ma-BUL",level:2,book:"Genesis",syllables:[{heb:"מַ",sound:"ma",speak:"מַ"},{heb:"בּוּל",sound:"BUL",speak:"בּוּל"}],tip:""},
+  {hebrew:"קֶשֶׁת",english:"Rainbow / bow",pronounce:"KE-shet",level:2,book:"Genesis",syllables:[{heb:"קֶ",sound:"KE",speak:"קֶ"},{heb:"שֶׁת",sound:"shet",speak:"שֶׁת"}],tip:""},
+  {hebrew:"מִגְדָּל",english:"Tower",pronounce:"mig-DAL",level:2,book:"Genesis",syllables:[{heb:"מִג",sound:"mig",speak:"מִג"},{heb:"דָּל",sound:"DAL",speak:"דָּל"}],tip:""},
+  {hebrew:"אֹהֶל",english:"Tent",pronounce:"O-hel",level:2,book:"Genesis",syllables:[{heb:"אֹ",sound:"O",speak:"אֹ"},{heb:"הֶל",sound:"hel",speak:"הֶל"}],tip:""},
+  {hebrew:"בְּאֵר",english:"Well",pronounce:"b'ER",level:2,book:"Genesis",syllables:[{heb:"בְּ",sound:"b'",speak:"בְּ"},{heb:"אֵר",sound:"ER",speak:"אֵר"}],tip:""},
+  {hebrew:"סֻלָּם",english:"Ladder",pronounce:"su-LAM",level:2,book:"Genesis",syllables:[{heb:"סֻ",sound:"su",speak:"סֻ"},{heb:"לָּם",sound:"LAM",speak:"לָּם"}],tip:""},
+  {hebrew:"מַלְאָךְ",english:"Messenger / angel",pronounce:"mal-AKH",level:2,book:"Genesis",syllables:[{heb:"מַל",sound:"mal",speak:"מַל"},{heb:"אָךְ",sound:"AKH",speak:"אָךְ"}],tip:"💡 Rule 4 — the final chaf makes the ch sound."},
+  {hebrew:"אַיִל",english:"Ram",pronounce:"A-yil",level:2,book:"Genesis",syllables:[{heb:"אַ",sound:"A",speak:"אַ"},{heb:"יִל",sound:"yil",speak:"יִל"}],tip:""},
+  {hebrew:"צֹאן",english:"Flock",pronounce:"tson",level:1,book:"Genesis",syllables:[{heb:"צֹאן",sound:"tson",speak:"צֹאן"}],tip:""},
+  {hebrew:"רָעָב",english:"Famine",pronounce:"ra-AV",level:2,book:"Genesis",syllables:[{heb:"רָ",sound:"ra",speak:"רָ"},{heb:"עָב",sound:"AV",speak:"עָב"}],tip:""},
+  {hebrew:"שָׂרָה",english:"Sarah",pronounce:"sa-RAH",level:1,book:"Genesis",syllables:[{heb:"שָׂ",sound:"sa",speak:"שָׂ"},{heb:"רָה",sound:"RAH",speak:"רָה"}],tip:""},
+  {hebrew:"רִבְקָה",english:"Rebecca",pronounce:"riv-KAH",level:2,book:"Genesis",syllables:[{heb:"רִב",sound:"riv",speak:"רִב"},{heb:"קָה",sound:"KAH",speak:"קָה"}],tip:""},
+  {hebrew:"רָחֵל",english:"Rachel",pronounce:"ra-CHEL",level:2,book:"Genesis",syllables:[{heb:"רָ",sound:"ra",speak:"רָ"},{heb:"חֵל",sound:"CHEL",speak:"חֵל"}],tip:""},
+  {hebrew:"לֵאָה",english:"Leah",pronounce:"le-AH",level:2,book:"Genesis",syllables:[{heb:"לֵ",sound:"le",speak:"לֵ"},{heb:"אָה",sound:"AH",speak:"אָה"}],tip:""},
+  {hebrew:"יִצְחָק",english:"Isaac",pronounce:"yitz-CHAK",level:2,book:"Genesis",syllables:[{heb:"יִצ",sound:"yitz",speak:"יִצ"},{heb:"חָק",sound:"CHAK",speak:"חָק"}],tip:""},
+  {hebrew:"עֵשָׂו",english:"Esau",pronounce:"ei-SAV",level:2,book:"Genesis",syllables:[{heb:"עֵ",sound:"ei",speak:"עֵ"},{heb:"שָׂו",sound:"SAV",speak:"שָׂו"}],tip:""},
+  {hebrew:"בְּכוֹר",english:"Firstborn",pronounce:"b'KHOR",level:2,book:"Genesis",syllables:[{heb:"בְּ",sound:"b'",speak:"בְּ"},{heb:"כוֹר",sound:"KHOR",speak:"כוֹר"}],tip:""},
+  {hebrew:"סְנֶה",english:"Bush",pronounce:"s'NEH",level:2,book:"Exodus",syllables:[{heb:"סְ",sound:"s'",speak:"סְ"},{heb:"נֶה",sound:"NEH",speak:"נֶה"}],tip:"💡 Rule 10 — the final hey is silent."},
+  {hebrew:"מַטֶּה",english:"Staff",pronounce:"ma-TEH",level:2,book:"Exodus",syllables:[{heb:"מַ",sound:"ma",speak:"מַ"},{heb:"טֶּה",sound:"TEH",speak:"טֶּה"}],tip:""},
+  {hebrew:"מַכָּה",english:"Plague / blow",pronounce:"ma-KAH",level:2,book:"Exodus",syllables:[{heb:"מַ",sound:"ma",speak:"מַ"},{heb:"כָּה",sound:"KAH",speak:"כָּה"}],tip:""},
+  {hebrew:"דָּם",english:"Blood",pronounce:"dam",level:1,book:"Exodus",syllables:[{heb:"דָּם",sound:"dam",speak:"דָּם"}],tip:""},
+  {hebrew:"אַרְבֶּה",english:"Locust",pronounce:"ar-BEH",level:2,book:"Exodus",syllables:[{heb:"אַר",sound:"ar",speak:"אַר"},{heb:"בֶּה",sound:"BEH",speak:"בֶּה"}],tip:""},
+  {hebrew:"פֶּסַח",english:"Passover",pronounce:"PE-sach",level:2,book:"Exodus",syllables:[{heb:"פֶּ",sound:"PE",speak:"פֶּ"},{heb:"סַח",sound:"sach",speak:"סַח"}],tip:"💡 Rule 5 — chet with a patach makes the ACH sound."},
+  {hebrew:"מִדְבָּר",english:"Wilderness",pronounce:"mid-BAR",level:2,book:"Exodus",syllables:[{heb:"מִד",sound:"mid",speak:"מִד"},{heb:"בָּר",sound:"BAR",speak:"בָּר"}],tip:""},
+  {hebrew:"מָן",english:"Manna",pronounce:"man",level:1,book:"Exodus",syllables:[{heb:"מָן",sound:"man",speak:"מָן"}],tip:""},
+  {hebrew:"לוּחוֹת",english:"Tablets",pronounce:"lu-CHOT",level:2,book:"Exodus",syllables:[{heb:"לוּ",sound:"lu",speak:"לוּ"},{heb:"חוֹת",sound:"CHOT",speak:"חוֹת"}],tip:""},
+  {hebrew:"מִשְׁכָּן",english:"Tabernacle",pronounce:"mish-KAN",level:2,book:"Exodus",syllables:[{heb:"מִשׁ",sound:"mish",speak:"מִשׁ"},{heb:"כָּן",sound:"KAN",speak:"כָּן"}],tip:""},
+  {hebrew:"עֵגֶל",english:"Calf",pronounce:"EI-gel",level:2,book:"Exodus",syllables:[{heb:"עֵ",sound:"EI",speak:"עֵ"},{heb:"גֶל",sound:"gel",speak:"גֶל"}],tip:""},
+  {hebrew:"חֵרוּת",english:"Freedom",pronounce:"chei-RUT",level:2,book:"Exodus",syllables:[{heb:"חֵ",sound:"chei",speak:"חֵ"},{heb:"רוּת",sound:"RUT",speak:"רוּת"}],tip:""},
+  {hebrew:"אַהֲרֹן",english:"Aaron",pronounce:"a-ha-RON",level:3,book:"Exodus",syllables:[{heb:"אַ",sound:"a",speak:"אַ"},{heb:"הֲ",sound:"ha",speak:"הֲ"},{heb:"רֹן",sound:"RON",speak:"רֹן"}],tip:""},
+  {hebrew:"מִרְיָם",english:"Miriam",pronounce:"mir-YAM",level:2,book:"Exodus",syllables:[{heb:"מִר",sound:"mir",speak:"מִר"},{heb:"יָם",sound:"YAM",speak:"יָם"}],tip:""},
+  {hebrew:"פַּרְעֹה",english:"Pharaoh",pronounce:"par-OH",level:2,book:"Exodus",syllables:[{heb:"פַּר",sound:"par",speak:"פַּר"},{heb:"עֹה",sound:"OH",speak:"עֹה"}],tip:""},
+  {hebrew:"שִׁירָה",english:"Song",pronounce:"shi-RAH",level:2,book:"Exodus",syllables:[{heb:"שִׁי",sound:"shi",speak:"שִׁי"},{heb:"רָה",sound:"RAH",speak:"רָה"}],tip:""},
+  {hebrew:"קָרְבָּן",english:"Offering",pronounce:"kor-BAN",level:2,book:"Leviticus",syllables:[{heb:"קָר",sound:"kor",speak:"קָר"},{heb:"בָּן",sound:"BAN",speak:"בָּן"}],tip:"💡 Rule 9 — כָּ here sounds like 'oh'."},
+  {hebrew:"מִזְבֵּחַ",english:"Altar",pronounce:"miz-BEI-ach",level:3,book:"Leviticus",syllables:[{heb:"מִז",sound:"miz",speak:"מִז"},{heb:"בֵּ",sound:"BEI",speak:"בֵּ"},{heb:"חַ",sound:"ach",speak:"חַ"}],tip:"💡 Rule 5 — the ending makes the ACH sound."},
+  {hebrew:"טָהוֹר",english:"Pure",pronounce:"ta-HOR",level:2,book:"Leviticus",syllables:[{heb:"טָ",sound:"ta",speak:"טָ"},{heb:"הוֹר",sound:"HOR",speak:"הוֹר"}],tip:""},
+  {hebrew:"טָמֵא",english:"Impure",pronounce:"ta-MEI",level:2,book:"Leviticus",syllables:[{heb:"טָ",sound:"ta",speak:"טָ"},{heb:"מֵא",sound:"MEI",speak:"מֵא"}],tip:""},
+  {hebrew:"קָדוֹשׁ",english:"Holy",pronounce:"ka-DOSH",level:2,book:"Leviticus",syllables:[{heb:"קָ",sound:"ka",speak:"קָ"},{heb:"דוֹשׁ",sound:"DOSH",speak:"דוֹשׁ"}],tip:""},
+  {hebrew:"חַג",english:"Festival",pronounce:"chag",level:1,book:"Leviticus",syllables:[{heb:"חַג",sound:"chag",speak:"חַג"}],tip:""},
+  {hebrew:"יוֹבֵל",english:"Jubilee",pronounce:"yo-VEL",level:2,book:"Leviticus",syllables:[{heb:"יוֹ",sound:"yo",speak:"יוֹ"},{heb:"בֵל",sound:"VEL",speak:"בֵל"}],tip:""},
+  {hebrew:"שְׁמִטָּה",english:"Sabbatical year",pronounce:"sh'mi-TAH",level:3,book:"Leviticus",syllables:[{heb:"שְׁ",sound:"sh'",speak:"שְׁ"},{heb:"מִ",sound:"mi",speak:"מִ"},{heb:"טָּה",sound:"TAH",speak:"טָּה"}],tip:""},
+  {hebrew:"רֵעַ",english:"Neighbor",pronounce:"REI-a",level:2,book:"Leviticus",syllables:[{heb:"רֵ",sound:"REI",speak:"רֵ"},{heb:"עַ",sound:"a",speak:"עַ"}],tip:""},
+  {hebrew:"שָׂדֶה",english:"Field",pronounce:"sa-DEH",level:2,book:"Leviticus",syllables:[{heb:"שָׂ",sound:"sa",speak:"שָׂ"},{heb:"דֶה",sound:"DEH",speak:"דֶה"}],tip:""},
+  {hebrew:"מַחֲנֶה",english:"Camp",pronounce:"ma-cha-NEH",level:3,book:"Numbers",syllables:[{heb:"מַ",sound:"ma",speak:"מַ"},{heb:"חֲ",sound:"cha",speak:"חֲ"},{heb:"נֶה",sound:"NEH",speak:"נֶה"}],tip:""},
+  {hebrew:"מַסָּע",english:"Journey",pronounce:"ma-SA",level:2,book:"Numbers",syllables:[{heb:"מַ",sound:"ma",speak:"מַ"},{heb:"סָּע",sound:"SA",speak:"סָּע"}],tip:""},
+  {hebrew:"מְרַגְּלִים",english:"Spies",pronounce:"m'rag-LIM",level:3,book:"Numbers",syllables:[{heb:"מְ",sound:"m'",speak:"מְ"},{heb:"רַג",sound:"rag",speak:"רַג"},{heb:"לִים",sound:"LIM",speak:"לִים"}],tip:""},
+  {hebrew:"עָנָן",english:"Cloud",pronounce:"a-NAN",level:2,book:"Numbers",syllables:[{heb:"עָ",sound:"a",speak:"עָ"},{heb:"נָן",sound:"NAN",speak:"נָן"}],tip:""},
+  {hebrew:"מִלְחָמָה",english:"War",pronounce:"mil-cha-MAH",level:3,book:"Numbers",syllables:[{heb:"מִל",sound:"mil",speak:"מִל"},{heb:"חָ",sound:"cha",speak:"חָ"},{heb:"מָה",sound:"MAH",speak:"מָה"}],tip:""},
+  {hebrew:"דֶּגֶל",english:"Banner",pronounce:"DE-gel",level:2,book:"Numbers",syllables:[{heb:"דֶּ",sound:"DE",speak:"דֶּ"},{heb:"גֶל",sound:"gel",speak:"גֶל"}],tip:""},
+  {hebrew:"נָשִׂיא",english:"Chieftain",pronounce:"na-SI",level:2,book:"Numbers",syllables:[{heb:"נָ",sound:"na",speak:"נָ"},{heb:"שִׂיא",sound:"SI",speak:"שִׂיא"}],tip:""},
+  {hebrew:"מִסְפָּר",english:"Number / count",pronounce:"mis-PAR",level:2,book:"Numbers",syllables:[{heb:"מִס",sound:"mis",speak:"מִס"},{heb:"פָּר",sound:"PAR",speak:"פָּר"}],tip:""},
+  {hebrew:"קֹרַח",english:"Korach",pronounce:"KO-rach",level:2,book:"Numbers",syllables:[{heb:"קֹ",sound:"KO",speak:"קֹ"},{heb:"רַח",sound:"rach",speak:"רַח"}],tip:"💡 Rule 5 — the ending makes the ACH sound."},
+  {hebrew:"בִּלְעָם",english:"Balaam",pronounce:"bil-AM",level:2,book:"Numbers",syllables:[{heb:"בִּל",sound:"bil",speak:"בִּל"},{heb:"עָם",sound:"AM",speak:"עָם"}],tip:""},
+  {hebrew:"חֻקִּים",english:"Statutes",pronounce:"chu-KIM",level:2,book:"Deuteronomy",syllables:[{heb:"חֻ",sound:"chu",speak:"חֻ"},{heb:"קִּים",sound:"KIM",speak:"קִּים"}],tip:""},
+  {hebrew:"מִשְׁפָּטִים",english:"Laws",pronounce:"mish-pa-TIM",level:3,book:"Deuteronomy",syllables:[{heb:"מִשׁ",sound:"mish",speak:"מִשׁ"},{heb:"פָּ",sound:"pa",speak:"פָּ"},{heb:"טִים",sound:"TIM",speak:"טִים"}],tip:""},
+  {hebrew:"אַהֲבָה",english:"Love",pronounce:"a-ha-VAH",level:3,book:"Deuteronomy",syllables:[{heb:"אַ",sound:"a",speak:"אַ"},{heb:"הֲ",sound:"ha",speak:"הֲ"},{heb:"בָה",sound:"VAH",speak:"בָה"}],tip:""},
+  {hebrew:"לְבָבְךָ",english:"Your heart",pronounce:"l'va-v'KHA",level:3,book:"Deuteronomy",syllables:[{heb:"לְ",sound:"l'",speak:"לְ"},{heb:"בָב",sound:"vav",speak:"בָב"},{heb:"ךָ",sound:"KHA",speak:"ךָ"}],tip:"💡 Rule 4 — the final chaf with a kamatz says 'chah'."},
+  {hebrew:"קְלָלָה",english:"Curse",pronounce:"k'la-LAH",level:3,book:"Deuteronomy",syllables:[{heb:"קְ",sound:"k'",speak:"קְ"},{heb:"לָ",sound:"la",speak:"לָ"},{heb:"לָה",sound:"LAH",speak:"לָה"}],tip:""},
+  {hebrew:"יְרֻשָּׁה",english:"Inheritance",pronounce:"y'ru-SHAH",level:3,book:"Deuteronomy",syllables:[{heb:"יְ",sound:"y'",speak:"יְ"},{heb:"רֻ",sound:"ru",speak:"רֻ"},{heb:"שָּׁה",sound:"SHAH",speak:"שָּׁה"}],tip:""},
+  {hebrew:"נָבִיא",english:"Prophet",pronounce:"na-VI",level:2,book:"Deuteronomy",syllables:[{heb:"נָ",sound:"na",speak:"נָ"},{heb:"בִיא",sound:"VI",speak:"בִיא"}],tip:""},
+  {hebrew:"עֵדוּת",english:"Testimony",pronounce:"ei-DUT",level:2,book:"Deuteronomy",syllables:[{heb:"עֵ",sound:"ei",speak:"עֵ"},{heb:"דוּת",sound:"DUT",speak:"דוּת"}],tip:""},
+  {hebrew:"שׁוֹפֵט",english:"Judge",pronounce:"sho-FET",level:2,book:"Deuteronomy",syllables:[{heb:"שׁוֹ",sound:"sho",speak:"שׁוֹ"},{heb:"פֵט",sound:"FET",speak:"פֵט"}],tip:""},
+  {hebrew:"גֵּר",english:"Stranger",pronounce:"ger",level:1,book:"Deuteronomy",syllables:[{heb:"גֵּר",sound:"ger",speak:"גֵּר"}],tip:""},
+  {hebrew:"אֲדָמָה",english:"Ground",pronounce:"a-da-MAH",level:3,book:"any",syllables:[{heb:"אֲ",sound:"a",speak:"אֲ"},{heb:"דָ",sound:"da",speak:"דָ"},{heb:"מָה",sound:"MAH",speak:"מָה"}],tip:""},
+  {hebrew:"שֶׁמֶן",english:"Oil",pronounce:"SHE-men",level:2,book:"any",syllables:[{heb:"שֶׁ",sound:"SHE",speak:"שֶׁ"},{heb:"מֶן",sound:"men",speak:"מֶן"}],tip:""},
+  {hebrew:"לֶחֶם",english:"Bread",pronounce:"LE-chem",level:2,book:"any",syllables:[{heb:"לֶ",sound:"LE",speak:"לֶ"},{heb:"חֶם",sound:"chem",speak:"חֶם"}],tip:""},
+  {hebrew:"מָקוֹם",english:"Place",pronounce:"ma-KOM",level:2,book:"any",syllables:[{heb:"מָ",sound:"ma",speak:"מָ"},{heb:"קוֹם",sound:"KOM",speak:"קוֹם"}],tip:""},
+  {hebrew:"זָהָב",english:"Gold",pronounce:"za-HAV",level:2,book:"any",syllables:[{heb:"זָ",sound:"za",speak:"זָ"},{heb:"הָב",sound:"HAV",speak:"הָב"}],tip:""},
+  {hebrew:"אֶבֶן",english:"Stone",pronounce:"E-ven",level:2,book:"any",syllables:[{heb:"אֶ",sound:"E",speak:"אֶ"},{heb:"בֶן",sound:"ven",speak:"בֶן"}],tip:""},
+  {hebrew:"הַר",english:"Mountain",pronounce:"har",level:1,book:"any",syllables:[{heb:"הַר",sound:"har",speak:"הַר"}],tip:""},
+  {hebrew:"דֶּלֶת",english:"Door",pronounce:"DE-let",level:2,book:"any",syllables:[{heb:"דֶּ",sound:"DE",speak:"דֶּ"},{heb:"לֶת",sound:"let",speak:"לֶת"}],tip:""},
+  {hebrew:"שָׂפָה",english:"Language / lip",pronounce:"sa-FAH",level:2,book:"any",syllables:[{heb:"שָׂ",sound:"sa",speak:"שָׂ"},{heb:"פָה",sound:"FAH",speak:"פָה"}],tip:""},
+  {hebrew:"מְלָאכָה",english:"Work",pronounce:"m'la-KHAH",level:3,book:"any",syllables:[{heb:"מְ",sound:"m'",speak:"מְ"},{heb:"לָא",sound:"la",speak:"לָא"},{heb:"כָה",sound:"KHAH",speak:"כָה"}],tip:""},
+  {hebrew:"חָכְמָה",english:"Wisdom",pronounce:"chokh-MAH",level:2,book:"any",syllables:[{heb:"חָכ",sound:"chokh",speak:"חָכ"},{heb:"מָה",sound:"MAH",speak:"מָה"}],tip:""},
+  {hebrew:"אֱמֶת",english:"Truth",pronounce:"E-met",level:2,book:"any",syllables:[{heb:"אֱ",sound:"E",speak:"אֱ"},{heb:"מֶת",sound:"met",speak:"מֶת"}],tip:""},
+  {hebrew:"צֶדֶק",english:"Justice",pronounce:"TSE-dek",level:2,book:"any",syllables:[{heb:"צֶ",sound:"TSE",speak:"צֶ"},{heb:"דֶק",sound:"dek",speak:"דֶק"}],tip:""},
+  {hebrew:"רַחֲמִים",english:"Mercy",pronounce:"ra-cha-MIM",level:3,book:"any",syllables:[{heb:"רַ",sound:"ra",speak:"רַ"},{heb:"חֲ",sound:"cha",speak:"חֲ"},{heb:"מִים",sound:"MIM",speak:"מִים"}],tip:""},
+  {hebrew:"כָּבוֹד",english:"Honor / glory",pronounce:"ka-VOD",level:2,book:"any",syllables:[{heb:"כָּ",sound:"ka",speak:"כָּ"},{heb:"בוֹד",sound:"VOD",speak:"בוֹד"}],tip:""},
+  {hebrew:"בְּנֵי",english:"Children of",pronounce:"b'NEI",level:2,book:"any",syllables:[{heb:"בְּ",sound:"b'",speak:"בְּ"},{heb:"נֵי",sound:"NEI",speak:"נֵי"}],tip:""},
+  {hebrew:"וַיִּתֵּן",english:"And he gave",pronounce:"vai-yi-TEN",level:3,book:"any",syllables:[{heb:"וַ",sound:"va",speak:"וַ"},{heb:"יִּ",sound:"yi",speak:"יִּ"},{heb:"תֵּן",sound:"TEN",speak:"תֵּן"}],tip:""},
+  {hebrew:"וַיִּקְרָא",english:"And he called",pronounce:"vai-yik-RA",level:3,book:"any",syllables:[{heb:"וַ",sound:"va",speak:"וַ"},{heb:"יִּק",sound:"yik",speak:"יִּק"},{heb:"רָא",sound:"RA",speak:"רָא"}],tip:""},
+  {hebrew:"וַיֵּרָא",english:"And he appeared",pronounce:"vai-YE-ra",level:3,book:"any",syllables:[{heb:"וַ",sound:"va",speak:"וַ"},{heb:"יֵּ",sound:"YE",speak:"יֵּ"},{heb:"רָא",sound:"ra",speak:"רָא"}],tip:""},
+  {hebrew:"שָׁמַע",english:"He heard",pronounce:"sha-MA",level:2,book:"any",syllables:[{heb:"שָׁ",sound:"sha",speak:"שָׁ"},{heb:"מַע",sound:"MA",speak:"מַע"}],tip:""},
+  {hebrew:"זָכַר",english:"He remembered",pronounce:"za-KHAR",level:2,book:"any",syllables:[{heb:"זָ",sound:"za",speak:"זָ"},{heb:"כַר",sound:"KHAR",speak:"כַר"}],tip:""},
+  {hebrew:"בָּרַךְ",english:"He blessed",pronounce:"ba-RAKH",level:2,book:"any",syllables:[{heb:"בָּ",sound:"ba",speak:"בָּ"},{heb:"רַךְ",sound:"RAKH",speak:"רַךְ"}],tip:"💡 Rule 4 — the final chaf makes the ch sound."},
+
   {hebrew:"אִישׁ",english:"Man",pronounce:"ish",level:1,syllables:[{heb:"אִישׁ",sound:"ish",speak:"אִישׁ"}],tip:""},
   {hebrew:"בֵּן",english:"Son",pronounce:"ben",level:1,syllables:[{heb:"בֵּן",sound:"ben",speak:"בֵּן"}],tip:""},
   {hebrew:"בַּת",english:"Daughter",pronounce:"bat",level:1,syllables:[{heb:"בַּת",sound:"bat",speak:"בַּת"}],tip:""},
@@ -624,7 +715,7 @@ const SIDDUR_LEVEL={
 };
 
 words.forEach(w=>{ w.src='siddur'; w.level=SIDDUR_LEVEL[w.hebrew]||2; });
-TORAH_WORDS.forEach(w=>{ w.src='torah'; if(!w.tip) w.tip='💡 A word you will meet again and again in the Torah reading.'; });
+TORAH_WORDS.forEach(w=>{ w.src='torah'; if(!w.book) w.book='any'; if(!w.tip) w.tip='💡 A word you will meet again and again in the Torah reading.'; });
 
 // Everything the quiz and word practice can draw from.
 // PARSHA_WORDS is appended further down, once it is defined.
@@ -669,14 +760,30 @@ Object.keys(PARSHA_WORDS).forEach(p=>{
   PARSHA_WORDS[p].forEach(w=>{ w.src='parsha'; w.parsha=p; });
 });
 
+// Fold the parsha sets into ALL_WORDS, preferring the parsha version of
+// any word that also appears in the general Torah bank.
 Object.keys(PARSHA_WORDS).forEach(p=>{
-  PARSHA_WORDS[p].forEach(w=>{ if(!ALL_WORDS.includes(w)) ALL_WORDS.push(w); });
+  PARSHA_WORDS[p].forEach(w=>{
+    const dup=ALL_WORDS.findIndex(x=>x.hebrew===w.hebrew);
+    if(dup>=0) ALL_WORDS.splice(dup,1);
+    ALL_WORDS.push(w);
+  });
 });
+// belt and braces: no repeated Hebrew anywhere in the bank
+(function dedupe(){
+  const seen=new Set();
+  for(let i=ALL_WORDS.length-1;i>=0;i--){
+    if(seen.has(ALL_WORDS[i].hebrew)) ALL_WORDS.splice(i,1);
+    else seen.add(ALL_WORDS[i].hebrew);
+  }
+})();
 
 function parshaWords(){
   const p=loadProfile();
-  const list=(p&&p.parasha&&PARSHA_WORDS[p.parasha])||null;
-  return list ? {name:p.parasha, list} : null;
+  if(!p||!p.parasha) return null;
+  const list=PARSHA_WORDS[p.parasha]||null;
+  const meta=(typeof PARSHA_DATA!=='undefined') ? PARSHA_DATA[p.parasha] : null;
+  return {name:p.parasha, list, book:(meta&&meta.book)||null};
 }
 
 // ===== PRAYERS DATA =====
@@ -1960,7 +2067,9 @@ function buildQuiz(){
   if(src){
     const pw=parshaWords();
     src.textContent = pw
-      ? `20 words — 15 from ${pw.name}, 5 from the prayers. Mixed easy to hard.`
+      ? (pw.list
+          ? `20 words from ${pw.name}, ${pw.book||'the Torah'} and the prayers. Shuffle for a new mix.`
+          : `20 words from ${pw.book||'the Torah'} and the prayers. Shuffle for a new mix.`)
       : '20 words — Torah vocabulary and prayers, mixed easy to hard.';
   }
   offerResume();
@@ -1979,10 +2088,17 @@ function buildQuizPool(){
   const out=[];
   const take=(arr,n)=>{ shuffle(arr).slice(0,n).forEach(w=>{ if(!out.includes(w)) out.push(w); }); };
 
-  if(parsha){
-    // 15 from his own portion, across the difficulty levels
-    [[1,3],[2,7],[3,5]].forEach(([l,n])=>take(lvl(parsha.list,l),n));
-    take(parsha.list,15);                 // top up from the portion first
+  // A portion only holds ~20 words, so taking 15 of them every round makes
+  // shuffle feel identical. Draw about 8 from the portion, 7 from the wider
+  // book it sits in, and 5 from the prayers — still portion-led, but the
+  // mix genuinely changes each time.
+  if(parsha && parsha.list){
+    take(shuffle(parsha.list),8);
+  }
+  if(parsha && parsha.book){
+    const fromBook=generalTorah.filter(w=>w.book===parsha.book);
+    take(shuffle(fromBook),7);
+    take(shuffle(generalTorah.filter(w=>w.book==='any')),4);
   }else{
     [[1,5],[2,6],[3,4]].forEach(([l,n])=>take(lvl(generalTorah,l),n));
   }
@@ -2095,8 +2211,23 @@ async function startRecording(){
   const st =document.getElementById('recStatus');
   const idx=QS.cur;                           // captured now, not read later
 
-  if(!navigator.mediaDevices||!window.MediaRecorder){
-    if(st){ st.textContent='Recording is not supported in this browser.'; st.className='recstatus warn'; }
+  // Microphone access requires a secure context. On plain http:// the
+  // browser hides navigator.mediaDevices entirely, so check that first —
+  // otherwise this looks like missing hardware.
+  const secure = window.isSecureContext || location.protocol==='https:' ||
+                 location.hostname==='localhost' || location.hostname==='127.0.0.1';
+  if(!secure){
+    if(st){ st.className='recstatus warn';
+      st.innerHTML='Recording needs a secure connection.<br>Open this page at <strong>https://'+location.host+location.pathname+'</strong>'; }
+    return;
+  }
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+    if(st){ st.className='recstatus warn';
+      st.textContent='This browser will not give access to the microphone here. If you opened the page from inside another app, try opening it in Safari or Chrome directly.'; }
+    return;
+  }
+  if(!window.MediaRecorder){
+    if(st){ st.textContent='This browser cannot record audio. Try Safari or Chrome.'; st.className='recstatus warn'; }
     return;
   }
   if(btn){ btn.disabled=true; }
@@ -2107,12 +2238,23 @@ async function startRecording(){
     stream=await navigator.mediaDevices.getUserMedia({audio:true});
   }catch(err){
     if(btn){ btn.disabled=false; }
+    const name = (err && err.name) || 'Error';
+    const msgs = {
+      NotAllowedError:   'Microphone permission was denied. Allow it for this site in your browser settings, then reload.',
+      SecurityError:     'The browser blocked microphone access on this page. Make sure you are on https.',
+      NotFoundError:     'No microphone was found on this device.',
+      DevicesNotFoundError:'No microphone was found on this device.',
+      NotReadableError:  'The microphone is in use by another app. Close it and try again.',
+      TrackStartError:   'The microphone is in use by another app. Close it and try again.',
+      AbortError:        'The microphone stopped unexpectedly. Try again.',
+      OverconstrainedError:'This microphone could not be used. Try a different one.'
+    };
     if(st){
       st.className='recstatus warn';
-      st.textContent = err && err.name==='NotAllowedError'
-        ? 'Microphone blocked. Allow it in your browser settings and try again.'
-        : 'No microphone available.';
+      st.innerHTML = (msgs[name] || 'Could not start the microphone.') +
+                     '<br><span class="recerr">' + name + '</span>';
     }
+    console.warn('getUserMedia failed:', err);
     return;
   }
   recStream=stream;

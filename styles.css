@@ -1016,6 +1016,8 @@ input[style*="#c5d8ff"]{
 .rmark.bad{ border:1px solid var(--rimon); color:#6b2027; }
 .rmark:disabled{ opacity:.35; cursor:default; }
 
+.recerr{ display:inline-block; margin-top:4px; font-size:.85em; opacity:.6; font-family:ui-monospace,monospace; }
+
 /* --- word practice shuffle --- */
 .wgrid-hdr{
   display:flex; align-items:center; justify-content:space-between;
