@@ -626,8 +626,58 @@ const SIDDUR_LEVEL={
 words.forEach(w=>{ w.src='siddur'; w.level=SIDDUR_LEVEL[w.hebrew]||2; });
 TORAH_WORDS.forEach(w=>{ w.src='torah'; if(!w.tip) w.tip='💡 A word you will meet again and again in the Torah reading.'; });
 
-// Everything the quiz and word practice can draw from
+// Everything the quiz and word practice can draw from.
+// PARSHA_WORDS is appended further down, once it is defined.
 const ALL_WORDS = words.concat(TORAH_WORDS);
+
+
+// ===================================================================
+// PARSHA VOCABULARY
+// Words drawn from the text of a specific Torah portion. When a
+// portion has an entry here, the quiz builds most of each round from
+// it. Portions with no entry fall back to the general TORAH_WORDS.
+//
+// To add a portion, copy the shape below. Every word needs hebrew,
+// english, pronounce, level (1 easy - 3 hard) and syllables.
+// ===================================================================
+const PARSHA_WORDS={
+"Vayeshev":[
+  {hebrew:"וַיֵּשֶׁב",english:"And he settled",pronounce:"va-YE-shev",level:2,syllables:[{heb:"וַ",sound:"va",speak:"וַ"},{heb:"יֵּ",sound:"YE",speak:"יֵּ"},{heb:"שֶׁב",sound:"shev",speak:"שֶׁב"}],tip:"💡 The first word of the portion — every parasha is named after its opening word."},
+  {hebrew:"תֹּלְדוֹת",english:"Generations / the story of",pronounce:"tol-DOT",level:2,syllables:[{heb:"תֹּל",sound:"tol",speak:"תֹּל"},{heb:"דוֹת",sound:"DOT",speak:"דוֹת"}],tip:""},
+  {hebrew:"יוֹסֵף",english:"Joseph",pronounce:"yo-SEF",level:1,syllables:[{heb:"יוֹ",sound:"yo",speak:"יוֹ"},{heb:"סֵף",sound:"SEF",speak:"סֵף"}],tip:""},
+  {hebrew:"אֶחָיו",english:"His brothers",pronounce:"e-CHAV",level:3,syllables:[{heb:"אֶ",sound:"e",speak:"אֶ"},{heb:"חָיו",sound:"CHAV",speak:"חָיו"}],tip:"💡 Reading Rule 6 — the ending יו is pronounced AHV, the yud goes silent."},
+  {hebrew:"אָבִיו",english:"His father",pronounce:"a-VIV",level:2,syllables:[{heb:"אָ",sound:"a",speak:"אָ"},{heb:"בִיו",sound:"VIV",speak:"בִיו"}],tip:"💡 Reading Rule 6 again — יו makes the AHV sound."},
+  {hebrew:"כְּתֹנֶת",english:"Tunic / coat",pronounce:"k'to-NET",level:3,syllables:[{heb:"כְּ",sound:"k'",speak:"כְּ"},{heb:"תֹ",sound:"to",speak:"תֹ"},{heb:"נֶת",sound:"NET",speak:"נֶת"}],tip:"💡 Reading Rule 1 — the sh'va under the first letter is sounded: k'."},
+  {hebrew:"פַּסִּים",english:"Striped / many-colored",pronounce:"pa-SIM",level:2,syllables:[{heb:"פַּ",sound:"pa",speak:"פַּ"},{heb:"סִּים",sound:"SIM",speak:"סִּים"}],tip:"💡 כְּתֹנֶת פַּסִּים — Joseph's famous coat."},
+  {hebrew:"חֲלוֹם",english:"Dream",pronounce:"cha-LOM",level:2,syllables:[{heb:"חֲ",sound:"cha",speak:"חֲ"},{heb:"לוֹם",sound:"LOM",speak:"לוֹם"}],tip:"💡 Dreams drive the whole portion — Joseph's, the cupbearer's, the baker's."},
+  {hebrew:"אֲלֻמִּים",english:"Sheaves",pronounce:"a-lu-MIM",level:3,syllables:[{heb:"אֲ",sound:"a",speak:"אֲ"},{heb:"לֻ",sound:"lu",speak:"לֻ"},{heb:"מִּים",sound:"MIM",speak:"מִּים"}],tip:""},
+  {hebrew:"שֶׁמֶשׁ",english:"Sun",pronounce:"SHE-mesh",level:2,syllables:[{heb:"שֶׁ",sound:"SHE",speak:"שֶׁ"},{heb:"מֶשׁ",sound:"mesh",speak:"מֶשׁ"}],tip:""},
+  {hebrew:"יָרֵחַ",english:"Moon",pronounce:"ya-RE-ach",level:3,syllables:[{heb:"יָ",sound:"ya",speak:"יָ"},{heb:"רֵ",sound:"RE",speak:"רֵ"},{heb:"חַ",sound:"ach",speak:"חַ"}],tip:"💡 Reading Rule 5 — chet with a patach at the end makes the ACH sound."},
+  {hebrew:"כּוֹכָבִים",english:"Stars",pronounce:"ko-kha-VIM",level:3,syllables:[{heb:"כּוֹ",sound:"ko",speak:"כּוֹ"},{heb:"כָ",sound:"kha",speak:"כָ"},{heb:"בִים",sound:"VIM",speak:"בִים"}],tip:""},
+  {hebrew:"בּוֹר",english:"Pit",pronounce:"bor",level:1,syllables:[{heb:"בּוֹר",sound:"bor",speak:"בּוֹר"}],tip:""},
+  {hebrew:"כֶּסֶף",english:"Silver",pronounce:"KE-sef",level:2,syllables:[{heb:"כֶּ",sound:"KE",speak:"כֶּ"},{heb:"סֶף",sound:"sef",speak:"סֶף"}],tip:""},
+  {hebrew:"רְאוּבֵן",english:"Reuben",pronounce:"r'u-VEN",level:2,syllables:[{heb:"רְ",sound:"r'",speak:"רְ"},{heb:"אוּ",sound:"u",speak:"אוּ"},{heb:"בֵן",sound:"VEN",speak:"בֵן"}],tip:"💡 Reading Rule 1 — sh'va under the first letter, so r'."},
+  {hebrew:"יְהוּדָה",english:"Judah",pronounce:"y'hu-DAH",level:2,syllables:[{heb:"יְ",sound:"y'",speak:"יְ"},{heb:"הוּ",sound:"hu",speak:"הוּ"},{heb:"דָה",sound:"DAH",speak:"דָה"}],tip:""},
+  {hebrew:"פּוֹטִיפַר",english:"Potiphar",pronounce:"po-ti-FAR",level:2,syllables:[{heb:"פּוֹ",sound:"po",speak:"פּוֹ"},{heb:"טִי",sound:"ti",speak:"טִי"},{heb:"פַר",sound:"FAR",speak:"פַר"}],tip:""},
+  {hebrew:"פַּרְעֹה",english:"Pharaoh",pronounce:"par-OH",level:2,syllables:[{heb:"פַּר",sound:"par",speak:"פַּר"},{heb:"עֹה",sound:"OH",speak:"עֹה"}],tip:"💡 Reading Rule 10 — the final hey is silent."},
+  {hebrew:"פִּתְרוֹן",english:"Interpretation",pronounce:"pit-RON",level:3,syllables:[{heb:"פִּת",sound:"pit",speak:"פִּת"},{heb:"רוֹן",sound:"RON",speak:"רוֹן"}],tip:""},
+  {hebrew:"מִצְרַיִם",english:"Egypt",pronounce:"mitz-RA-yim",level:3,syllables:[{heb:"מִצ",sound:"mitz",speak:"מִצ"},{heb:"רַ",sound:"RA",speak:"רַ"},{heb:"יִם",sound:"yim",speak:"יִם"}],tip:""}
+]
+};
+
+Object.keys(PARSHA_WORDS).forEach(p=>{
+  PARSHA_WORDS[p].forEach(w=>{ w.src='parsha'; w.parsha=p; });
+});
+
+Object.keys(PARSHA_WORDS).forEach(p=>{
+  PARSHA_WORDS[p].forEach(w=>{ if(!ALL_WORDS.includes(w)) ALL_WORDS.push(w); });
+});
+
+function parshaWords(){
+  const p=loadProfile();
+  const list=(p&&p.parasha&&PARSHA_WORDS[p.parasha])||null;
+  return list ? {name:p.parasha, list} : null;
+}
 
 // ===== PRAYERS DATA =====
 function AD(){return{heb:"יְהוָה",sound:"Ado-NAI",speak:"אֲדֹנָי",syllables:[{heb:"אֲדֹ",sound:"Ado",speak:"אֲדֹ"},{heb:"נָי",sound:"NAI",speak:"נָי"}]};}
@@ -1601,7 +1651,12 @@ function buildWords(){
   if(!g)return;
   g.innerHTML='';
   const bank=(typeof ALL_WORDS!=='undefined')?ALL_WORDS:words;
-  WP_WORDS=shuffle(bank).slice(0,14);
+  const pw=parshaWords();
+  // lead with his own portion, then fill out with the rest
+  WP_WORDS = pw
+    ? shuffle(pw.list).slice(0,8).concat(shuffle(bank).slice(0,6))
+    : shuffle(bank).slice(0,14);
+  WP_WORDS=shuffle(WP_WORDS);
   WP_WORDS.forEach((w,i)=>{
     const btn=document.createElement('button');
     btn.className='wbtn'+(i===0?' active':'');
@@ -1893,7 +1948,7 @@ function buildQuiz(){
   c.innerHTML=`
     <div style="text-align:center;margin-bottom:18px;">
       <p>See the Hebrew word, hear it, then <strong>record yourself</strong> saying it. A parent listens back and marks each one at the end.</p>
-      <p class="qsub-note">20 words — mostly Torah vocabulary, mixed easy to hard.</p>
+      <p class="qsub-note" id="qsource"></p>
       <div class="qstart-row">
         <button class="cb bl" onclick="startQuiz()">🎯 Start quiz</button>
         <button class="cb go" onclick="startQuiz()">🔀 Shuffle words</button>
@@ -1901,6 +1956,13 @@ function buildQuiz(){
     </div>
     <div id="qresume"></div>
     <div id="qa"></div>`;
+  const src=document.getElementById('qsource');
+  if(src){
+    const pw=parshaWords();
+    src.textContent = pw
+      ? `20 words — 15 from ${pw.name}, 5 from the prayers. Mixed easy to hard.`
+      : '20 words — Torah vocabulary and prayers, mixed easy to hard.';
+  }
   offerResume();
 }
 
@@ -1910,15 +1972,26 @@ function buildQuiz(){
 function buildQuizPool(){
   const pool = (typeof ALL_WORDS!=='undefined') ? ALL_WORDS : words;
   const lvl=(arr,l)=>arr.filter(w=>(w.level||2)===l);
-  const torah =pool.filter(w=>w.src==='torah');
-  const siddur=pool.filter(w=>w.src!=='torah');
+  const siddur=pool.filter(w=>w.src==='siddur');
+  const generalTorah=pool.filter(w=>w.src==='torah');
+  const parsha=parshaWords();
+
   const out=[];
   const take=(arr,n)=>{ shuffle(arr).slice(0,n).forEach(w=>{ if(!out.includes(w)) out.push(w); }); };
-  [[1,5],[2,6],[3,4]].forEach(([l,n])=>take(lvl(torah,l),n));
+
+  if(parsha){
+    // 15 from his own portion, across the difficulty levels
+    [[1,3],[2,7],[3,5]].forEach(([l,n])=>take(lvl(parsha.list,l),n));
+    take(parsha.list,15);                 // top up from the portion first
+  }else{
+    [[1,5],[2,6],[3,4]].forEach(([l,n])=>take(lvl(generalTorah,l),n));
+  }
+  // 5 siddur words for the rest
   [[1,2],[2,2],[3,1]].forEach(([l,n])=>take(lvl(siddur,l),n));
-  // top up if a level ran short
-  const rest=shuffle(pool.filter(w=>!out.includes(w)));
-  while(out.length<20 && rest.length) out.push(rest.pop());
+
+  // still short? fall back to general Torah vocabulary, then anything
+  const backup=shuffle(generalTorah.concat(siddur).filter(w=>!out.includes(w)));
+  while(out.length<20 && backup.length) out.push(backup.pop());
   return shuffle(out).slice(0,20);
 }
 
