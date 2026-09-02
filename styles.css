@@ -853,48 +853,6 @@ input[style*="#c5d8ff"]{
 /* --- "Start My Quest" green --- */
 .ob-btn-next[style*="27ae60"]{ background:var(--brass) !important; }
 
-/* ==========================================================================
-   15b. NEUTRALIZING THE JS COLOR PALETTES
-   SYL_COLORS and the two catColors objects assign bright web-safe colors
-   inline. Rather than edit those arrays in the JS, they're overridden here.
-   The Hebrew reads as ink; brass carries the active state instead of hue.
-   ========================================================================== */
-
-/* stage Hebrew: ink, with brass marking position */
-.hsp{ color:var(--ink) !important; }
-.hsp.sa,.hsp.wa{ color:var(--brass) !important; filter:none !important; }
-.hsp:hover{ color:var(--brass) !important; }
-
-/* pronunciation chips */
-.pchip{ color:var(--ink-3) !important; border-color:var(--rule) !important; }
-.pchip:hover{ color:var(--ink) !important; border-color:var(--rule-2) !important; }
-.pchip.sa{
-  color:#fff !important;
-  background:var(--ink) !important;
-  border-color:var(--ink) !important;
-}
-.pchip.wa{ color:var(--ink) !important; border-color:var(--brass) !important; }
-
-/* word-practice syllable pills */
-#wSylRow span{
-  background:var(--brass-wash) !important;
-  border:1px solid var(--scroll-2) !important;
-  color:var(--ink) !important;
-  border-radius:var(--radius-sm) !important;
-  font-family:var(--f-hebrew) !important;
-  font-weight:500 !important;
-}
-#wSylRow span span{ color:var(--brass) !important; font-family:var(--f-ui) !important; font-weight:600 !important; }
-
-/* trope category label + pitch dots */
-.tct{ color:var(--ink-3) !important; }
-.tc:hover .tct,.tc.sel .tct{ color:rgba(255,255,255,.72) !important; filter:none !important; }
-.tdot{ background:var(--brass) !important; }
-
-/* prayer category badge — the badge text already names the category */
-.pbadge{ background:var(--ink) !important; }
-
-
 /* --------------------------------------------------------------------------
    16. MOTION + MOBILE
    -------------------------------------------------------------------------- */
